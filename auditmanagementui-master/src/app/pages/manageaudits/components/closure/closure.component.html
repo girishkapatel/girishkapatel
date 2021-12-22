@@ -1,0 +1,684 @@
+<div class="row">
+  <div class="col-md-4 closure-section">
+    <div class="portlet light">
+      <div class="portlet-title">
+        <div class="caption"><i class="fa fa-file"></i>Value Scorecard</div>
+        <div class="tools">
+          <a href="javascript:;" class="collapse"> </a>
+        </div>
+      </div>
+      <div class="portlet-body">
+        <form action="#" class="horizontal-form">
+          <div class="form-body">
+            <div class="closure-container">
+              <div class="closure-heading">Saving Potential
+                <select
+                id="Status"
+                name="Status"
+                [(ngModel)]="Status"
+                placeholder="Select INR"
+                class="form-control"
+                (change)="convertRupees($event)"
+              >
+                <option value="">INR</option>
+                <option value="LAC">LAC</option>
+                <option value="CR">CR</option> 
+              </select>
+              </div>
+              <div class="closure-content">
+                <div class="closure-item">
+                  <span class="closure-label">Potential Savings</span>
+                  <span class="closure-data">
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="PotentialsSavings"
+                      [(ngModel)]="PotentialsSavings"
+                      disabled
+                    />
+                  </span>
+                </div>
+                <div class="closure-item">
+                  <span class="closure-label">Realised Savings</span>
+                  <span class="closure-data">
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="RealisedSavings"
+                      [(ngModel)]="RealisedSavings"
+                      disabled
+                    />
+                  </span>
+                </div>
+                <div class="closure-item">
+                  <span class="closure-label">Leakage</span>
+                  <span class="closure-data">
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="Leakage"
+                      [(ngModel)]="Leakage"
+                      disabled
+                    />
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="closure-container">
+              <div class="closure-heading">Process Improvement</div>
+              <div class="closure-content">
+                <div class="closure-item">
+                  <span class="closure-label">System Improvement</span>
+                  <span class="closure-data">
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="SystemImprovement"
+                      [(ngModel)]="SystemImprovement"
+                      disabled
+                    />
+                  </span>
+                </div>
+                <div class="closure-item">
+                  <span class="closure-label">Red Flag</span>
+                  <span class="closure-data">
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="RedFlag"
+                      [(ngModel)]="RedFlag"
+                      disabled
+                    />
+                  </span>
+                </div>
+                <div class="closure-item">
+                  <span class="closure-label">Leading Practices</span>
+                  <span class="closure-data">
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="LeadingPractices"
+                      [(ngModel)]="LeadingPractices"
+                      disabled
+                    />
+                  </span>
+                </div>
+                <!-- <div class="closure-item"> -->
+                <!-- <span class="closure-label">Quality</span> -->
+                <!-- <span class="closure-data"> -->
+                <!-- <input -->
+                <!-- type="text" -->
+                <!-- class="form-control" -->
+                <!-- name="Quality" -->
+                <!-- [(ngModel)]="Quality" -->
+                <!-- /> -->
+                <!-- </span> -->
+                <!-- </div> -->
+                <!-- <div class="closure-item"> -->
+                <!-- <span class="closure-label">Velocity</span> -->
+                <!-- <span class="closure-data"> -->
+                <!-- <input -->
+                <!-- type="text" -->
+                <!-- class="form-control" -->
+                <!-- name="Velocity" -->
+                <!-- [(ngModel)]="Velocity" -->
+                <!-- /> -->
+                <!-- </span> -->
+                <!-- </div> -->
+                <!-- <div class="closure-item"> -->
+                <!-- <span class="closure-label">Trusted Advisor</span> -->
+                <!-- <span class="closure-data"> -->
+                <!-- <input -->
+                <!-- type="text" -->
+                <!-- class="form-control" -->
+                <!-- name="TrustedAdvisor" -->
+                <!-- [(ngModel)]="TrustedAdvisor" -->
+                <!-- /> -->
+                <!-- </span> -->
+                <!-- </div> -->
+              </div>
+            </div>
+
+            <div class="closure-container">
+              <div class="closure-heading">Reporting Consideration</div>
+              <div
+                class="closure-content"
+                *ngFor="let rc of ReportConsiderations"
+              >
+                <div class="closure-item">
+                  <span class="closure-label">{{ rc.name }}</span>
+                  <span class="closure-data">
+                    <input
+                      type="text"
+                      class="form-control"
+                      value="{{ rc.value }}"
+                      disabled
+                    />
+                  </span>
+                </div>
+              </div>
+              <!-- <div class="closure-content"> -->
+              <!-- <div class="closure-item"> -->
+              <!-- <span class="closure-label" -->
+              <!-- >Non compliance with Statutory Laws & Regulation</span -->
+              <!-- > -->
+              <!-- <span class="closure-data"> -->
+              <!-- <input -->
+              <!-- type="text" -->
+              <!-- class="form-control" -->
+              <!-- name="NonCompliance" -->
+              <!-- [(ngModel)]="NonCompliance" -->
+              <!-- /> -->
+              <!-- </span> -->
+              <!-- </div> -->
+              <!-- <div class="closure-item"> -->
+              <!-- <span class="closure-label">Impact on ICFR</span> -->
+              <!-- <span class="closure-data"> -->
+              <!-- <input -->
+              <!-- type="text" -->
+              <!-- class="form-control" -->
+              <!-- name="ICFR" -->
+              <!-- [(ngModel)]="ICFR" -->
+              <!-- /> -->
+              <!-- </span> -->
+              <!-- </div> -->
+              <!-- <div class="closure-item"> -->
+              <!-- <span class="closure-label">NA</span> -->
+              <!-- <span class="closure-data"> -->
+              <!-- <input -->
+              <!-- type="text" -->
+              <!-- class="form-control" -->
+              <!-- name="NA" -->
+              <!-- [(ngModel)]="NA" -->
+              <!-- /> -->
+              <!-- </span> -->
+              <!-- </div> -->
+              <!-- </div> -->
+            </div>
+
+            <!-- <div class="closure-container"> -->
+            <!-- <div class="closure-heading">People</div> -->
+            <!-- <div class="closure-content"> -->
+            <!-- <div class="closure-item"> -->
+            <!-- <span class="closure-label">Leader Development</span> -->
+            <!-- <span class="closure-data"> -->
+            <!-- <input -->
+            <!-- type="text" -->
+            <!-- class="form-control" -->
+            <!-- name="LeaderDevelopment" -->
+            <!-- [(ngModel)]="LeaderDevelopment" -->
+            <!-- /> -->
+            <!-- </span> -->
+            <!-- </div> -->
+            <!-- <div class="closure-item"> -->
+            <!-- <span class="closure-label">Learning</span> -->
+            <!-- <span class="closure-data"> -->
+            <!-- <input -->
+            <!-- type="text" -->
+            <!-- class="form-control" -->
+            <!-- name="Learning" -->
+            <!-- [(ngModel)]="Learning" -->
+            <!-- /> -->
+            <!-- </span> -->
+            <!-- </div> -->
+            <!-- </div> -->
+            <!-- </div> -->
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4 closure-section">
+    <!-- <div class="portlet light">
+      <div class="portlet-title">
+        <div class="caption">
+          <i class="fa fa-file"></i>Control Health Score card
+        </div>
+        <div class="tools">
+          <a href="javascript:;" class="collapse"> </a>
+        </div>
+      </div>
+      <div class="portlet-body">
+        <form action="#" class="horizontal-form">
+          <div class="form-body">
+            <div class="closure-container">
+              <div class="closure-heading">Control Health Score card</div>
+              <div class="closure-content">
+                <div class="closure-item">
+                  <span class="closure-label"
+                    >Controls Identified and Tested</span
+                  >
+                  <span class="closure-data">
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="ControlsIdentifiedAndTested"
+                      [(ngModel)]="ControlsIdentifiedAndTested"
+                      disabled
+                    />
+                  </span>
+                </div>
+                <div class="closure-item">
+                  <span class="closure-label">Design Control Rating</span>
+                  <span class="closure-data">
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="DesignControlRating"
+                      [(ngModel)]="DesignControlRating"
+                      disabled
+                    />
+                  </span>
+                </div>
+                <div class="closure-item">
+                  <span class="closure-label"
+                    >Controls with design observation
+                  </span>
+                  <span class="closure-data">
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="ControlsWithObservation"
+                      [(ngModel)]="ControlsWithObservation"
+                      disabled
+                    />
+                  </span>
+                </div>
+                <div class="closure-item">
+                  <span class="closure-label">OE Control Rating </span>
+                  <span class="closure-data">
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="OEControlRating"
+                      [(ngModel)]="OEControlRating"
+                      disabled
+                    />
+                  </span>
+                </div>
+                <div class="closure-item">
+                  <span class="closure-label"
+                    >Controls with Operating observation</span
+                  >
+                  <span class="closure-data">
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="ControlsWithOperatingObservation"
+                      [(ngModel)]="ControlsWithOperatingObservation"
+                      disabled
+                    />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div> -->
+    <div class="portlet light mt-20">
+      <div class="portlet-title">
+        <div class="caption"><i class="fa fa-file"></i>Scope Limitation</div>
+        <div class="tools">
+          <a href="javascript:;" class="collapse"> </a>
+        </div>
+      </div>
+      <div class="portlet-body">
+        <form action="#" class="horizontal-form">
+          <div class="form-body">
+            <div class="form-group">
+              <!-- <textarea -->
+              <!-- class="form-control" -->
+              <!-- placeholder="Scope Limitation" -->
+              <!-- name="ScopeLimitation" -->
+              <!-- [(ngModel)]="ScopeLimitation" -->
+              <!-- ></textarea> -->
+              <ckeditor
+                [(ngModel)]="ScopeLimitation"
+                name="ScopeLimitation"
+                placeholder="Scope Limitation"
+                [editor]="Editor"
+              ></ckeditor>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4 closure-section">
+    <div class="portlet light">
+      <div class="portlet-title">
+        <div class="caption"><i class="fa fa-file"></i>Observation Matrix</div>
+        <div class="tools">
+          <a href="javascript:;" class="collapse"> </a>
+        </div>
+      </div>
+      <div class="portlet-body">
+        <form action="#" class="horizontal-form">
+          <div class="form-body">
+            <div class="closure-container">
+              <div class="closure-heading">Number of Observation</div>
+              <div class="closure-content">
+                <div class="closure-item">
+                  <span class="closure-label">Critical</span>
+                  <span class="closure-data">
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="Critical"
+                      [(ngModel)]="Critical"
+                      disabled
+                    />
+                  </span>
+                </div>
+                <div class="closure-item">
+                  <span class="closure-label">High</span>
+                  <span class="closure-data">
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="High"
+                      [(ngModel)]="High"
+                      disabled
+                    />
+                  </span>
+                </div>
+                <div class="closure-item">
+                  <span class="closure-label">Medium </span>
+                  <span class="closure-data">
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="Medium"
+                      [(ngModel)]="Medium"
+                      disabled
+                    />
+                  </span>
+                </div>
+                <div class="closure-item">
+                  <span class="closure-label">Low </span>
+                  <span class="closure-data">
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="Low"
+                      [(ngModel)]="Low"
+                      disabled
+                    />
+                  </span>
+                </div>
+                <div class="closure-item">
+                  <span class="closure-label">Repeat </span>
+                  <span class="closure-data">
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="Repeat"
+                      [(ngModel)]="Repeat"
+                      disabled
+                    />
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="closure-container">
+              <div class="closure-heading">Recommendation Category</div>
+              <div
+                class="closure-content"
+                *ngFor="let recommendation of Recommendations"
+              >
+                <div class="closure-item">
+                  <span class="closure-label">{{ recommendation.name }}</span>
+                  <span class="closure-data">
+                    <input
+                      type="text"
+                      class="form-control"
+                      value="{{ recommendation.value }}"
+                      disabled
+                    />
+                  </span>
+                </div>
+                <!-- <div class="closure-item"> -->
+                <!-- <span class="closure-label">People</span> -->
+                <!-- <span class="closure-data"> -->
+                <!-- <input -->
+                <!-- type="text" -->
+                <!-- class="form-control" -->
+                <!-- name="PeopleRec" -->
+                <!-- [(ngModel)]="PeopleRec" -->
+                <!-- /> -->
+                <!-- </span> -->
+                <!-- </div> -->
+                <!-- <div class="closure-item"> -->
+                <!-- <span class="closure-label">Process</span> -->
+                <!-- <span class="closure-data"> -->
+                <!-- <input -->
+                <!-- type="text" -->
+                <!-- class="form-control" -->
+                <!-- name="Process" -->
+                <!-- [(ngModel)]="Process" -->
+                <!-- /> -->
+                <!-- </span> -->
+                <!-- </div> -->
+                <!-- <div class="closure-item"> -->
+                <!-- <span class="closure-label">Technology </span> -->
+                <!-- <span class="closure-data"> -->
+                <!-- <input -->
+                <!-- type="text" -->
+                <!-- class="form-control" -->
+                <!-- name="Technology" -->
+                <!-- [(ngModel)]="Technology" -->
+                <!-- /> -->
+                <!-- </span> -->
+                <!-- </div> -->
+              </div>
+            </div>
+            <div class="closure-container">
+              <div class="closure-heading">Root Cause</div>
+              <div class="closure-content" *ngFor="let rootCause of RootCauses">
+                <div class="closure-item">
+                  <span class="closure-label">{{ rootCause.name }}</span>
+                  <span class="closure-data">
+                    <input
+                      type="text"
+                      class="form-control"
+                      value="{{ rootCause.value }}"
+                      disabled
+                    />
+                  </span>
+                </div>
+                <!-- <div class="closure-item"> -->
+                <!-- <span class="closure-label">Control Design</span> -->
+                <!-- <span class="closure-data"> -->
+                <!-- <input -->
+                <!-- type="text" -->
+                <!-- class="form-control" -->
+                <!-- name="ControlDesign" -->
+                <!-- [(ngModel)]="ControlDesign" -->
+                <!-- /> -->
+                <!-- </span> -->
+                <!-- </div> -->
+                <!-- <div class="closure-item"> -->
+                <!-- <span class="closure-label" -->
+                <!-- >Control Operating Effectiveness</span -->
+                <!-- > -->
+                <!-- <span class="closure-data"> -->
+                <!-- <input -->
+                <!-- type="text" -->
+                <!-- class="form-control" -->
+                <!-- name="ControlOperatingEffectiveness" -->
+                <!-- [(ngModel)]="ControlOperatingEffectiveness" -->
+                <!-- /> -->
+                <!-- </span> -->
+                <!-- </div> -->
+                <!-- <div class="closure-item"> -->
+                <!-- <span class="closure-label">System Limitation </span> -->
+                <!-- <span class="closure-data"> -->
+                <!-- <input -->
+                <!-- type="text" -->
+                <!-- class="form-control" -->
+                <!-- name="SystemLimitation" -->
+                <!-- [(ngModel)]="SystemLimitation" -->
+                <!-- /> -->
+                <!-- </span> -->
+                <!-- </div> -->
+                <!-- <div class="closure-item"> -->
+                <!-- <span class="closure-label">Process Compliance </span> -->
+                <!-- <span class="closure-data"> -->
+                <!-- <input -->
+                <!-- type="text" -->
+                <!-- class="form-control" -->
+                <!-- name="ProcessCompliance" -->
+                <!-- [(ngModel)]="ProcessCompliance" -->
+                <!-- /> -->
+                <!-- </span> -->
+                <!-- </div> -->
+              </div>
+            </div>
+            <div class="closure-container">
+              <div class="closure-heading">Impact</div>
+              <div
+                class="closure-content"
+                *ngFor="let impactMaster of ImpactMaster"
+              >
+                <div class="closure-item">
+                  <span class="closure-label">{{ impactMaster.name }}</span>
+                  <span class="closure-data">
+                    <input
+                      type="text"
+                      class="form-control"
+                      value="{{ impactMaster.value }}"
+                      disabled
+                    />
+                  </span>
+                </div>
+                <!-- <div class="closure-item"> -->
+                <!-- <span class="closure-label">Reporting Impact</span> -->
+                <!-- <span class="closure-data"> -->
+                <!-- <input -->
+                <!-- type="text" -->
+                <!-- class="form-control" -->
+                <!-- name="ReportingImpact" -->
+                <!-- [(ngModel)]="ReportingImpact" -->
+                <!-- /> -->
+                <!-- </span> -->
+                <!-- </div> -->
+                <!-- <div class="closure-item"> -->
+                <!-- <span class="closure-label">Operational Impact</span> -->
+                <!-- <span class="closure-data"> -->
+                <!-- <input -->
+                <!-- type="text" -->
+                <!-- class="form-control" -->
+                <!-- name="OperationalImpact" -->
+                <!-- [(ngModel)]="OperationalImpact" -->
+                <!-- /> -->
+                <!-- </span> -->
+                <!-- </div> -->
+                <!-- <div class="closure-item"> -->
+                <!-- <span class="closure-label">Statutory Non Compliance </span> -->
+                <!-- <span class="closure-data"> -->
+                <!-- <input -->
+                <!-- type="text" -->
+                <!-- class="form-control" -->
+                <!-- name="StatutoryNonCompliance" -->
+                <!-- [(ngModel)]="StatutoryNonCompliance" -->
+                <!-- /> -->
+                <!-- </span> -->
+                <!-- </div> -->
+                <!-- <div class="closure-item"> -->
+                <!-- <span class="closure-label">Reputational Loss </span> -->
+                <!-- <span class="closure-data"> -->
+                <!-- <input -->
+                <!-- type="text" -->
+                <!-- class="form-control" -->
+                <!-- name="ReputationalLoss" -->
+                <!-- [(ngModel)]="ReputationalLoss" -->
+                <!-- /> -->
+                <!-- </span> -->
+                <!-- </div> -->
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="col-md-12" style="padding-top: 20px">
+    <table id="table3" class="table table-bordered">
+      <thead>
+        <tr>
+          <th colspan="7" class="text-center">Overall Performance</th>
+        </tr>
+        <tr>
+          <th rowspan="2" class="text-center">Sr. No.</th>
+          <th rowspan="2" class="text-center">Process</th>
+          <th rowspan="2" class="text-center">
+            Controls Identified and Tested
+          </th>
+          <th class="text-center">Design</th>
+          <th colspan="3" class="text-center">Operating Efficiency (OE)</th>
+         
+        </tr>
+        <tr>
+          <th class="text-center">Design Control Rating</th>
+          <th class="text-center">Controls with Observation</th>
+          <th class="text-center">Control with no Exception</th>
+          <th class="text-center">OE Control Rating</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let overallProcedure of TableDataForOverAlls; let i = index"
+        >
+          <td class="text-center">{{ i + 1 }}</td>
+          <td class="text-center">{{ overallProcedure.process }}</td>
+          <td class="text-center">
+            {{ overallProcedure.controlsIdentifiedTested }}
+          </td>
+          <td class="text-center">
+            {{ this.utils.todecimalRound(overallProcedure.designControlRating) }}%
+          </td>
+          <td class="text-center">
+            {{ overallProcedure.controlswithObservation }}
+          </td>
+          <td class="text-center">
+            {{ overallProcedure.controlwithnoException }}
+          </td>
+          <td class="text-center">{{ this.utils.todecimalRound(overallProcedure.oeControlRating) }}%</td>
+        </tr>
+        <tr>
+          <td class="text-center"></td>
+          <td class="text-center">Grand Total</td>
+          <td class="text-center">{{ this.TotalControlsIdentifiedTested }}</td>
+          <td class="text-center">{{ this.utils.todecimalRound(this.TotalDesignControlRating) }}%</td>
+          <td class="text-center">{{ this.TotalControlswithObservation }}</td>
+          <td class="text-center">{{ this.TotalControlwithnoException }}</td>
+          <td class="text-center">{{this.utils.todecimalRound(this.TotalOEControlRating)}}%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div> -->
+  <div class="form-actions">
+    <div class="row">
+      <div class="col-md-12 text-right" style="padding-right: 20px">
+        <button
+          type="button" [disabled]="isStackHolder"
+          class="btn btn-success"
+          (click)="saveAuditClosure($event)"
+          *ngIf="accessRights.isEdit"
+        >
+          <i class="fa fa-save"></i> Save
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+>
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

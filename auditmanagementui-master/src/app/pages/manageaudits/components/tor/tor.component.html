@@ -1,0 +1,1002 @@
+<div id="torComponent" class="portlet box">
+  <div class="portlet-body form">
+    <form
+      name="form"
+      (ngSubmit)="saveTor($event) && racmForm.form.valid"
+      #torForm="ngForm"
+      novalidate
+      class="horizontal-form"
+    >
+      <input type="hidden" value="" id="tor_auditId" name="auditId" />
+      <div class="form-body">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="control-label"
+                >Audit Unit
+                <span class="required" aria-required="true"> * </span></label
+              >
+              <input
+                type="text"
+                class="form-control"
+                [value]="auditUnit"
+                disabled
+              />
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <label class="control-label"
+                >Audit Name
+                <span class="required" aria-required="true"> * </span></label
+              >
+              <input
+                type="text"
+                class="form-control"
+                [value]="auditName"
+                disabled
+              />
+            </div>
+          </div>
+          <!-- <div class="col-md-4"> -->
+          <!-- <div class="form-group"> -->
+          <!-- <label class="control-label" -->
+          <!-- >Business Cycle -->
+          <!-- <span class="required" aria-required="true"> * </span></label -->
+          <!-- > -->
+          <!-- <input -->
+          <!-- type="text" -->
+          <!-- class="form-control" -->
+          <!-- [value]="businessCycle" -->
+          <!-- disabled -->
+          <!-- /> -->
+          <!-- </div> -->
+          <!-- </div> -->
+          <!--  -->
+          <!-- <div class="col-md-4"> -->
+          <!-- <div class="form-group"> -->
+          <!-- <label class="control-label" -->
+          <!-- >Process L1 -->
+          <!-- <span class="required" aria-required="true"> * </span></label -->
+          <!-- > -->
+          <!-- <input -->
+          <!-- type="text" -->
+          <!-- class="form-control" -->
+          <!-- [value]="processl1" -->
+          <!-- disabled -->
+          <!-- /> -->
+          <!-- </div> -->
+          <!-- </div> -->
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="control-label"
+                >Audit Approvers
+                <span class="required" aria-required="true"> * </span></label
+              >
+              <input
+                type="text"
+                class="form-control"
+                [value]="auditApprovers"
+                disabled
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="control-label"
+                >Audit Team
+                <span class="required" aria-required="true"> * </span></label
+              >
+              <input
+                type="text"
+                class="form-control"
+                [value]="auditTeam"
+                disabled
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="control-label">Auditee(s)</label>
+              <input
+                type="text"
+                class="form-control"
+                name="Auditee"
+                [value]="Auditee"
+                disabled
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row"> 
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label"
+                >Location
+                <span class="required" aria-required="true"> * </span></label
+              >
+              <input
+                type="text"
+                class="form-control"
+                [value]="location"
+                disabled
+              />
+            </div>
+          </div>
+          <!-- <div class="col-md-4">
+            <div class="form-group">
+              <label class="control-label"
+                >Period of Audit
+                <span class="required" aria-required="true"> * </span></label
+              >
+              <input
+                type="text"
+                class="form-control"
+                [value]="auditPeriod"
+                disabled
+              />
+            </div>
+          </div> -->
+         
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">TOR Date Issued  <span class="required" aria-required="true"> * </span></label>
+              <div class="input-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="dd/mm/yyyy"
+                  name="TORIssuedDate"
+                  [(ngModel)]="TORIssuedDate"
+                  ngbDatepicker
+                  #torIssuedDate="ngbDatepicker"
+                  required
+                  readonly
+                  [ngClass]="{
+                    'red-border-class':
+                    TORIssuedDates.errors && torForm.submitted
+                  }"
+                   #TORIssuedDates="ngModel"
+                 required
+                />
+                <div class="input-group-btn">
+                  <button
+                    class="btn btn-default calendar"
+                    (click)="torIssuedDate.toggle()"
+                    type="button"
+                  >
+                    <i class="fa fa-calendar"></i>
+                  </button>
+                </div>
+              
+              </div>
+              <div
+              *ngIf="torForm.submitted && TORIssuedDates.invalid"
+              class="invalid-feedback">
+              <div  class="text-danger myClass" *ngIf="TORIssuedDates.errors.required">
+                TOR Issued Date is required
+          </div>
+            </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">From Date</label>
+              <div class="input-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="dd/mm/yyyy"
+                  name="AuditPeriodFromDate"
+                  [(ngModel)]="AuditPeriodFromDate"
+                  ngbDatepicker
+                  #auditFromDate="ngbDatepicker"
+                  readonly
+                />
+                <div class="input-group-btn">
+                  <button
+                    class="btn btn-default calendar"
+                    (click)="auditFromDate.toggle()"
+                    type="button"
+                  >
+                    <i class="fa fa-calendar"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">To Date</label>
+              <div class="input-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="dd/mm/yyyy"
+                  name="AuditPeriodToDate"
+                  [(ngModel)]="AuditPeriodToDate"
+                  ngbDatepicker
+                  #auditToDate="ngbDatepicker"
+                  readonly
+                />
+                <div class="input-group-btn">
+                  <button
+                    class="btn btn-default calendar"
+                    (click)="auditToDate.toggle()"
+                    type="button"
+                  >
+                    <i class="fa fa-calendar"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngFor="let activity of activities">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label"
+                >{{ activity.activityName }} Start Date<span
+                  class="required"
+                  aria-required="true"
+                >
+                  *
+                </span></label
+              >
+              <input
+                type="text"
+                class="form-control"
+                [value]="
+                  this.utils.UTCtoLocalDateDDMMMYY(activity.actualStartDate)
+                "
+                disabled
+              />
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label"
+                >{{ activity.activityName }} End Date<span
+                  class="required"
+                  aria-required="true"
+                >
+                  *
+                </span></label
+              >
+              <input
+                type="text"
+                class="form-control"
+                [value]="
+                  this.utils.UTCtoLocalDateDDMMMYY(activity.actualEndDate)
+                "
+                disabled
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="control-label"
+                >Audit Objectives
+                <span class="required" aria-required="true"> * </span></label
+              >
+              <!-- <textarea -->
+              <!-- id="tor_ao" -->
+              <!-- rows="6" -->
+              <!-- name="AuditObjective" -->
+              <!-- [(ngModel)]="AuditObjective" -->
+              <!-- class="form-control" -->
+              <!-- placeholder="Enter Audit Objectives" -->
+              <!-- ></textarea> -->
+              <ckeditor
+                [(ngModel)]="AuditObjective"
+                name="AuditObjective"
+                placeholder="Enter Audit Objectives"
+                [editor]="Editor"
+                [disabled]="isStackHolder"
+                [ngClass]="{
+                  'red-border-class':
+                    AuditObjectives.errors && torForm.submitted
+                }"
+                #AuditObjectives="ngModel"
+                required
+              ></ckeditor>
+              <div
+                *ngIf="torForm.submitted && AuditObjectives.invalid"
+                class="invalid-feedback"
+              >
+                <div
+                  class="text-danger myClass"
+                  *ngIf="AuditObjectives.errors.required"
+                >
+                  Audit Objectives is required
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="control-label"
+                >Policies, Standards & Reference Document
+                <span class="required" aria-required="true"> * </span></label
+              >
+              <!-- <textarea -->
+              <!-- id="tor_standards" -->
+              <!-- name="Policies" -->
+              <!-- [(ngModel)]="Policies" -->
+              <!-- rows="6" -->
+              <!-- class="form-control" -->
+              <!-- placeholder="Policies, Standards & Reference Document" -->
+              <!-- ></textarea> -->
+
+              <ckeditor
+                [(ngModel)]="Policies"
+                name="Policies"
+                placeholder="Policies, Standards & Reference Document"
+                [editor]="Editor"
+                [disabled]="isStackHolder"
+                [ngClass]="{
+                  'red-border-class': Policiess.errors && torForm.submitted
+                }"
+                #Policiess="ngModel"
+                required
+              ></ckeditor>
+              <div
+                *ngIf="torForm.submitted && Policiess.invalid"
+                class="invalid-feedback"
+              >
+                <div
+                  class="text-danger myClass"
+                  *ngIf="Policiess.errors.required"
+                >
+                  Policies, Standards & Reference Document is required
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="control-label"
+                >Deliverable
+                <span class="required" aria-required="true"> * </span></label
+              >
+              <!-- <textarea -->
+              <!-- id="tor_deliverable" -->
+              <!-- name="Deliverable" -->
+              <!-- [(ngModel)]="Deliverable" -->
+              <!-- rows="6" -->
+              <!-- class="form-control" -->
+              <!-- placeholder="Deliverable" -->
+              <!-- ></textarea> -->
+
+              <ckeditor
+                [(ngModel)]="Deliverable"
+                name="Deliverable"
+                placeholder="Deliverable"
+                [editor]="Editor"
+                [disabled]="isStackHolder"
+                [ngClass]="{
+                  'red-border-class': Deliverables.errors && torForm.submitted
+                }"
+                #Deliverables="ngModel"
+                required
+              ></ckeditor>
+              <div
+                *ngIf="torForm.submitted && Deliverables.invalid"
+                class="invalid-feedback"
+              >
+                <div
+                  class="text-danger myClass"
+                  *ngIf="Deliverables.errors.required"
+                >
+                  Deliverable is required
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="control-label"
+                >Disclaimer
+                <span class="required" aria-required="true"> * </span></label
+              >
+              <!-- <textarea -->
+              <!-- id="Disclaimer" -->
+              <!-- name="Disclaimer" -->
+              <!-- [(ngModel)]="Disclaimer" -->
+              <!-- rows="6" -->
+              <!-- class="form-control" -->
+              <!-- placeholder="Disclaimer" -->
+              <!-- ></textarea> -->
+              <ckeditor
+                [(ngModel)]="Disclaimer"
+                name="Disclaimer"
+                placeholder="Disclaimer"
+                [editor]="Editor"
+                [disabled]="isStackHolder"
+                [ngClass]="{
+                  'red-border-class':
+                  Disclaimers.errors && torForm.submitted
+                }"
+                #Disclaimers="ngModel"
+               required
+              ></ckeditor>
+              <div
+                  *ngIf="torForm.submitted && Disclaimers.invalid"
+                  class="invalid-feedback">
+                  <div  class="text-danger myClass" *ngIf="Disclaimers.errors.required">
+                    Disclaimer is required
+					</div>
+                </div>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="control-label"
+                >Limitation
+                <span class="required" aria-required="true"> * </span></label
+              >
+              <!-- <textarea -->
+              <!-- id="Limitation" -->
+              <!-- name="Limitation" -->
+              <!-- [(ngModel)]="Limitation" -->
+              <!-- rows="6" -->
+              <!-- class="form-control" -->
+              <!-- placeholder="Limitation" -->
+              <!-- ></textarea> -->
+
+              <ckeditor
+                [(ngModel)]="Limitation"
+                name="Limitation"
+                placeholder="Limitation"
+                [editor]="Editor"
+                [disabled]="isStackHolder"
+                [ngClass]="{
+                  'red-border-class':
+                  Limitations.errors && torForm.submitted
+                }"
+                #Limitations="ngModel"
+              required
+              ></ckeditor>
+              <div
+                  *ngIf="torForm.submitted && Limitations.invalid"
+                  class="invalid-feedback">
+                  <div  class="text-danger myClass" *ngIf="Limitations.errors.required">
+                    Limitation is required
+					</div>
+                </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tabbable-custom">
+          <ul class="nav nav-tabs">
+            <li class="active">
+              <a href="#auditscope" data-toggle="tab"> Audit Scope </a>
+            </li>
+            <li>
+              <a href="#auditspecsinfo" data-toggle="tab">
+                Audit Specific Information
+              </a>
+            </li>
+            <li>
+              <a href="#uploadedFiles" data-toggle="tab"> Uploaded Files </a>
+            </li>
+          </ul>
+
+          <div class="tab-content">
+            <div class="tab-pane active" id="auditscope">
+              <div class="row">
+                <div class="col-md-12 text-right mb-10">
+                  <button
+                    [disabled]="isStackHolder"
+                    type="button"
+                    (click)="handleModal.show('#auditScopeModal')"
+                    class="btn btn-primary"
+                    *ngIf="accessRights.isAdd"
+                  >
+                    <i class="fa fa-plus"></i> New Audit Scope
+                  </button>
+                </div>
+
+                <div class="col-md-12">
+                  <table class="table table-bordered" id="auditScopeTable">
+                    <thead>
+                      <tr>
+                        <th>Area</th>
+                        <th>Scope</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane" id="auditspecsinfo">
+              <div class="row">
+                <div class="col-md-12 text-right mb-10">
+                  <button
+                    type="button"
+                    (click)="handleModal.show('#auditInfoModal')"
+                    class="btn btn-primary"
+                    *ngIf="accessRights.isAdd"
+                    [disabled]="isStackHolder"
+                  >
+                    <i class="fa fa-plus"></i> New Specification
+                  </button>
+                </div>
+
+                <div class="col-md-12">
+                  <table class="table table-bordered" id="auditInfoTable">
+                    <thead>
+                      <tr>
+                        <th>Area</th>
+                        <th>Data Requested</th>
+                        <th>Process Owner</th>
+                        <th>Data Request Date</th>
+                        <th>Data Received Date</th>
+                        <th>Pending Data</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-pane" id="uploadedFiles">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group clearfix">
+                    <input
+                      type="file"
+                      #fileInputTOR
+                      class="hidden"
+                      (change)="uploadTORFile()"
+                    />
+                    <button
+                      type="button"
+                      class="btn btn-primary pull-right"
+                      (click)="fileInputTOR.click()"
+                      *ngIf="accessRights.isAdd"
+                    >
+                      <i class="fa fa-upload"></i> Upload File
+                    </button>
+                  </div>
+
+                  <div class="form-group">
+                    <table id="uploadedTORFiles" class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th>File</th>
+                          <th>Uploaded Date</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-actions right">
+        <button
+          [disabled]="isStackHolder"
+          type="submit"
+          class="btn btn-success"
+          *ngIf="accessRights.isEdit"
+        >
+          <i class="fa fa-save"></i> Save
+        </button>
+
+        <button
+          [disabled]="isStackHolder"
+          type="button"
+          class="btn btn-primary"
+          (click)="sendEmail()"
+        >
+          <i class="fa fa-envelope"></i> Email TOR
+        </button>
+
+        <!-- <button type="button" class="btn blue"> -->
+        <!-- <i class="fa fa-upload"></i> Upload TOR -->
+        <!-- </button> -->
+
+        <button type="button" class="btn btn-primary" (click)="downloadTor()">
+          <i class="fa fa-download"></i> Dowload Excel
+        </button>
+
+        <button type="button" class="btn btn-primary" (click)="exportToPDF()">
+          <i class="fa fa-download"></i> Dowload PDF
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="auditScopeModal"
+  tabindex="-1"
+  data-width="760"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        ></button>
+        <h4 class="modal-title" style="font-weight: bold">
+          <i class="fa fa-cogs"></i> &nbsp;Audit Scope
+        </h4>
+      </div>
+      <form
+        (ngSubmit)="handleAuditScope.save($event) && auditScopeForm.form.valid"
+        #auditScopeForm="ngForm"
+      >
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="control-label">Areas</label>
+                <span class="text-danger">*</span>
+                <!-- <textarea -->
+                <!-- name="Justification" -->
+                <!-- [(ngModel)]="Areas" -->
+                <!-- placeholder="Enter Areas" -->
+                <!-- class="form-control" -->
+                <!-- ></textarea> -->
+
+                <ckeditor
+                  [(ngModel)]="Areas"
+                  name="Areas"
+                  placeholder="Enter Areas"
+                  [editor]="Editor"
+                  #areas="ngModel"
+                  [ngClass]="{
+                    'red-border-class': areas.errors && auditScopeForm.submitted
+                  }"
+                  required
+                ></ckeditor>
+                <div
+                  *ngIf="auditScopeForm.submitted && areas.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="areas.errors.required"
+                  >
+                    Area is required
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="control-label">Scope</label>
+                <!-- <textarea -->
+                <!-- name="Scope" -->
+                <!-- [(ngModel)]="Scope" -->
+                <!-- placeholder="Enter Justification" -->
+                <!-- class="form-control" -->
+                <!-- required -->
+                <!-- ></textarea> -->
+
+                <ckeditor
+                  [(ngModel)]="Scope"
+                  name="Scope"
+                  placeholder="Enter Justification"
+                  [editor]="Editor"
+                ></ckeditor>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">
+            <i class="fa fa-save"></i> Save
+          </button>
+
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <i class="fa fa-close"></i> Close
+          </button>
+        </div>
+      </form>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
+<div
+  class="modal fade"
+  id="auditInfoModal"
+  tabindex="-1"
+  data-width="760"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        ></button>
+        <h4 class="modal-title" style="font-weight: bold">
+          <i class="fa fa-cogs"></i> &nbsp;Audit Scope
+        </h4>
+      </div>
+      <form
+        (ngSubmit)="handleAuditInfo.save($event) && auditInfoForm.form.valid"
+        #auditInfoForm="ngForm"
+      >
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label">Area</label>
+                <span class="text-danger">*</span>
+                <input
+                  type="text"
+                  id="Area"
+                  placeholder="Enter Area"
+                  class="form-control"
+                  name="Area"
+                  [(ngModel)]="Area"
+                  required
+                  #areas="ngModel"
+                  [ngClass]="{
+                    'red-border-class': areas.errors && auditInfoForm.submitted
+                  }"
+                  required
+                />
+                <div
+                  *ngIf="auditInfoForm.submitted && areas.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="areas.errors.required"
+                  >
+                    Area is required
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label">Status</label>
+                <select
+                  id="Status"
+                  class="form-control"
+                  name="Status"
+                  [(ngModel)]="Status"
+                >
+                  <option value="" selected>Select Status</option>
+                  <option value="PARTIALLY RECEIVED">Partially Received</option>
+                  <option value="PENDING">Pending</option>
+                  <option value="RECEIVED">Received</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="control-label">Data Requested</label>
+                <textarea
+                  id="DataRequested"
+                  class="form-control"
+                  name="DataRequested"
+                  [(ngModel)]="DataRequested"
+                ></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label">Data Request Date</label>
+                <div
+                  class="input-group"
+                  [ngClass]="{
+                    'red-border-class':
+                      requestDate.errors && auditInfoForm.submitted
+                  }"
+                >
+                  <input
+                    type="text"
+                    id="DataRequestDate"
+                    class="form-control"
+                    placeholder="dd/mm/yyyy"
+                    name="DataRequestDate"
+                    [(ngModel)]="DataRequestDate"
+                    ngbDatepicker
+                    #dataRequestDate="ngbDatepicker"
+                    #requestDate="ngModel"
+                    required
+                    readonlymodal-body
+                    [ngClass]="{
+                      'red-border-class': dataRequestDate.errors
+                    }"
+                  />
+                  <div class="input-group-btn">
+                    <button
+                      class="btn btn-default calendar"
+                      (click)="dataRequestDate.toggle()"
+                      type="button"
+                    >
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </div>
+                </div>
+                <div
+                  *ngIf="auditInfoForm.submitted && requestDate.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="requestDate.errors.required"
+                  >
+                    Request Date is required
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label">Data Received Date</label>
+                <div
+                  class="input-group"
+                  [ngClass]="{
+                    'red-border-class':
+                      receivedDate.errors && auditInfoForm.submitted
+                  }"
+                >
+                  <input
+                    type="text"
+                    id="DataReceivedDate"
+                    class="form-control"
+                    placeholder="dd/mm/yyyy"
+                    name="DataReceivedDate"
+                    [(ngModel)]="DataReceivedDate"
+                    ngbDatepicker
+                    #dataReceivedDate="ngbDatepicker"
+                    #receivedDate="ngModel"
+                    required
+                    readonly
+                  />
+                  <div class="input-group-btn">
+                    <button
+                      class="btn btn-default calendar"
+                      (click)="dataReceivedDate.toggle()"
+                      type="button"
+                    >
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </div>
+                </div>
+                <div
+                  *ngIf="auditInfoForm.submitted && receivedDate.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="receivedDate.errors.required"
+                  >
+                    Received Date is required
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label">Process Owner</label>
+                <span class="text-danger">*</span>
+                <ng-multiselect-dropdown
+                  [placeholder]="'Select Process Owner'"
+                  [data]="shOpts"
+                  [(ngModel)]="selectedImplementationOwnerId"
+                  [settings]="OwnerdropdownSettings"
+                  name="ImplementationOwnerId"
+                  #processOwners="ngModel"
+                  [ngClass]="{
+                    'red-border-class':
+                      processOwners.errors && auditInfoForm.submitted
+                  }"
+                  required
+                >
+                </ng-multiselect-dropdown>
+                <!-- <select
+                  id="ProcessOwnerId"
+                  name="ProcessOwnerId"
+                  [(ngModel)]="ProcessOwnerId"
+                  placeholder="Select Process Owner"
+                  class="form-control"
+                  required
+              
+                >
+                  <option value="">Select Process Owner</option>
+                  <option *ngFor="let user of shOpts" [value]="user.id">
+                    {{ user.firstName }} {{ user.lastName }}
+                  </option>
+                </select> -->
+                <div
+                  *ngIf="auditInfoForm.submitted && processOwners.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="processOwners.errors.required"
+                  >
+                    ProcessOwner is required
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="control-label">Pending Data</label>
+                <textarea
+                  id="PendingData"
+                  class="form-control"
+                  name="PendingData"
+                  [(ngModel)]="PendingData"
+                ></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">
+            <i class="fa fa-save"></i> Save
+          </button>
+
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <i class="fa fa-close"></i> Close
+          </button>
+        </div>
+      </form>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+>
+  <p style="font-size: 20px; color: white; z-index: 1000">Loading...</p>
+</ngx-spinner>

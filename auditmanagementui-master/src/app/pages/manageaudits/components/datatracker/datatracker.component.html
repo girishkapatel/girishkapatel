@@ -1,0 +1,580 @@
+<div id="dataTrackerComponent">
+  <div *ngIf="!formVisible" class="form-actions top form-group">
+    <button type="button" class="btn btn-default" (click)="refreshTable()">
+      <i class="fa fa-eraser"></i> Clear Filters
+    </button>
+
+    <div class="pull-right">
+      <button
+        [disabled]="isStackHolder"
+        type="button"
+        (click)="addDataTracker()"
+        class="btn btn-primary"
+        *ngIf="accessRights.isAdd"
+      >
+        <i class="fa fa-plus"></i> New
+      </button>
+
+      <button
+        [disabled]="isStackHolder"
+        type="button"
+        class="btn btn-primary"
+        (click)="sendMultipleEmail()"
+      >
+        <i class="fa fa-send"></i> Send Email
+      </button>
+
+      <button
+        type="button"
+        [disabled]="isStackHolder"
+        class="btn btn-primary"
+        (click)="exportToExcelDT()"
+      >
+        <i class="fa fa-file-excel-o"></i> Export To Excel
+      </button>
+   
+      <button
+        type="button"
+        [disabled]="isStackHolder"
+        class="btn btn-primary"
+        (click)="exportToPDFDT()"
+      >
+        <i class="fa fa-file-pdf-o"></i> Export To PDF
+      </button>
+      <button
+      type="button"
+      [disabled]="isStackHolder"
+      class="btn btn-primary"
+      (click)="sampleExportToExcelDT()"
+    >
+      <i class="fa fa-file-excel-o"></i> Sample Excel
+    </button>
+      <input type="file" #fileInput class="hidden" (change)="importExcel()" />
+
+      <button
+        [disabled]="isStackHolder"
+        type="button"
+        class="btn btn-primary"
+        (click)="fileInput.click()"
+        *ngIf="accessRights.isEdit"
+      >
+        <i class="fa fa-file-excel-o"></i> Upload Excel
+      </button>
+    </div>
+  </div>
+
+  <div [ngClass]="{ hide: formVisible }" class="row widget-row">
+    <div class="col-md-5">
+      <!-- BEGIN WIDGET THUMB -->
+      <div
+        class="
+          widget-thumb widget-bg-color-white
+          text-uppercase
+          margin-bottom-20
+          bordered
+        "
+      >
+        <h4 class="widget-thumb-heading" (click)="filterData(0)">
+          Filter by Overdue ({{ dtOverdueTotal }})
+        </h4>
+
+        <div class="row">
+          <div class="col-md-4">
+            <div class="widget-thumb-wrap">
+              <div
+                class="widget-thumb-body text-center"
+                [ngClass]="{ highlight: filterOption == 0 }"
+              >
+                <a (click)="filterData(0)">
+                  <span class="widget-thumb-subtitle">All</span>
+                  <span class="widget-thumb-body-stat">{{
+                    dtOverdueTotal
+                  }}</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="widget-thumb-wrap">
+              <div
+                class="widget-thumb-body text-center"
+                [ngClass]="{ highlight: filterOption == 1 }"
+              >
+                <a (click)="filterData(1)">
+                  <span class="widget-thumb-subtitle">Not Overdue</span>
+                  <span class="widget-thumb-body-stat">{{
+                    notOverdueTotal
+                  }}</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="widget-thumb-wrap">
+              <div
+                class="widget-thumb-body text-center"
+                [ngClass]="{ highlight: filterOption == 2 }"
+              >
+                <a (click)="filterData(2)">
+                  <span class="widget-thumb-subtitle">Overdue</span>
+                  <span class="widget-thumb-body-stat">{{
+                    onlyOverdueTotal
+                  }}</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- END WIDGET THUMB -->
+    </div>
+
+    <div class="col-md-7">
+      <!-- BEGIN WIDGET THUMB -->
+      <div
+        class="
+          widget-thumb widget-bg-color-white
+          text-uppercase
+          margin-bottom-20
+          bordered
+        "
+      >
+        <h4 class="widget-thumb-heading">
+          Filter by Status ({{ statusTotal }})
+        </h4>
+
+        <div class="row">
+          <div class="col-md-4">
+            <div class="widget-thumb-wrap">
+              <div
+                class="widget-thumb-body text-center"
+                [ngClass]="{ highlight: filterStatus == 'Partially Received' }"
+              >
+                <a (click)="filterDataByStatus('Partially Received')">
+                  <span class="widget-thumb-subtitle">Partially Received</span>
+                  <span class="widget-thumb-body-stat"
+                    >{{ partiallyReceivedTotal }}
+                  </span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="widget-thumb-wrap">
+              <div
+                class="widget-thumb-body text-center"
+                [ngClass]="{ highlight: filterStatus == 'Pending' }"
+              >
+                <a (click)="filterDataByStatus('Pending')">
+                  <span class="widget-thumb-subtitle">Pending</span>
+                  <span class="widget-thumb-body-stat"
+                    >{{ pendingTotal }}
+                  </span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="widget-thumb-wrap">
+              <div
+                class="widget-thumb-body text-center"
+                [ngClass]="{ highlight: filterStatus == 'Received' }"
+              >
+                <a (click)="filterDataByStatus('Received')">
+                  <span class="widget-thumb-subtitle">Received</span>
+                  <span class="widget-thumb-body-stat"
+                    >{{ receivedTotal }}
+                  </span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- END WIDGET THUMB -->
+    </div>
+  </div>
+  <div [ngClass]="{ hide: formVisible }" class="row mt-20" >
+    <div class="col-md-12">
+      <!-- <div class="wrapper1">
+        <div class="div1"></div>
+      </div> -->
+      <!-- <div class="wrapper2">
+        <div class="div2"> -->
+          <table [id]="tableId" class="table table-bordered" ></table>
+          <!-- <app-table -->
+          <!-- [tableId]="'datatracker_table'" -->
+          <!-- [tableOrdering]="false" -->
+          <!-- [tableColumns]="tableColumnsDataTracker" -->
+          <!-- [tableApi]="tableApiUrl" -->
+          <!-- [tableFilters]="tableFilters" -->
+          <!-- ></app-table> -->
+        <!-- </div>
+      </div> -->
+    </div>
+  </div>
+  <div [ngClass]="{ hide: !formVisible }">
+    <div class="portlet box" [ngClass]="{ blue: !isEdit, yellow: isEdit }">
+      <div class="portlet-title">
+        <div class="caption">
+          <i
+            class="fa"
+            [ngClass]="{ 'fa-plus': !isEdit, 'fa-edit': isEdit }"
+          ></i>
+          DataTracker
+        </div>
+        <div class="tools">
+          <a href="javascript:;" class="collapse"> </a>
+        </div>
+      </div>
+      <div class="portlet-body form">
+        <form
+          (ngSubmit)="saveDataTracker($event) && datatrackerForm.form.valid"
+          #datatrackerForm="ngForm"
+        >
+          <div class="form-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">Area</label>
+                  <input
+                    [disabled]="isProcessOwner || isStackHolder"
+                    type="text"
+                    id="Area"
+                    placeholder="Enter Area"
+                    class="form-control"
+                    name="Area"
+                    [(ngModel)]="Area"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">Status</label>
+                  <select
+                    id="Status"
+                    class="form-control"
+                    name="Status"
+                    [(ngModel)]="Status"
+                    [disabled]="isProcessOwner || isStackHolder"
+                  >
+                    <option value="" selected>Select Status</option>
+                    <option value="PARTIALLY RECEIVED">
+                      Partially Received
+                    </option>
+                    <option value="PENDING">Pending</option>
+                    <option value="RECEIVED">Received</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label class="control-label"
+                    >Data Requested <span class="text-danger">*</span></label
+                  >
+                  <!-- <textarea -->
+                  <!-- id="DataRequested" -->
+                  <!-- class="form-control" -->
+                  <!-- name="DataRequested" -->
+                  <!-- [(ngModel)]="DataRequested" -->
+                  <!-- ></textarea> -->
+                  <ckeditor
+                    [disabled]="isProcessOwner || isStackHolder"
+                    [(ngModel)]="DataRequested"
+                    name="DataRequested"
+                    [editor]="Editor"
+                    required
+                    #dataRequest="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                        dataRequest.errors && datatrackerForm.submitted
+                    }"
+                  ></ckeditor>
+                  <div
+                    *ngIf="datatrackerForm.submitted && dataRequest.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="dataRequest.errors.required"
+                    >
+                      Data Requested is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label"
+                    >Data Request Date <span class="text-danger">*</span></label
+                  >
+                  <div
+                    class="input-group"
+                    [ngClass]="{
+                      'red-border-class':
+                        DataRequestDates.errors && datatrackerForm.submitted
+                    }"
+                  >
+                    <input
+                      [disabled]="isProcessOwner || isStackHolder"
+                      type="text"
+                      id="DataRequestDate"
+                      class="form-control"
+                      name="DataRequestDate"
+                      [(ngModel)]="DataRequestDate"
+                      required
+                      placeholder="dd/mm/yyyy"
+                      ngbDatepicker
+                      readonly
+                      #RequestDate="ngbDatepicker"
+                      #DataRequestDates="ngModel"
+                      [disabled]="isStackHolder"
+                    />
+                    <div class="input-group-btn">
+                      <button
+                        class="btn btn-default calendar"
+                        (click)="RequestDate.toggle()"
+                        type="button"
+                      >
+                        <i class="fa fa-calendar"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div
+                    *ngIf="
+                      datatrackerForm.submitted && DataRequestDates.invalid
+                    "
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="DataRequestDates.errors.required"
+                    >
+                      Requested Date is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label"
+                    >Data Received Date
+                    <span class="text-danger">*</span></label
+                  >
+                  <div
+                    class="input-group"
+                    [ngClass]="{
+                      'red-border-class':
+                        DataReceivedDates.errors && datatrackerForm.submitted
+                    }"
+                  >
+                    <input
+                      [disabled]="isProcessOwner || isStackHolder"
+                      type="text"
+                      id="DataReceivedDate"
+                      class="form-control"
+                      name="DataReceivedDate"
+                      [(ngModel)]="DataReceivedDate"
+                      required
+                      placeholder="dd/mm/yyyy"
+                      ngbDatepicker
+                      #ReceivedDate="ngbDatepicker"
+                      #DataReceivedDates="ngModel"
+                      [disabled]="isStackHolder"
+                      readonly
+                    />
+                    <div class="input-group-btn">
+                      <button
+                        class="btn btn-default calendar"
+                        (click)="ReceivedDate.toggle()"
+                        type="button"
+                      >
+                        <i class="fa fa-calendar"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div
+                    *ngIf="
+                      datatrackerForm.submitted && DataReceivedDates.invalid
+                    "
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="DataReceivedDates.errors.required"
+                    >
+                      Received Date is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label">Process Owner</label>
+                  <ng-multiselect-dropdown
+                    [placeholder]="'Select Process Owner'"
+                    [data]="shOpts"
+                    [(ngModel)]="selectedImplementationOwnerId"
+                    [settings]="OwnerdropdownSettings"
+                    name="ImplementationOwnerId"
+                    #ProcessOwner="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                        ProcessOwner.errors && datatrackerForm.submitted
+                    }"
+                  >
+                  </ng-multiselect-dropdown>
+                  <!-- <select
+                  
+                    id="ProcessOwnerId"
+                    name="ProcessOwnerId"
+                    [(ngModel)]="ProcessOwnerId"
+                    placeholder="Select Process Owner"
+                    class="form-control"
+                    required
+                  
+                  >
+                    <option value="">Select Process Owner</option>
+                    <option *ngFor="let user of shOpts" [value]="user.id">
+                      {{ user.firstName }} {{ user.lastName }}
+                    </option>
+                  </select> -->
+                  <div
+                    *ngIf="datatrackerForm.submitted && ProcessOwner.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="ProcessOwner.errors.required"
+                    >
+                      Process Owner is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label class="control-label">Pending Data</label>
+                  <!-- <textarea -->
+                  <!-- id="PendingData" -->
+                  <!-- class="form-control" -->
+                  <!-- name="PendingData" -->
+                  <!-- [(ngModel)]="PendingData" -->
+                  <!-- ></textarea> -->
+                  <ckeditor
+                    [disabled]="isProcessOwner || isStackHolder"
+                    [(ngModel)]="PendingData"
+                    name="PendingData"
+                    [editor]="Editor"
+                  ></ckeditor>
+                </div>
+              </div>
+            </div>
+
+            <hr />
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group clearfix">
+                  <input
+                    type="file"
+                    #fileInputDataTracker
+                    class="hidden"
+                    (change)="uploadDataTrackerFile()"
+                  />
+                  <button
+                    type="button"
+                    class="btn btn-primary pull-right"
+                    (click)="fileInputDataTracker.click()"
+                  >
+                    <i class="fa fa-upload"></i> Upload File
+                  </button>
+                </div>
+
+                <div class="form-group">
+                  <table
+                    id="uploadedDataTrackerFiles"
+                    class="table table-bordered"
+                  >
+                    <thead>
+                      <tr>
+                        <th>File</th>
+                        <th>Uploaded Date</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-actions">
+            <div class="row">
+              <div class="col-md-12 text-right">
+                <button
+                  type="submit"
+                  class="btn btn-success"
+                  [disabled]="isProcessOwner"
+                >
+                  <i class="fa fa-save"></i> Save
+                </button>
+
+                <button
+                  type="button"
+                  (click)="cancelAddEdit($event)"
+                  class="btn btn-default"
+                >
+                  <i class="fa fa-close"></i> Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="sendMultipleMailModal"
+  tabindex="-1"
+  data-width="760"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header bg-warning">
+        <h4 class="modal-title" style="font-weight: bold">
+          <i class="fa fa-send"></i> &nbsp;Sending mail in progress...
+        </h4>
+      </div>
+
+      <div class="modal-body bg-warning">
+        <p>Please wait while we sending mail(s) to all selected records.</p>
+        <p>{{ mailSent }} mail(s) sent out of {{ mailTotal }}.</p>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+>
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

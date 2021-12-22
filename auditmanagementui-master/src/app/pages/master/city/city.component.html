@@ -1,0 +1,179 @@
+<div class="col-md-12" id="cityComponent">
+  <div *ngIf="!formVisible" class="form-actions top text-right">
+    <button [disabled]="isStackHolder"
+      type="button"
+      (click)="addCity()"
+      class="btn btn-primary"
+      *ngIf="accessRights.isAdd"
+    >
+      <i class="fa fa-plus"></i> New
+    </button>
+
+    <button type="button" class="btn btn-primary" (click)="exportCities()">
+      <i class="fa fa-file-excel-o"></i> Download Excel
+    </button>
+
+    <button type="button" class="btn btn-primary" (click)="sampleExportCities()"  [disabled]="isStackHolder">
+      <i class="fa fa-file-excel-o"></i> Sample Excel
+    </button>
+
+    <input type="file" #fileInput class="hidden" (change)="importExcel()" />
+    <button
+      type="button" [disabled]="isStackHolder"
+      class="btn btn-primary"
+      (click)="fileInput.click()"
+      *ngIf="accessRights.isEdit"
+    >
+      <i class="fa fa-file-excel-o"></i> Upload Excel
+    </button>
+  </div>
+
+  <div *ngIf="!formVisible" class="mt-20">
+    <app-table
+      [tableId]="tableId"
+      [tableColumns]="tableColumns"
+      [tableApi]="'api/cityortown'"
+      [tableFilters]="tableFilters"
+    ></app-table>
+  </div>
+
+  <div *ngIf="formVisible">
+    <div class="portlet box blue">
+      <div class="portlet-title">
+        <div class="caption"><i class="fa fa-plus"></i> City</div>
+        <div class="tools">
+          <a href="javascript:;" class="collapse"> </a>
+        </div>
+      </div>
+      <div class="portlet-body form">
+        <form (ngSubmit)="saveCity($event)" #cityForm="ngForm" novalidate>
+          <div class="form-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">Select Country</label>
+                  <span class="text-danger">*</span>
+                  <select
+                    #countryIds="ngModel"
+                    id="country"
+                    name="CountryId"
+                    (change)="getStateOption()"
+                    placeholder="Select Country"
+                    class="form-control"
+                    [(ngModel)]="countryId"
+                    [ngClass]="{
+                      'red-border-class': countryIds.errors && submitted
+                    }"
+                    required
+                  >
+                    <option value="">Select Country</option>
+                    <option
+                      *ngFor="let country of countryOptions"
+                      [value]="country.id"
+                    >
+                      {{ country.name }}
+                    </option>
+                  </select>
+                  <div
+                    *ngIf="cityForm.submitted && countryIds.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div class="text-danger" *ngIf="countryIds.errors.required">
+                      Country is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">Select State</label>
+                  <span class="text-danger">*</span>
+                  <select
+                    #stateIds="ngModel"
+                    id="state"
+                    name="StateId"
+                    placeholder="Select State"
+                    class="form-control"
+                    [(ngModel)]="stateId"
+                    [ngClass]="{
+                      'red-border-class': stateIds.errors && submitted
+                    }"
+                    required
+                  >
+                    <option value="">Select State</option>
+                    <option
+                      *ngFor="let state of stateOptions"
+                      [value]="state.id"
+                    >
+                      {{ state.name }}
+                    </option>
+                  </select>
+                  <div
+                    *ngIf="cityForm.submitted && stateIds.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div class="text-danger" *ngIf="stateIds.errors.required">
+                      State is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">City Name</label>
+                  <span class="text-danger">*</span>
+                  <input
+                    #cityNames="ngModel"
+                    id="cityname"
+                    name="Name"
+                    placeholder="Enter City Name"
+                    class="form-control"
+                    [(ngModel)]="cityName"
+                    [ngClass]="{
+                      'red-border-class': cityNames.errors && submitted
+                    }"
+                    required
+                  />
+                  <div
+                    *ngIf="cityForm.submitted && cityNames.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div class="text-danger" *ngIf="cityNames.errors.required">
+                      City name is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-actions">
+            <div class="row">
+              <div class="col-md-12 text-right">
+                <button type="submit" class="btn btn-success">
+                  <i class="fa fa-save"></i> Save
+                </button>
+                <button
+                  type="button"
+                  (click)="cancelAddEdit($event)"
+                  class="btn btn-default"
+                >
+                  <i class="fa fa-close"></i> Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<ngx-spinner
+bdColor="rgba(51,51,51,0.8)"
+size="medium"
+color="#fff"
+type="ball-scale-multiple"
+>
+<p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

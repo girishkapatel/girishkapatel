@@ -1,0 +1,185 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Draft Report Export to PDF</title>
+</head>
+<body>
+    <table id="tabInheritStyle" style="width: 100%; font-size: 12px; font-family: Arial; page-break-before: always;" class="tabcool">
+        <tr>
+            <td colspan="3" style=" border-bottom: 2px solid gold; ">
+                <table style="font-size: 24px; font-weight: bold;">
+                    <tr>
+                        <td>Observation #Indexing#:</td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align:top;">#DiscussionNoteHeading#</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr style="height:5px;">
+            <td colspan="3">
+            </td>
+        </tr>
+        <tr style="height:32px;">
+            <td colspan="3" style="background-color: gold; border: 0px; font-weight: bold; color: black; padding: 5px;">
+                <table style="width:100%;">
+                    <tr>
+                        <td style="width:25%;">
+                            Background
+                        </td>
+                        <td style="width:25%; text-align:center;">Repeat: #isRepeat#</td>
+                        <td style="width:25%; text-align:center;">Value at Risk: INR #RiskValue#</td>
+                        <td style="width:25%;">
+                            <table style="width:100%;">
+                                <tr>
+                                    <td style="text-align:right;">Risk Rating</td>
+                                    <td style="text-align:center;">
+                                        <span style=" background: #CriticalRiskRating#; padding: 5px; margin: 5px; text-align: center;">
+                                            C
+                                        </span>
+
+                                        <span style=" background: #HighRiskRating#; padding: 5px; margin: 5px; text-align: center;">
+                                            H
+                                        </span>
+
+                                        <span style=" background: #MediumRiskRating#; padding: 5px; margin: 5px; text-align: center;">
+                                            M
+                                        </span>
+
+                                        <span style=" background: #LowRiskRating#; padding: 5px; margin: 5px; text-align: center;">
+                                            L
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" style="padding: 5px;">
+                #DiscussionNoteBackground#
+            </td>
+        </tr>
+
+        <tr style="height:32px;">
+            <td colspan="3" style="background-color: gold; border: 1px; font-weight: bold; color:black; padding:5px;">
+                Observation(s)
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" style="padding: 5px;">
+                #ObservationDetail#
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2" style="width:80%; vertical-align:top;">
+                <table style="width:100%;">
+                    <tr>
+                        <td style="background-color: gold; border: 1px; font-weight: bold; color:black; padding:5px;">Root Cause(s)</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 5px;">
+                            #RootCauses#
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="background-color: gold; border: 1px; font-weight: bold; color:black; padding:5px;">Business Impact(s)</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 5px;">
+                            #BusinessImpacts#
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="background-color: gold; border: 1px; font-weight: bold; color:black; padding:5px;">Recommendation(s)</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 5px;">
+                            #Recommendations#
+                        </td>
+                    </tr>
+                </table>
+            </td>
+
+            <td style="width:200px; vertical-align:top;">
+                <table style="width:100%; margin-bottom:15px;" border="1" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td colspan="2" style="background-color: gold; font-weight:bold; color:black; padding:5px; text-align:center;">
+                            Root Cause
+                        </td>
+                    </tr>
+
+                    #RootCausesString#
+                </table>
+
+                <table style="width:100%; margin-bottom:15px;" border="1" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td colspan="2" style="background-color: gold; font-weight:bold; color:black; padding:5px; text-align:center;">
+                            Impact
+                        </td>
+                    </tr>
+
+                    #ImpactsString#
+                </table>
+
+                <table style="width:100%; margin-bottom:15px;" border="1" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td colspan="2" style="background-color: gold; font-weight:bold; color:black; padding:5px; text-align:center;">
+                            Recommendation
+                        </td>
+                    </tr>
+
+                    #RecommendationsString#
+                </table>
+            </td>
+        </tr>
+
+        <tr style="height:32px;">
+            <td colspan="3" style="background-color: gold; border: 1px; font-weight: bold; color:black; padding:5px;">
+                Management Respnses(s)
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" style=" padding: 5px;">
+                #ManagementResponses#
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <table style="width:25%" align="left">
+                    <tr style="height:32px;">
+                        <td style="width: 20%;background-color: gold; border: 0px; font-weight: bold; color:black; padding:5px;">
+                            Implemetation Owners(s)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style=" padding: 5px;">
+                            #ImplemenatationOwners#
+                        </td>
+                    </tr>
+                </table>
+
+                <table style="width:25%" align="right">
+                    <tr style="height:32px;">
+                        <td style="width: 20%;background-color: gold; border: 0px; font-weight: bold; color:black; padding:5px;">
+                            Implemetation Timeline
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style=" padding: 5px;">
+                            #ImplemenatationOwnerTimeline#
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

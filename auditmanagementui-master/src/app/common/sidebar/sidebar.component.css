@@ -1,0 +1,23 @@
+/* .page-sidebar .page-sidebar-menu>li>a.active{
+    background: #36c6d3;
+    border-top-color: transparent;
+    color: #fff;
+    border: none;
+    text-shadow: none;
+    font-size: 14px;
+} */
+
+.page-sidebar .page-sidebar-menu>li>a.active{
+    background: #21212c;
+    border-top-color: #3d4957;
+    color: #ffe600;
+    text-shadow: none;
+    font-size: 14px;
+    border-left: 4px solid #ffe600;
+}
+    
+
+.page-sidebar .page-sidebar-menu>li>a.active>i{
+    color: #ffe600;
+}
+

@@ -1,0 +1,47 @@
+.sector-label{
+        width: 60%;
+        padding-right: 5px;
+        font-size: 15px;
+        font-weight: bold;
+        margin: auto 0;
+    }
+
+    .sector-heading{
+        font-weight:bold;
+        font-size:16px
+    }
+
+    .sector-icon{
+        width:100px
+    }
+
+    .sector-icon img{
+        background: transparent;
+        padding: 10px 5px 0px 10px;
+        width: 100px;
+        height: 80px;
+    }
+
+    .sector-item{
+        border: 3px solid #bcbcbc;
+        display:inline-flex;
+        width:100%;
+        cursor:pointer;
+    }
+
+    .processsChartView img{
+        width:200px;
+        cursor:pointer
+    }
+
+    .sectorchart img{
+        width:95%;
+        cursor:pointer
+    }
+    .modal-dialog{
+        width:900px !important;
+    }
+
+    .modal-body{
+        overflow-y:auto;
+    }

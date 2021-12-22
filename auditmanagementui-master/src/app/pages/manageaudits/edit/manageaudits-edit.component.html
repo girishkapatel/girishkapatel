@@ -1,0 +1,625 @@
+<div class="page-content">
+  <div class="page-bar">
+    <ul class="page-breadcrumb">
+      <li>
+        <a href="javascript:void(0)">Home</a>
+        <i class="fa fa-circle"></i>
+      </li>
+      <li>
+        <span>Manage Audits</span>
+      </li>
+    </ul>
+    <button
+      type="button"
+      class="btn btn-default pull-right"
+      style="margin-top: 4px"
+      (click)="backToAuditForm()"
+    >
+      <i class="fa fa-arrow-left"></i> Back to Audit View
+    </button>
+  </div>
+
+  <div class="row pt-30">
+    <div class="col-lg-12 col-md-12">
+      <div class="portlet box blue">
+        <div class="portlet-title">
+          <div class="caption">
+            <i class="fa fa-info-circle"></i> Audit Info
+          </div>
+          <div class="tools">
+            <a href="javascript:;" class="expand"> </a>
+          </div>
+        </div>
+        <div
+          class="portlet-body"
+          [ngStyle]="{ display: manageaudits.noaccess ? 'block' : 'none' }"
+        >
+          <!-- BEGIN FORM-->
+          <form action="#" class="horizontal-form">
+            <div class="tabbable-custom">
+              <ul class="nav nav-tabs">
+                <li class="active">
+                  <a href="#general" data-toggle="tab"> General </a>
+                </li>
+                <li>
+                  <a href="#approvers" data-toggle="tab"> Approvers </a>
+                </li>
+                <li>
+                  <a href="#resources" data-toggle="tab"> Resources </a>
+                </li>
+              </ul>
+              <div class="tab-content">
+                <div class="tab-pane active" id="general">
+                  <form class="form">
+                    <div class="form-body">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label class="control-label">Audit Name</label>
+                            <input
+                              id="auditName"
+                              placeholder="Audit Name"
+                              class="form-control"
+                              disabled
+                              [value]="auditName"
+                              disabled
+                            />
+                          </div>
+                          <!-- <div class="form-group"> -->
+                          <!-- <label class="control-label">Audit Process</label> -->
+                          <!-- <input -->
+                          <!-- id="processl1" -->
+                          <!-- placeholder="Audit Process" -->
+                          <!-- class="form-control" -->
+                          <!-- disabled -->
+                          <!-- [value]="auditProcess" -->
+                          <!-- disabled -->
+                          <!-- /> -->
+                          <!-- </div> -->
+                        </div>
+
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label class="control-label"
+                              >Location
+                              <span class="required" aria-required="true">
+                                *
+                              </span></label
+                            >
+                            <input
+                              id="location"
+                              placeholder="Location"
+                              class="form-control"
+                              disabled
+                              [value]="location"
+                              disabled
+                            />
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label class="control-label"
+                              >Audit Number<span
+                                class="required"
+                                aria-required="true"
+                              >
+                                *
+                              </span></label
+                            >
+                            <input
+                              id="auditNumber"
+                              placeholder="Audit Number"
+                              class="form-control"
+                              name="AuditNumber"
+                              [value]="auditNumber"
+                              disabled
+                            />
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label class="control-label"
+                              >Quarter
+                              <span class="required" aria-required="true">
+                                *
+                              </span></label
+                            >
+                            <input
+                              id="quarter"
+                              placeholder="Quarter"
+                              class="form-control"
+                              name="quarter"
+                              [value]="quarter"
+                              disabled
+                            />
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label class="control-label"
+                              >Audit Start Date
+                              <span class="required" aria-required="true">
+                                *
+                              </span></label
+                            >
+                            <input
+                              type="text"
+                              class="form-control"
+                              placeholder="Enter Start Date"
+                              id="overallAuditStartDate"
+                              name="overallAuditStartDate"
+                              [value]="overallAuditStartDate"
+                              disabled
+                            />
+                          </div>
+                        </div>
+
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label class="control-label"
+                              >Audit End Date
+                              <span class="required" aria-required="true">
+                                *
+                              </span></label
+                            >
+                            <input
+                              type="text"
+                              class="form-control"
+                              placeholder="Enter End Date"
+                              id="overallAuditEndDate"
+                              name="overallAuditEndDate"
+                              [value]="overallAuditEndDate"
+                              disabled
+                            />
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label class="control-label">Status </label>
+                            <select
+                              class="form-control"
+                              placeholder="Select Status"
+                              name="status"
+                              [(ngModel)]="auditStatus"
+                            >
+                              <option value="">Select Status</option>
+                              <option value="inprogress">In Progress</option>
+                              <option value="completed">Completed</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-actions">
+                      <div class="row">
+                        <div class="col-md-12 text-right">
+                          <button
+                            type="button"
+                            class="btn btn-success"
+                            (click)="saveAudit($event)"
+                          >
+                            <i class="fa fa-save"></i> Save
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="tab-pane" id="approvers">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <table
+                        [id]="'approversTable'"
+                        class="table table-bordered"
+                      ></table>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane" id="resources">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <table
+                        [id]="'resourcesTable'"
+                        class="table table-bordered"
+                      ></table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="portlet box yellow" *ngIf="!manageaudits.noaccess">
+        <div class="portlet-title">
+          <div class="caption"><i class="fa fa-file"></i>Audit Process</div>
+          <div class="tools">
+            <a href="javascript:;" class="collapse"> </a>
+          </div>
+        </div>
+        <div class="portlet-body">
+          <div class="tabbable-custom">
+            <ul class="nav nav-tabs">
+              <li
+                *ngIf="manageaudits.planning.status"
+                [ngClass]="{ active: manageaudits.planning.active }"
+              >
+                <a
+                  href="#planningTab"
+                  data-toggle="tab"
+                  (click)="onParentTabClick(0)"
+                >
+                  Planning
+                </a>
+              </li>
+              <li
+                *ngIf="manageaudits.auditexecution.status"
+                [ngClass]="{ active: manageaudits.auditexecution.active }"
+              >
+                <a
+                  href="#auditExecutionTab"
+                  data-toggle="tab"
+                  (click)="onParentTabClick(3)"
+                >
+                  Audit Execution
+                </a>
+              </li>
+              <li
+                *ngIf="manageaudits.reporting.status"
+                [ngClass]="{ active: manageaudits.reporting.active }"
+              >
+                <a
+                  href="#reportingTab"
+                  data-toggle="tab"
+                  (click)="onParentTabClick(6)"
+                >
+                  Reporting
+                </a>
+              </li>
+              <li
+                *ngIf="manageaudits.eybenchmark.status"
+                [ngClass]="{ active: manageaudits.eybenchmark.active }"
+                style="display: none"
+              >
+                <a
+                  href="#eyBenchmarksTab"
+                  data-toggle="tab"
+                  (click)="onTabClick(8)"
+                >
+                  EY Benchmarks
+                </a>
+              </li>
+              <li
+                *ngIf="manageaudits.auditclosure.status"
+                [ngClass]="{ active: manageaudits.auditclosure.active }"
+              >
+                <a
+                  href="#auditClosureTab"
+                  data-toggle="tab"
+                  (click)="onTabClick(9)"
+                >
+                  Audit Closure
+                </a>
+              </li>
+              <li
+                *ngIf="manageaudits.followup.status"
+                [ngClass]="{ active: manageaudits.followup.active }"
+              >
+                <a
+                  href="#followupTab"
+                  data-toggle="tab"
+                  (click)="onTabClick(10)"
+                >
+                  Follow Up
+                </a>
+              </li>
+            </ul>
+
+            <div class="tab-content">
+              <div
+                class="tab-pane active"
+                [ngClass]="{ active: manageaudits.planning.active }"
+                *ngIf="manageaudits.planning.status"
+                id="planningTab"
+              >
+                <div class="tabbable-custom mt-20">
+                  <ul class="nav nav-tabs">
+                    <li
+                      class="active"
+                      *ngIf="manageaudits.planning.activity.status"
+                      [ngClass]="{
+                        active: manageaudits.planning.activity.active
+                      }"
+                    >
+                      <a
+                        href="#Activity"
+                        data-toggle="tab"
+                        (click)="onTabClick(0)"
+                      >
+                        Activity
+                      </a>
+                    </li>
+                    <li
+                      *ngIf="manageaudits.planning.tor.status"
+                      [ngClass]="{
+                        active: manageaudits.planning.tor.active
+                      }"
+                      (click)="onTabClick(1)"
+                    >
+                      <a href="#TOR" data-toggle="tab"> TOR </a>
+                    </li>
+                    <!-- <li>
+                                            <a href="#AuditMemo" data-toggle="tab"> Audit Memo </a>
+                                        </li> -->
+                    <li
+                      *ngIf="manageaudits.planning.dataTracker.status"
+                      [ngClass]="{
+                        active: manageaudits.planning.dataTracker.active
+                      }"
+                      (click)="onTabClick(2)"
+                    >
+                      <a href="#DataTracker" data-toggle="tab">
+                        Data Tracker
+                      </a>
+                    </li>
+                  </ul>
+
+                  <div class="tab-content">
+                    <div
+                      class="tab-pane active"
+                      id="Activity"
+                      [ngClass]="{
+                        active: manageaudits.planning.activity.active
+                      }"
+                      *ngIf="manageaudits.planning.activity.status"
+                    >
+                      <app-activity
+                        *ngIf="tabIndex === 0"
+                        [userOpts]="userOpts"
+                      ></app-activity>
+                    </div>
+
+                    <div
+                      class="tab-pane"
+                      id="TOR"
+                      *ngIf="manageaudits.planning.tor.status"
+                      [ngClass]="{
+                        active: manageaudits.planning.tor.active
+                      }"
+                    >
+                      <app-tor
+                        [shOpts]="shOpts"
+                        *ngIf="tabIndex === 1"
+                        [userOpts]="userOpts"
+                      ></app-tor>
+                    </div>
+                    <!-- <div class="tab-pane" id="AuditMemo">
+                                            <app-auditmemo></app-auditmemo>
+                                        </div> -->
+
+                    <div
+                      class="tab-pane"
+                      id="DataTracker"
+                      *ngIf="manageaudits.planning.dataTracker.status"
+                      [ngClass]="{
+                        active: manageaudits.planning.dataTracker.active
+                      }"
+                    >
+                      <app-datatracker
+                        *ngIf="tabIndex === 2"
+                        [shOpts]="shOpts"
+                      ></app-datatracker>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="tab-pane"
+                [ngClass]="{ active: manageaudits.auditexecution.active }"
+                *ngIf="manageaudits.auditexecution.status"
+                id="auditExecutionTab"
+              >
+                <div class="tabbable-custom mt-20">
+                  <ul class="nav nav-tabs">
+                    <li>
+                      <a
+                        href="#walkthrough"
+                        data-toggle="tab"
+                        [ngClass]="{
+                          active: manageaudits.auditexecution.racm.active
+                        }"
+                        *ngIf="manageaudits.auditexecution.racm.status"
+                        (click)="onTabClick(3)"
+                      >
+                        RACM
+                      </a>
+                    </li>
+                    <li
+                      [ngClass]="{
+                        active:
+                          manageaudits.auditexecution.testingOfControls.active
+                      }"
+                      *ngIf="
+                        manageaudits.auditexecution.testingOfControls.status
+                      "
+                    >
+                      <a
+                        href="#testing"
+                        data-toggle="tab"
+                        (click)="onTabClick(4)"
+                        >Testing of Controls
+                      </a>
+                    </li>
+                    <li
+                      [ngClass]="{
+                        active:
+                          manageaudits.auditexecution.discussionNote.active
+                      }"
+                      *ngIf="manageaudits.auditexecution.discussionNote.status"
+                    >
+                      <a
+                        href="#discussionnote"
+                        data-toggle="tab"
+                        (click)="onTabClick(5)"
+                        >Discussion Note
+                      </a>
+                    </li>
+                  </ul>
+
+                  <div class="tab-content">
+                    <div
+                      class="tab-pane active"
+                      id="walkthrough"
+                      [ngClass]="{
+                        active: manageaudits.auditexecution.racm.active
+                      }"
+                      *ngIf="manageaudits.auditexecution.racm.status"
+                    >
+                      <app-walkthrough
+                        [approverOpts]="approverOpts"
+                        [userOpts]="userOpts"
+                        [shOpts]="shOpts"
+                        *ngIf="tabIndex === 3"
+                      ></app-walkthrough>
+                    </div>
+
+                    <div
+                      class="tab-pane"
+                      id="testing"
+                      [ngClass]="{
+                        active:
+                          manageaudits.auditexecution.testingOfControls.active
+                      }"
+                      *ngIf="
+                        manageaudits.auditexecution.testingOfControls.status
+                      "
+                    >
+                      <app-testing *ngIf="tabIndex === 4"></app-testing>
+                    </div>
+
+                    <div
+                      class="tab-pane"
+                      id="discussionnote"
+                      [ngClass]="{
+                        active:
+                          manageaudits.auditexecution.discussionNote.active
+                      }"
+                      *ngIf="manageaudits.auditexecution.discussionNote.status"
+                    >
+                      <app-discussionnote
+                        *ngIf="tabIndex === 5"
+                        [approverOpts]="approverOpts"
+                        [userOpts]="userOpts"
+                      ></app-discussionnote>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="tab-pane"
+                [ngClass]="{ active: manageaudits.reporting.active }"
+                *ngIf="manageaudits.reporting.status"
+                id="reportingTab"
+              >
+                <div class="tabbable-custom mt-20">
+                  <ul class="nav nav-tabs">
+                    <li
+                      class="active"
+                      *ngIf="manageaudits.reporting.draftReport.status"
+                      [ngClass]="{
+                        active: manageaudits.reporting.draftReport.active
+                      }"
+                    >
+                      <a
+                        href="#auditreport"
+                        data-toggle="tab"
+                        (click)="onTabClick(6)"
+                        >Draft Report
+                      </a>
+                    </li>
+                    <li
+                      *ngIf="manageaudits.reporting.finalReport.status"
+                      [ngClass]="{
+                        active: manageaudits.reporting.finalReport.active
+                      }"
+                    >
+                      <a href="#acm" data-toggle="tab" (click)="onTabClick(7)">
+                        Final Report</a
+                      >
+                    </li>
+                  </ul>
+
+                  <div class="tab-content">
+                    <div
+                      class="tab-pane active"
+                      id="auditreport"
+                      *ngIf="manageaudits.reporting.draftReport.status"
+                      [ngClass]="{
+                        active: manageaudits.reporting.draftReport.active
+                      }"
+                    >
+                      <app-auditreport
+                        [shOpts]="shOpts"
+                        *ngIf="tabIndex === 6"
+                      ></app-auditreport>
+                    </div>
+
+                    <div
+                      class="tab-pane"
+                      id="acm"
+                      *ngIf="manageaudits.reporting.finalReport.status"
+                      [ngClass]="{
+                        active: manageaudits.reporting.finalReport.active
+                      }"
+                    >
+                      <app-auditreportfinal
+                        *ngIf="tabIndex === 7"
+                      ></app-auditreportfinal>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="tab-pane"
+                [ngClass]="{ active: manageaudits.eybenchmark.active }"
+                *ngIf="manageaudits.eybenchmark.status"
+                id="eyBenchmarksTab"
+              >
+                <app-eybenchmark *ngIf="tabIndex === 8"></app-eybenchmark>
+              </div>
+
+              <div
+                class="tab-pane"
+                [ngClass]="{ active: manageaudits.auditclosure.active }"
+                *ngIf="manageaudits.auditclosure.status"
+                id="auditClosureTab"
+              >
+                <app-closure *ngIf="tabIndex === 9"></app-closure>
+              </div>
+
+              <div
+                class="tab-pane"
+                [ngClass]="{ active: manageaudits.followup.active }"
+                *ngIf="manageaudits.followup.status"
+                id="followupTab"
+              >
+                <app-followup
+                  *ngIf="tabIndex === 10"
+                  [shOpts]="shOpts"
+                  [auditMaster]="auditData"
+                ></app-followup>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="clearfix"></div>
+</div>

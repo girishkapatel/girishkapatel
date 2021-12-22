@@ -1,0 +1,27 @@
+.dropdown-item {
+  display: block;
+  width: 100%;
+  padding: 0.25rem 1.5rem;
+  clear: both;
+  font-weight: 400;
+  color: #212529;
+  text-align: inherit;
+  white-space: nowrap;
+  background-color: transparent;
+  border: 0;
+}
+
+.m-r-5 {
+  margin-right: 5px;
+}
+
+.portlet.light {
+  padding-right: 0;
+  padding-left: 0;
+}
+.red-border-class {
+  border: 1px solid red;
+}
+.myClass {
+  font-weight: bold;
+}

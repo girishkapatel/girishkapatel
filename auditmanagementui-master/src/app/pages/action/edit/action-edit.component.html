@@ -1,0 +1,1010 @@
+<div class="page-content">
+  <div class="page-bar">
+    <ul class="page-breadcrumb">
+      <li>
+        <a href="javascript:void(0)">Home</a>
+        <i class="fa fa-circle"></i>
+      </li>
+      <li>
+        <span>Action Plans</span>
+      </li>
+    </ul>
+
+    <button
+      type="button"
+      class="btn btn-default pull-right"
+      style="margin-top: 4px"
+      (click)="backToActionView()"
+    >
+      <i class="fa fa-arrow-left"></i> Back
+    </button>
+  </div>
+
+  <div class="row pt-30">
+    <div class="col-lg-12 col-md-12">
+      <div class="portlet box yellow">
+        <div class="portlet-title">
+          <div class="caption">
+            <i class="fa fa-edit"></i>Update Action Plan
+          </div>
+          <div class="tools">
+            <a href="javascript:;" class="collapse"> </a>
+          </div>
+        </div>
+        <div class="portlet-body">
+          <!-- BEGIN FORM-->
+          <div class="portlet-body">
+            <!-- BEGIN FORM-->
+            <form
+              (ngSubmit)="updateAction($event) && actionForm.form.valid"
+              #actionForm="ngForm"
+              class="horizontal-form"
+            >
+              <div class="form-body">
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="control-label">Audit Number</label>
+                      <input
+                        type="text"
+                        placeholder="Enter Audit Number"
+                        class="form-control"
+                        [(ngModel)]="AuditNumber"
+                        id="AuditNumber"
+                        name="AuditNumber"
+                        [readonly]="AuditExist"
+                        [disabled]="isStackHolder || isAuditee"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="control-label"
+                        >Select Audit
+                        <span class="required" aria-required="true"> * </span>
+                      </label>
+                      <select
+                        [disabled]="isStackHolder"
+                        id="ProcessLocationMappingId"
+                        name="ProcessLocationMappingId"
+                        [(ngModel)]="ProcessLocationMappingId"
+                        (change)="getLocations()"
+                        class="form-control"
+                        #ProcessLocationMappingIds="ngModel"
+                        [ngClass]="{
+                          'red-border-class':
+                            ProcessLocationMappingIds.errors &&
+                            actionForm.submitted
+                        }"
+                        required
+                      >
+                        <option value="">Select Audit Name</option>
+                        <option
+                          *ngFor="let item of processLocationMappingOptions"
+                          [value]="item.id"
+                        >
+                          {{ item.auditName }}
+                        </option>
+                      </select>
+                      <div
+                        *ngIf="
+                          actionForm.submitted &&
+                          ProcessLocationMappingIds.invalid
+                        "
+                        class="invalid-feedback"
+                      >
+                        <div
+                          class="text-danger myClass"
+                          *ngIf="ProcessLocationMappingIds.errors.required"
+                        >
+                          Audit Name is required
+                        </div>
+                      </div>
+                      <!-- <label class="control-label">Audit</label>
+                      <input
+                        type="text"
+                        placeholder="Enter Audit"
+                        class="form-control"
+                        id="AuditName"
+                        name="AuditName"
+                        [(ngModel)]="AuditName"
+                        [readonly]="AuditExist"
+                        [disabled]="isStackHolder || isAuditee"
+                      /> -->
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="control-label"
+                        >Location
+                        <span class="required" aria-required="true"> * </span>
+                      </label>
+                      <select
+                        [disabled]="isStackHolder || isAuditee"
+                        id="LocationID"
+                        name="LocationID"
+                        placeholder="Select Location"
+                        class="form-control"
+                        [(ngModel)]="LocationID"
+                        #locationIds="ngModel"
+                        [ngClass]="{
+                          'red-border-class':
+                            locationIds.errors && actionForm.submitted
+                        }"
+                        required
+                      >
+                        <option value="">Select Location</option>
+                        <option
+                          *ngFor="let location of locationOpts"
+                          [value]="location.id"
+                        >
+                          {{ location.locationDescription }}
+                        </option>
+                      </select>
+                      <div
+                        *ngIf="actionForm.submitted && locationIds.invalid"
+                        class="invalid-feedback"
+                      >
+                        <div
+                          class="text-danger myClass"
+                          *ngIf="locationIds.errors.required"
+                        >
+                          Location is required
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="control-label">Location</label>
+                      <input
+                        type="text"
+                        id="LocationName"
+                        name="LocationName"
+                        placeholder="Enter Location"
+                        class="form-control"
+                        [(ngModel)]="LocationName"
+                        [readonly]="AuditExist"
+                      />
+                    </div>
+                  </div> -->
+                  <!-- <div class="col-md-4">
+                    <div class="form-group">
+                      <label class="control-label">Select Audit</label>
+                      <select
+                        [disabled]="isStackHolder"
+                        id="ProcessLocationMappingId"
+                        name="ProcessLocationMappingId"
+                        [(ngModel)]="ProcessLocationMappingId"
+                        (change)="getLocations()"
+                        class="form-control"
+                      >
+                        <option value="">Select Audit Name</option>
+                        <option
+                          *ngFor="let item of processLocationMappingOptions"
+                          [value]="item.id"
+                        >
+                          {{ item.auditName }}
+                        </option>
+                      </select>
+                    </div>
+                  </div> -->
+
+                  <!-- <div class="col-md-4" [ngClass]="{ hide: this.AuditExist }"> -->
+                  <!-- <div class="form-group"> -->
+                  <!-- <label class="control-label">Select Business Cycle</label> -->
+                  <!-- <select -->
+                  <!-- id="businessCycle" -->
+                  <!-- name="BusinessCycleID" -->
+                  <!-- placeholder="Select Business Cycle" -->
+                  <!-- (change)="getProcessLevel1Opts()" -->
+                  <!-- class="form-control" -->
+                  <!-- [(ngModel)]="businessCycleId" -->
+                  <!-- > -->
+                  <!-- <option value="">Select Business Cycle</option> -->
+                  <!-- <option -->
+                  <!-- *ngFor="let businessCycle of businessCycleOptions" -->
+                  <!-- [value]="businessCycle.id" -->
+                  <!-- > -->
+                  <!-- {{ businessCycle.name }} -->
+                  <!-- </option> -->
+                  <!-- </select> -->
+                  <!-- </div> -->
+                  <!-- </div> -->
+                  <!-- <div class="col-md-4" [ngClass]="{ hide: this.AuditExist }"> -->
+                  <!-- <div class="form-group"> -->
+                  <!-- <label class="control-label">Select Process L1</label> -->
+                  <!-- <select -->
+                  <!-- id="processL1Id" -->
+                  <!-- name="ProcessL1ID" -->
+                  <!-- placeholder="Select Process Level 1" -->
+                  <!-- (change)="getProcessLevel2Opts()" -->
+                  <!-- class="form-control" -->
+                  <!-- [(ngModel)]="processlevel1Id" -->
+                  <!-- > -->
+                  <!-- <option value="">Select Process Level 1</option> -->
+                  <!-- <option -->
+                  <!-- *ngFor="let processlevel1 of processlevel1Options" -->
+                  <!-- [value]="processlevel1.id" -->
+                  <!-- > -->
+                  <!-- {{ processlevel1.name }} -->
+                  <!-- </option> -->
+                  <!-- </select> -->
+                  <!-- </div> -->
+                  <!-- </div> -->
+                  <!--  -->
+                  <!-- <div class="col-md-4" [ngClass]="{ hide: this.AuditExist }"> -->
+                  <!-- <div class="form-group"> -->
+                  <!-- <label class="control-label">Select Process L2</label> -->
+                  <!-- <select -->
+                  <!-- id="processL2Id" -->
+                  <!-- name="ProcessL2ID" -->
+                  <!-- placeholder="Select Process Level 2" -->
+                  <!-- class="form-control" -->
+                  <!-- [(ngModel)]="processlevel2Id" -->
+                  <!-- > -->
+                  <!-- <option value="">Select Process Level 2</option> -->
+                  <!-- <option -->
+                  <!-- *ngFor="let processlevel2 of processlevel2Options" -->
+                  <!-- [value]="processlevel2.id" -->
+                  <!-- > -->
+                  <!-- {{ processlevel2.name }} -->
+                  <!-- </option> -->
+                  <!-- </select> -->
+                  <!-- </div> -->
+                  <!-- </div> -->
+
+                  <!-- <div class="col-md-4" [ngClass]="{ hide: this.AuditExist }">
+                    <div class="form-group">
+                      <label class="control-label">Location</label>
+                      <select
+                        [disabled]="isStackHolder"
+                        id="locationId"
+                        name="locationId"
+                        placeholder="Select Location"
+                        class="form-control"
+                        [(ngModel)]="locationId"
+                      >
+                        <option value="">Select Location</option>
+                        <option
+                          *ngFor="let location of locationOpts"
+                          [value]="location.id"
+                        >
+                          {{ location.profitCenterCode }}
+                        </option>
+                      </select>
+                    </div>
+                  </div> -->
+
+                  <!-- <div -->
+                  <!-- class="col-md-4 dia-autocomplete" -->
+                  <!-- [ngClass]="{ hide: !this.AuditExist }" -->
+                  <!-- > -->
+                  <!-- <div class="form-group"> -->
+                  <!-- <label class="control-label">Audit Number</label> -->
+                  <!-- <input -->
+                  <!-- type="text" -->
+                  <!-- placeholder="Enter Audit Number" -->
+                  <!-- class="form-control" -->
+                  <!-- [ngbTypeahead]="search" -->
+                  <!-- (selectItem)="selectedItem($event)" -->
+                  <!-- [inputFormatter]="formatter" -->
+                  <!-- [resultFormatter]="formatter" -->
+                  <!-- required -->
+                  <!-- /> -->
+                  <!-- </div> -->
+                  <!-- </div> -->
+
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="control-label">Root Cause</label>
+                      <ng-multiselect-dropdown
+                        [disabled]="isStackHolder || isAuditee"
+                        [placeholder]="'Select Root Cause'"
+                        [data]="rootCauseOptions"
+                        [(ngModel)]="selectedRootCauses"
+                        [settings]="dropdownSettings"
+                        name="RootCauses"
+                      >
+                      </ng-multiselect-dropdown>
+                    </div>
+                  </div>
+                  <!-- <div class="col-md-8">
+                                        <div class="form-group">
+                                            <label class="control-label">Company</label>
+                                            <input type="text" id="Company" [value]="Company" placeholder="Company" class="form-control" disabled>
+                                        </div>
+                                    </div> -->
+                </div>
+                <!-- <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label">Quarter</label>
+                                            <input type="text" id="Quarter" placeholder="Quarter" [value]="Quarter" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label">Audit Start Date</label>
+                                            <input type="text" id="AuditStartDate" placeholder="AuditStartDate" class="form-control" [value]="AuditStartDate" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label">Audit End Date</label>
+                                            <input type="text" id="AuditEndDate" [value]="AuditEndDate" placeholder="AuditEndDate" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                    
+                                </div> -->
+                <div class="row">
+                  <div class="col-md-8">
+                    <div class="form-group">
+                      <label class="control-label">Observation Heading</label>
+                      <input
+                        [disabled]="isStackHolder || isAuditee"
+                        type="text"
+                        name="ObservationHeading"
+                        id="ObservationHeading"
+                        placeholder="Observation Heading"
+                        [(ngModel)]="ObservationHeading"
+                        class="form-control"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label class="control-label"
+                        >Observations Grading
+                        <span class="required" aria-required="true">
+                          *
+                        </span></label
+                      >
+                      <select
+                        [disabled]="isStackHolder || isAuditee"
+                        id="ObservationGrading"
+                        name="ObservationGrading"
+                        [(ngModel)]="ObservationGrading"
+                        class="form-control"
+                        required
+                        #observationGardings="ngModel"
+                        [ngClass]="{
+                          'red-border-class':
+                            observationGardings.errors && actionForm.submitted
+                        }"
+                      >
+                        <option value="">Select Observations Grading</option>
+                        <option value="3">Critical</option>
+                        <option value="2">High</option>
+                        <option value="1">Medium</option>
+                        <option value="0">Low</option>
+                      </select>
+                      <div
+                        *ngIf="
+                          actionForm.submitted && observationGardings.invalid
+                        "
+                        class="invalid-feedback"
+                      >
+                        <div
+                          class="text-danger myClass"
+                          *ngIf="observationGardings.errors.required"
+                        >
+                          Observations Grading is required
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  </div>
+                  <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label class="control-label">Detailed Observation</label>
+                      <!-- <textarea type="text" name="DetailedObservation" id="DetailedObservation" placeholder="Detailed Observation" [(ngModel)]="DetailedObservation" class="form-control"></textarea> -->
+                      <ckeditor
+                        [disabled]="isStackHolder || isAuditee"
+                        [(ngModel)]="DetailedObservation"
+                        name="DetailedObservation"
+                        placeholder="Detailed Observation"
+                        [editor]="Editor"
+                      ></ckeditor>
+                    </div>
+                  </div>
+                  </div>
+                  <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="control-label"
+                        >Risk Type
+                        <span class="required" aria-required="true"> * </span>
+                      </label>
+                      <select
+                        [disabled]="isStackHolder || isAuditee"
+                        id="RiskTypeId"
+                        name="RiskTypeId"
+                        [(ngModel)]="RiskTypeId"
+                        placeholder="Select Risk Type"
+                        class="form-control"
+                        #RiskTypeIds="ngModel"
+                        [ngClass]="{
+                          'red-border-class':
+                            RiskTypeIds.errors && actionForm.submitted
+                        }"
+                        required
+                      >
+                        <option value="">Select Risk Type</option>
+                        <option
+                          *ngFor="let riskType of riskTypeOptions"
+                          [value]="riskType.id"
+                        >
+                          {{ riskType.name }}
+                        </option>
+                      </select>
+                      <div
+                        *ngIf="actionForm.submitted && RiskTypeIds.invalid"
+                        class="invalid-feedback"
+                      >
+                        <div
+                          class="text-danger myClass"
+                          *ngIf="RiskTypeIds.errors.required"
+                        >
+                          Risk Type is required
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="control-label"
+                        >Agreed Timeline
+                        <span class="required" aria-required="true">
+                          *
+                        </span></label
+                      >
+                      <div
+                        class="input-group"
+                        [ngClass]="{
+                          'red-border-class':
+                            ImplementationEndDates.errors &&
+                            actionForm.submitted
+                        }"
+                      >
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="Enter Agreed Timeline"
+                          id="ImplementationEndDate"
+                          name="ImplementationEndDate"
+                          [(ngModel)]="ImplementationEndDate"
+                          required
+                          readonly
+                          placeholder="dd/mm/yyyy"
+                          ngbDatepicker
+                          #enddate="ngbDatepicker"
+                          #ImplementationEndDates="ngModel"
+                          [disabled]="isStackHolder || isAuditee"
+                        />
+
+                        <div class="input-group-btn">
+                          <button
+                            class="btn btn-default calendar"
+                            (click)="enddate.toggle()"
+                            type="button"
+                          >
+                            <i class="fa fa-calendar"></i>
+                          </button>
+                        </div>
+                      </div>
+                      <div
+                        *ngIf="
+                          actionForm.submitted && ImplementationEndDates.invalid
+                        "
+                        class="invalid-feedback"
+                      >
+                        <div
+                          class="text-danger myClass"
+                          *ngIf="ImplementationEndDates.errors.required"
+                        >
+                          Agreed Timeline is required
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="control-label">Auditor Status
+                        <span class="required" aria-required="true"> * </span>
+                      </label>
+                      <select
+                        [disabled]="isStackHolder || isAuditee"
+                        id="Status"
+                        name="Status"
+                        [(ngModel)]="Status"
+                        placeholder="Select Status"
+                        class="form-control"
+                        #Statuss="ngModel"	
+                        [ngClass]="{'red-border-class':  Statuss.errors && actionForm.submitted }"
+                        required
+                      >
+                        <option value="">Select Status</option>
+                        <option value="inprogress">In Progress</option>
+                        <option value="pending">Pending to be initiated</option>
+                        <option value="completed">Completed</option>
+                      </select>
+                      <div
+                      *ngIf="actionForm.submitted && Statuss.invalid"
+                      class="invalid-feedback">
+                      <div  class="text-danger myClass" *ngIf="Statuss.errors.required">
+                      Status is required
+              </div>
+                    </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="control-label">Auditee status<span class="required" aria-required="true"> * </span></label>
+                      <!-- [disabled]="isAuditee" -->
+                      <select
+                        id="AuditeeStatus"
+                        name="AuditeeStatus"
+                        [(ngModel)]="AuditeeStatus"
+                        placeholder="Select Status"
+                        class="form-control"
+                        #AuditeeStatuss="ngModel"	
+                        [ngClass]="{'red-border-class':  AuditeeStatuss.errors && actionForm.submitted }"
+                        required
+                      >
+                        <option value="">Select Status</option>
+                        <option value="inprogress">In Progress</option>
+                        <option value="pending">Pending to be initiated</option>
+                        <option value="completed">Completed</option>
+                      </select>
+                      <div
+                    *ngIf="actionForm.submitted && AuditeeStatuss.invalid"
+                    class="invalid-feedback">
+                    <div  class="text-danger myClass" *ngIf="AuditeeStatuss.errors.required">
+                      Auditee Status is required
+            </div>
+                  </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="control-label">Review Qtr</label>
+                      <input
+                        type="text"
+                        placeholder="Enter Review Qtr"
+                        class="form-control"
+                        [(ngModel)]="ReviewQtr"
+                        id="ReviewQtr"
+                        name="ReviewQtr"
+                        [disabled]="isStackHolder || isAuditee"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="control-label">Obs Number</label>
+                      <input
+                        type="text"
+                        placeholder="Enter Obs Number"
+                        class="form-control"
+                        id="ObsNumber"
+                        name="ObsNumber"
+                        [(ngModel)]="ObsNumber"
+                        [disabled]="isStackHolder || isAuditee"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="control-label"
+                        >Responsibility (Department)</label
+                      >
+                      <input
+                        type="text"
+                        id="ResponsibilityDepartment"
+                        name="ResponsibilityDepartment"
+                        placeholder="Enter Responsibility (Department)"
+                        class="form-control"
+                        [(ngModel)]="ResponsibilityDepartment"
+                        [disabled]="isStackHolder || isAuditee"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="control-label"
+                        >Auditor Implementation Remarks</label
+                      >
+                      <input
+                        type="text"
+                        id="ImplementationRemarks"
+                        name="ImplementationRemarks"
+                        placeholder="Enter Implementation Remarks"
+                        class="form-control"
+                        [(ngModel)]="ImplementationRemarks"
+                        [disabled]="isStackHolder || isAuditee"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label class="control-label">Management Response</label>
+                      <ckeditor
+                        [(ngModel)]="ManagementResponse"
+                        name="ManagementResponse"
+                        [editor]="Editor"
+                      ></ckeditor>
+                    </div>
+                    <!-- [disabled]="isStackHolder || isAuditee" -->
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label class="control-label">Agreed Action Plan</label>
+                      <ckeditor
+                        [(ngModel)]="AgreedActionPlan"
+                        name="AgreedActionPlan"
+                        [editor]="Editor"
+                        [disabled]="isStackHolder || isAuditee"
+                      ></ckeditor>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label class="control-label">Implementation Owner
+                        <span class="required" aria-required="true"> * </span>
+                      </label>
+                      <ng-multiselect-dropdown
+                        [placeholder]="'Select Implementation Owner'"
+                        [data]="shOpts"
+                        [(ngModel)]="selectedImplementationOwnerId"
+                        [settings]="OwnerdropdownSettings"
+                        name="ImplementationOwnerId"
+                        [disabled]="isStackHolder || isAuditee"
+                        #selectedImplementationOwnerIds="ngModel"	
+                        [ngClass]="{'red-border-class':  selectedImplementationOwnerIds.errors && actionForm.submitted }"
+                        required
+                      >
+                      </ng-multiselect-dropdown>
+                      <div
+                  *ngIf="actionForm.submitted && selectedImplementationOwnerIds.invalid"
+                  class="invalid-feedback">
+                  <div  class="text-danger myClass" *ngIf="selectedImplementationOwnerIds.errors.required">
+                    Implementation Owner is required
+					</div>
+                </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label class="control-label">Revised Date </label>
+                      <div class="input-group">
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="Enter Revised Date"
+                          id="RevisedDates"
+                          name="RevisedDates"
+                          placeholder="dd/mm/yyyy"
+                          ngbDatepicker
+                          [(ngModel)]="RevisedDates"
+                          #revisedates="ngbDatepicker"
+                          disabled
+                          [minDate]="CurrentDate"
+                        />
+                        <div class="input-group-btn">
+                          <button
+                            class="btn btn-default calendar"
+                            (click)="revisedates.toggle()"
+                            type="button"
+                          >
+                            <i class="fa fa-calendar"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label class="control-label">Revision Count</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Revision Count"
+                        id="RevisionCount"
+                        name="RevisionCount"
+                        [(ngModel)]="RevisionCount"
+                        readonly
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <hr />
+                  </div>
+
+                  <div class="col-md-12">
+                    <div class="form-group text-right">
+                      <button
+                        [disabled]="isCompleted"
+                        type="button"
+                        class="btn btn-primary"
+                        (click)="addNewAP()"
+                      >
+                        <i class="fa fa-plus"></i> New Action Plan
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="col-md-12">
+                    <table id="FAPTable" class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th>Management Implementation Remarks</th>
+                          <!-- <th>Action Plan</th>
+                          <th>Implementation Owner</th> -->
+                          <th>Revised Date</th>
+                          <th>Files</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-actions text-right mt-30 mb-15">
+                <button
+                  type="submit"
+                  class="btn btn-success"
+                >
+                <!-- [disabled]="isCompleted" -->
+                  <i class="fa fa-save"></i> Save
+                </button>
+
+                <button
+                  type="button"
+                  (click)="backToActionView()"
+                  class="btn btn-default"
+                >
+                  <i class="fa fa-close"></i> Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+</div>
+
+<div
+  class="modal fade"
+  id="manageFollowUpActionPlan"
+  tabindex="-1"
+  data-width="760"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        ></button>
+
+        <h4 class="modal-title" style="font-weight: bold" *ngIf="!isEditAP">
+          <i class="fa fa-plus"></i> &nbsp;New Action Plan
+        </h4>
+
+        <h4 class="modal-title" style="font-weight: bold" *ngIf="isEditAP">
+          <i class="fa fa-edit"></i> &nbsp;Update Action Plan
+        </h4>
+      </div>
+
+      <form
+        name="form"
+        (ngSubmit)="addAP($event) && apForm.form.valid"
+        #apForm="ngForm"
+        novalidate
+      >
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="control-label"
+                  >Management Implementation Remarks</label
+                >
+                <ckeditor
+                  [(ngModel)]="Comments"
+                  name="Comments"
+                  [editor]="Editor"
+                  #managementComments="ngModel"
+                  required
+                  [ngClass]="{
+                    'red-border-class':
+                      managementComments.errors && apForm.submitted
+                  }"
+                ></ckeditor>
+                <div
+                  *ngIf="apForm.submitted && managementComments.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="managementComments.errors.required"
+                  >
+                    Management Implementation Remarks is required
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- <div class="col-md-12">
+              <div class="form-group">
+                <label class="control-label">Action Plan</label>
+                <ckeditor
+                  [disabled]="isStackHolder"
+                  [(ngModel)]="ActionPlan"
+                  name="ActionPlan"
+                  [editor]="Editor"
+                  #actionPlan="ngModel"
+                  required
+                  [ngClass]="{
+                    'red-border-class': actionPlan.errors && apForm.submitted
+                  }"
+                ></ckeditor>
+                <div
+                  *ngIf="apForm.submitted && actionPlan.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="actionPlan.errors.required"
+                  >
+                    Action Plan is required
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label">Implementation Owner</label>
+                <select
+                  [disabled]="isStackHolder"
+                  id="ImplementationOwnerId"
+                  name="ImplementationOwnerId"
+                  [(ngModel)]="ImplementationOwnerId"
+                  placeholder="Select Implementation Owner"
+                  class="form-control"
+                >
+                  <option value="">Select Implementation Owner</option>
+                  <option *ngFor="let user of shOpts" [value]="user.id">
+                    {{ user.firstName }} {{ user.lastName }}
+                  </option>
+                </select>
+              </div>
+            </div> -->
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label"
+                  >Revised Date
+                  <span class="required" aria-required="true"> * </span></label
+                >
+                <div
+                  class="input-group"
+                  [ngClass]="{
+                    'red-border-class': rDate.errors && apForm.submitted
+                  }"
+                >
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Enter Revised Date"
+                    id="RevisedDate"
+                    name="RevisedDate"
+                    placeholder="dd/mm/yyyy"
+                    ngbDatepicker
+                    [(ngModel)]="RevisedDate"
+                    #revisedated="ngbDatepicker"
+                    #rDate="ngModel"
+                    required
+                    readonly
+                    [minDate]="CurrentDate"
+                  />
+                  <div class="input-group-btn">
+                    <button
+                      class="btn btn-default calendar"
+                      (click)="revisedated.toggle()"
+                      type="button"
+                    >
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </div>
+                </div>
+                <div
+                  *ngIf="apForm.submitted && rDate.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="rDate.errors.required"
+                  >
+                    Revised Date is required
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <hr />
+            </div>
+
+            <div class="col-md-12 form-group">
+              <input
+                type="file"
+                #fileInputAP
+                class="hidden"
+                (change)="uploadAPFile()"
+              />
+              <button
+                type="button"
+                class="btn btn-primary pull-right"
+                (click)="fileInputAP.click()"
+              >
+                <i class="fa fa-upload"></i> Upload File
+              </button>
+            </div>
+
+            <div class="col-md-12">
+              <table id="uploadedAPFiles" class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>File</th>
+                    <th>Uploaded Date</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">
+            <i class="fa fa-save"></i> Save
+          </button>
+
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <i class="fa fa-close"></i> Close
+          </button>
+        </div>
+      </form>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+>
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

@@ -1,0 +1,187 @@
+<div id="pl2Component">
+  <div *ngIf="!formVisible" class="form-actions top text-right">
+    <button [disabled]="isStackHolder"
+      type="button"
+      (click)="addProcessLevel2()"
+      class="btn btn-primary"
+      *ngIf="accessRights.isAdd"
+    >
+      <i class="fa fa-plus"></i> New
+    </button>
+  </div>
+
+  <div *ngIf="!formVisible" class="mt-20">
+    <app-table
+      [tableId]="tableId"
+      [tableColumns]="tableColumns"
+      [tableApi]="'api/processl2'"
+      [tableFilters]="tableFilters"
+    ></app-table>
+  </div>
+
+  <div *ngIf="formVisible">
+    <div class="portlet box blue">
+      <div class="portlet-title">
+        <div class="caption"><i class="fa fa-plus"></i> Process L2</div>
+        <div class="tools">
+          <a href="javascript:;" class="collapse"> </a>
+        </div>
+      </div>
+      <div class="portlet-body form">
+        <form
+          (ngSubmit)="saveProcessLevel2($event)"
+          #processlevel2Form="ngForm"
+        >
+          <div class="form-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label"
+                    >Select Business Cycle
+                    <span class="text-danger">*</span></label
+                  >
+                  <select
+                    #businessCycleIds="ngModel"
+                    id="businessCycle"
+                    name="BusinessCycleId"
+                    placeholder="Select Business Cycle"
+                    (change)="getProcessLevel2Opts()"
+                    class="form-control"
+                    [(ngModel)]="businessCycleId"
+                    required
+                    [ngClass]="{
+                      'red-border-class': businessCycleIds.errors && submitted
+                    }"
+                  >
+                    <option value="">Select Business Cycle</option>
+                    <option
+                      *ngFor="let businessCycle of businessCycleOptions"
+                      [value]="businessCycle.id"
+                    >
+                      {{ businessCycle.name }}
+                    </option>
+                  </select>
+                  <div
+                    *ngIf="
+                      processlevel2Form.submitted && businessCycleIds.invalid
+                    "
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger"
+                      *ngIf="businessCycleIds.errors.required"
+                    >
+                      Business Cycle is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label class="control-label"
+                  >Select Process Level 1
+                  <span class="text-danger">*</span></label
+                >
+                <select
+                  #processlevel1Ids="ngModel"
+                  id="processL1Id"
+                  name="ProcessL1Id"
+                  placeholder="Select Process Level 1"
+                  class="form-control"
+                  [(ngModel)]="processlevel1Id"
+                  [ngClass]="{
+                    'red-border-class': processlevel1Ids.errors && submitted
+                  }"
+                  required
+                >
+                  <option value="">Select Process Level 1</option>
+                  <option
+                    *ngFor="let processlevel1 of processlevel1Options"
+                    [value]="processlevel1.id"
+                  >
+                    {{ processlevel1.name }}
+                  </option>
+                </select>
+                <div
+                  *ngIf="
+                    processlevel2Form.submitted && processlevel1Ids.invalid
+                  "
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger"
+                    *ngIf="processlevel1Ids.errors.required"
+                  >
+                    Process Level 1 is required
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label"
+                    >Process Level 2 <span class="text-danger">*</span></label
+                  >
+                  <input
+                    #processlevel2Names="ngModel"
+                    type="text"
+                    id="processlevel2name"
+                    name="Name"
+                    placeholder="Enter Process L2 Name"
+                    [(ngModel)]="processlevel2Name"
+                    class="form-control"
+                    ngModel
+                    [ngClass]="{
+                      'red-border-class': processlevel2Names.errors && submitted
+                    }"
+                    required
+                  />
+                  <div
+                    *ngIf="
+                      processlevel2Form.submitted && processlevel2Names.invalid
+                    "
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger"
+                      *ngIf="processlevel2Names.errors.required"
+                    >
+                      Process Level 2 is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Select Process Model</label>
+                                    <select id="model" placeholder="Select Process Model" name="ProcessModel" class="form-control" [(ngModel)]="model">
+                                        <option value="">Select Process Model</option>
+                                        <option value="centralized">Centralized</option>
+                                        <option value="decentralised">Decentralised</option>
+                                    </select>
+                                </div>
+                            </div> -->
+            </div>
+          </div>
+          <div class="form-actions">
+            <div class="row">
+              <div class="col-md-22 text-right">
+                <button type="submit" class="btn btn-success">
+                  <i class="fa fa-save"></i> Save
+                </button>
+                <button
+                  type="button"
+                  (click)="cancelAddEdit($event)"
+                  class="btn btn-default"
+                >
+                  <i class="fa fa-close"></i> Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,159 @@
+<div class="col-md-12">
+  <div *ngIf="!formVisible" class="form-actions top text-right">
+    <button type="button" class="btn btn-primary">
+      <i class="fa fa-download"></i> Download Controls
+    </button>
+    <button type="button" class="btn btn-primary">
+      <i class="fa fa-upload"></i> Upload Controls
+    </button>
+    <button type="button" (click)="addControls()" class="btn btn-primary">
+      <i class="fa fa-pluse"></i> New Controls
+    </button>
+  </div>
+  <div *ngIf="!formVisible" class="mt-20">
+    <app-table
+      [tableId]="tableId"
+      [tableScroll]="true"
+      [tableColumns]="tableColumns"
+      [tableData]="tableData"
+      [tableFilters]="tableFilters"
+    ></app-table>
+  </div>
+  <div *ngIf="formVisible">
+    <div class="portlet box blue">
+      <div class="portlet-title">
+        <div class="caption"><i class="fa fa-plus"></i> Controls</div>
+        <div class="tools">
+          <a href="javascript:;" class="collapse"> </a>
+        </div>
+      </div>
+      <div class="portlet-body form">
+        <form (onSubmit)="saveControls($event)" #controlsForm="ngForm">
+          <div class="form-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label class="control-label">Control Title</label>
+                  <input
+                    type="text"
+                    id="controltitle"
+                    placeholder="Enter Control Title"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">Control ID</label>
+                  <input
+                    type="text"
+                    id="controlid"
+                    placeholder="Enter Control ID"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">Control Type</label>
+                  <select
+                    id="controltype"
+                    placeholder="Select Rating"
+                    class="form-control"
+                  >
+                    <option value="">Select Control Type</option>
+                    <option value="">Financial</option>
+                    <option value="">Operational</option>
+                    <option value="">Financial Reporting</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label">Control Nature</label>
+                  <select
+                    id="controlnature"
+                    placeholder="Select Rating"
+                    class="form-control"
+                  >
+                    <option value="">Select Control Nature</option>
+                    <option value="">Automated</option>
+                    <option value="">Manual</option>
+                    <option value="">IT Dependent</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label">Control Frequency</label>
+                  <select
+                    id="controlfreq"
+                    placeholder="Select Rating"
+                    class="form-control"
+                  >
+                    <option value="">Select Control Type</option>
+                    <option value="">Event Driven</option>
+                    <option value="">Annual</option>
+                    <option value="">Semi Annual</option>
+                    <option value="">Quarterly</option>
+                    <option value="">Monthly</option>
+                    <option value="">Weekly</option>
+                    <option value="">Daily</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label">Control Owner</label>
+                  <select
+                    id="controlowner"
+                    placeholder="Select Rating"
+                    class="form-control"
+                  >
+                    <option value="">Select Control Owner</option>
+                    <option value="">Mr Sambhaji More</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label class="control-label">Control Description</label>
+                  <textarea
+                    id="controldesc"
+                    placeholder="Enter Control Description"
+                    class="form-control"
+                    required
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-actions">
+            <div class="row">
+              <div class="col-md-12 text-right">
+                <button type="submit" class="btn btn-success">
+                  <i class="fa fa-save"></i> Save
+                </button>
+                <button
+                  type="button"
+                  (click)="cancelAddEdit($event)"
+                  class="btn btn-default"
+                >
+                  <i class="fa fa-close"></i> Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

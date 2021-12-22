@@ -1,0 +1,444 @@
+<div class="page-content">
+  <div class="page-bar">
+    <ul class="page-breadcrumb">
+      <li>
+        <a href="javascript:void(0)">Home</a>
+        <i class="fa fa-circle"></i>
+      </li>
+      <li>
+        <span>Manage Audits</span>
+      </li>
+    </ul>
+    <button
+      type="button"
+      class="btn btn-default pull-right"
+      style="margin-top: 4px"
+      (click)="backToAuditForm()"
+    >
+      <i class="fa fa-arrow-left"></i> Back to Audit View
+    </button>
+  </div>
+
+  <div class="row pt-30">
+    <div class="col-lg-12 col-md-12">
+      <div class="portlet box blue">
+        <div class="portlet-title">
+          <div class="caption"><i class="fa fa-plus"></i> New Audit</div>
+          <div class="tools">
+            <a href="javascript:;" class="collapse"> </a>
+          </div>
+        </div>
+        <div class="portlet-body">
+          <!-- BEGIN FORM-->
+          <form action="#" class="horizontal-form">
+            <div class="tabbable-custom">
+              <ul class="nav nav-tabs">
+                <li class="active">
+                  <a href="#general" data-toggle="tab"> General </a>
+                </li>
+                <li>
+                  <a href="#clientinfo" data-toggle="tab"> Client Info </a>
+                </li>
+                <li>
+                  <a href="#team" data-toggle="tab"> Team </a>
+                </li>
+                <li>
+                  <a href="#auditmap" data-toggle="tab"> Audit Map</a>
+                </li>
+              </ul>
+              <div class="tab-content">
+                <div class="tab-pane active" id="general">
+                  <div class="form-body">
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="control-label"
+                            >Audit Name
+                            <span class="required" aria-required="true">
+                              *
+                            </span></label
+                          >
+                          <input
+                            type="text"
+                            id="auditName"
+                            class="form-control"
+                            placeholder="Enter Audit Name"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="control-label"
+                            >Audit Plan
+                            <span class="required" aria-required="true">
+                              *
+                            </span></label
+                          >
+                          <select
+                            class="form-control"
+                            id="auditPlan"
+                            placeholder="Select Audit Plan"
+                          >
+                            <option value="">Select Audit Plan</option>
+                            <option value="">Audit Plan 1</option>
+                            <option value="">Audit Plan 2</option>
+                            <option value="">Audit Plan 3</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="control-label"
+                            >Audit Unit
+                            <span class="required" aria-required="true">
+                              *
+                            </span></label
+                          >
+                          <input
+                            type="text"
+                            id="client_auditUnit"
+                            class="form-control"
+                            placeholder="Enter Audit Unit"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <!--/row-->
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="control-label"
+                            >Company
+                            <span class="required" aria-required="true">
+                              *
+                            </span></label
+                          >
+                          <input
+                            type="text"
+                            id="company"
+                            class="form-control"
+                            placeholder="Enter Company"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="control-label"
+                            >Location
+                            <span class="required" aria-required="true">
+                              *
+                            </span></label
+                          >
+                          <input
+                            type="text"
+                            id="location"
+                            class="form-control"
+                            placeholder="Enter Location"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="control-label"
+                            >Coverage Frequency
+                            <span class="required" aria-required="true">
+                              *
+                            </span></label
+                          >
+                          <select
+                            class="form-control"
+                            id="auditPlan"
+                            placeholder="Select Coverage Frequency"
+                          >
+                            <option value="">Select Coverage Frequency</option>
+                            <option value="">High</option>
+                            <option value="">Medium</option>
+                            <option value="">Low</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="control-label"
+                            >Audit Period Start Date
+                            <span class="required" aria-required="true">
+                              *
+                            </span></label
+                          >
+                          <div class="input-group">
+                            <input
+                              type="text"
+                              id="auditperiod"
+                              class="form-control"
+                              placeholder="dd/mm/yyyy"
+                              name="auditperiod"
+                              [(ngModel)]="auditperiod"
+                              ngbDatepicker
+                              #auditStartDate="ngbDatepicker"
+                              readonly
+                            />
+                            <div class="input-group-btn">
+                              <button
+                                class="btn btn-default calendar"
+                                (click)="auditStartDate.toggle()"
+                                type="button"
+                              >
+                                <i class="fa fa-calendar"></i>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="control-label"
+                            >Audit Period End Date
+                            <span class="required" aria-required="true">
+                              *
+                            </span></label
+                          >
+                          <div class="input-group">
+                            <input
+                              type="text"
+                              id="auditperiod"
+                              class="form-control"
+                              placeholder="dd/mm/yyyy"
+                              name="auditperiod"
+                              [(ngModel)]="auditperiod"
+                              ngbDatepicker
+                              #auditEndDate="ngbDatepicker"
+                              readonly
+                            />
+                            <div class="input-group-btn">
+                              <button
+                                class="btn btn-default calendar"
+                                (click)="auditEndDate.toggle()"
+                                type="button"
+                              >
+                                <i class="fa fa-calendar"></i>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane" id="team">
+                  <div class="form-body">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="control-label"
+                            >Audit Manager
+                            <span class="required" aria-required="true">
+                              *
+                            </span></label
+                          >
+                          <select
+                            class="form-control"
+                            id="auditMgr"
+                            placeholder="Select Audit Manager"
+                          >
+                            <option value="">Select Audit Manager</option>
+                            <option value="">User 1</option>
+                            <option value="">User 2</option>
+                            <option value="">User 3</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="control-label"
+                            >Team Members
+                            <span class="required" aria-required="true">
+                              *
+                            </span></label
+                          >
+                          <input
+                            type="text"
+                            id="alltm"
+                            class="form-control"
+                            placeholder="Selected Team Members"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <hr />
+                    <div class="row">
+                      <div class="col-md-8">
+                        <div class="form-group">
+                          <label class="control-label"
+                            >Select Team Member</label
+                          >
+                          <select
+                            id="TeamMember"
+                            placeholder="Select Team Member"
+                            class="form-control"
+                          >
+                            <option value="">Select Team Member</option>
+                            <option value="">User 1</option>
+                            <option value="">User 2</option>
+                            <option value="">User 3</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <div class="form-group text-right">
+                            <label class="control-label">&nbsp;</label><br />
+                            <button type="button" class="btn btn-primary">
+                              <i class="fa fa-plus"></i> New Team Member
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane" id="clientinfo">
+                  <div class="form-body">
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="control-label"
+                            >Head of Department
+                            <span class="required" aria-required="true">
+                              *
+                            </span></label
+                          >
+                          <input
+                            type="text"
+                            id="client_hod"
+                            class="form-control"
+                            placeholder="Enter HOD Name"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="control-label"
+                            >Head of Department Email<span
+                              class="required"
+                              aria-required="true"
+                            >
+                              *
+                            </span></label
+                          >
+                          <input
+                            type="text"
+                            id="client_hod_email"
+                            class="form-control"
+                            placeholder="Enter HOD Email"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="control-label"
+                            >Head of Department Contact</label
+                          >
+                          <input
+                            type="text"
+                            id="client_hod_contact"
+                            class="form-control"
+                            placeholder="Enter HOD Contact"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="control-label"
+                            >Engagement Coordinator
+                            <span class="required" aria-required="true">
+                              *
+                            </span></label
+                          >
+                          <input
+                            type="text"
+                            id="client_ec"
+                            class="form-control"
+                            placeholder="Enter Engagement Coordinator Name"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="control-label"
+                            >Engagement Coordinator Email
+                            <span class="required" aria-required="true">
+                              *
+                            </span></label
+                          >
+                          <input
+                            type="text"
+                            id="client_ec_email"
+                            class="form-control"
+                            placeholder="Enter Engagement Coordinator Email"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="control-label"
+                            >Engagement Coordinator Contact
+                          </label>
+                          <input
+                            type="text"
+                            id="client_ec_contact"
+                            class="form-control"
+                            placeholder="Enter Engagement Coordinator contact"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane" id="auditmap">
+                  <app-table
+                    [tableId]="'audit_table'"
+                    [tableColumns]="auditColumns"
+                    [tableData]="auditMapData"
+                    [tableFilters]="tableFilters"
+                  ></app-table>
+                </div>
+              </div>
+            </div>
+            <div class="form-actions text-center mt-30 mb-15">
+              <button type="submit" class="btn btn-success">
+                <i class="fa fa-save"></i> Save
+              </button>
+              <button type="submit" class="btn btn-success">
+                <i class="fa fa-save"></i> Save Draft
+              </button>
+              <button
+                type="button"
+                (click)="backToAuditForm()"
+                class="btn btn-default"
+              >
+                <i class="fa fa-close"></i> Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="clearfix"></div>
+</div>

@@ -1,0 +1,169 @@
+<div class="page-content">
+  <div class="page-bar">
+    <ul class="page-breadcrumb">
+      <li>
+        <a href="javascript:void(0)">Home</a>
+        <i class="fa fa-circle"></i>
+      </li>
+      <li>
+        <span>Scheduling</span>
+      </li>
+    </ul>
+    <button
+      type="button"
+      class="btn btn-primary pull-right"
+      style="margin-top: 4px"
+      (click)="addSchedule()"
+    >
+      <i class="fa fa-plus"></i> New Schedule
+    </button>
+  </div>
+
+  <div class="row pt-30">
+    <div class="col-lg-12 col-xs-12 col-sm-12 mb-20">
+      <form class="horizontal-form">
+        <div class="form-body">
+          <div class="row">
+            <div class="col-md-3">
+              <div class="input-group">
+                <span class="input-group-addon">
+                  <i class="fa fa-filter"></i>
+                </span>
+                <select
+                  class="form-control"
+                  id="company"
+                  placeholder="Select Company"
+                >
+                  <option value="">All Companies</option>
+                  <option value="">Tata Chemical Limited</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="input-group">
+                <span class="input-group-addon">
+                  <i class="fa fa-filter"></i>
+                </span>
+                <select
+                  class="form-control"
+                  id="location"
+                  placeholder="Select Location"
+                >
+                  <option value="">All Location</option>
+                  <option value="">Mithapur</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="input-group">
+                <span class="input-group-addon">
+                  <i class="fa fa-filter"></i>
+                </span>
+                <select
+                  class="form-control"
+                  id="audit"
+                  placeholder="Select Audit"
+                >
+                  <option value="">All Audits</option>
+                  <option value="">Procure To Pay</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="input-group">
+                <span class="input-group-addon">
+                  <i class="fa fa-filter"></i>
+                </span>
+                <select
+                  class="form-control"
+                  id="quarters"
+                  placeholder="Select Quarter"
+                >
+                  <option value="">All Quarters</option>
+                  <option value="">Q1</option>
+                  <option value="">Q2</option>
+                  <option value="">Q3</option>
+                  <option value="">Q4</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+      <a class="dashboard-stat dashboard-stat-v2 blue">
+        <div class="visual">
+          <i class="fa fa-comments"></i>
+        </div>
+        <div class="details">
+          <div class="number">
+            <span data-counter="counterup" data-value="1">1</span>
+          </div>
+          <div class="desc">All Schedules</div>
+        </div>
+      </a>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+      <a class="dashboard-stat dashboard-stat-v2 red">
+        <div class="visual">
+          <i class="fa fa-bar-chart-o"></i>
+        </div>
+        <div class="details">
+          <div class="number">
+            <span data-counter="counterup" data-value="1">1</span>
+          </div>
+          <div class="desc">Approved Schedules</div>
+        </div>
+      </a>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+      <a class="dashboard-stat dashboard-stat-v2 green">
+        <div class="visual">
+          <i class="fa fa-shopping-cart"></i>
+        </div>
+        <div class="details">
+          <div class="number">
+            <span data-counter="counterup" data-value="0">0</span>
+          </div>
+          <div class="desc">Pending Approval</div>
+        </div>
+      </a>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+      <a class="dashboard-stat dashboard-stat-v2 purple">
+        <div class="visual">
+          <i class="fa fa-globe"></i>
+        </div>
+        <div class="details">
+          <div class="number">
+            <span data-counter="counterup" data-value="0">0</span>
+          </div>
+          <div class="desc">Drafts</div>
+        </div>
+      </a>
+    </div>
+    <div class="col-lg-12 col-xs-12 col-sm-12" #dataDiv>
+      <div class="portlet light bordered">
+        <div class="portlet-title tabbable-line">
+          <div class="caption">
+            <i class="icon-clock font-dark"></i>
+            <span class="caption-subject font-dark bold uppercase"
+              >All Schedules</span
+            >
+          </div>
+        </div>
+        <div class="portlet-body">
+          <app-table
+            [tableId]="'schedule_table'"
+            [tableColumns]="tableColumnsScheduling"
+            [tableData]="tableData_scheduling"
+            [tableFilters]="tableFilters"
+          ></app-table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="clearfix"></div>
+</div>

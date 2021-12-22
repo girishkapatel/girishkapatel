@@ -1,0 +1,51 @@
+.red-border-class {
+  border: 1px solid red;
+}
+
+.myClass {
+  font-weight: bold;
+}
+
+.highlight {
+  background-color: lightgreen;
+}
+
+.highlight .widget-thumb-subtitle,
+.highlight .widget-thumb-body-stat {
+  color: #fff;
+}
+
+.bg-red-main {
+  background-color: #ff4136;
+  color: #fff !important;
+}
+
+.bg-red-main span {
+  color: #fff !important;
+}
+.bg-marun-main {
+  background-color: #8B0000;
+  color: #fff !important;
+}
+
+.bg-marun-main span {
+  color: #fff !important;
+}
+
+.bg-yellow-main {
+  background-color: #ffe600;
+  color: #fff !important;
+}
+
+.bg-yellow-main span {
+  color: #fff !important;
+}
+
+.bg-green-main {
+  background-color: #2db757;
+  color: #fff !important;
+}
+
+.bg-green-main span {
+  color: #fff !important;
+}

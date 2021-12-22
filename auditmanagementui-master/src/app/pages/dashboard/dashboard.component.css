@@ -1,0 +1,98 @@
+#quickview{
+    position: absolute;
+    background: #ededed;
+    width: 300px;
+    z-index: 99;
+    padding: 0px 10px 0px 10px !important;
+    left:15px
+}
+
+.position-relative{
+    position:relative;
+}
+.dashboard-title{
+    position:absolute;
+    width:50%;
+    top:-35px;
+    left: 25%;
+}
+
+.dashboard-title h2{
+    font-size:24px;
+}
+
+#quickview .portlet-title {
+    margin:0px;
+    min-height:30px;
+    padding: 3px 0px 0px 0px !important;
+}
+
+#quickview .caption {
+    padding: 5px 0;
+}
+#quickview .tools{
+    padding: 5px 0 5px;
+}
+#quickview .caption-subject {
+    font-size:14px;
+}
+
+#quickview .caption i {
+    font-size:13px;
+}
+
+.scroller{
+   overflow-y:auto;
+}
+
+.quickview-content{
+    margin-bottom:5px;   
+}
+
+.quickview-content .quickview-heading{
+   font-size: 11px;
+    padding: 3px 0px 3px 0px;
+    border-bottom: 1px solid #828282;
+    margin-bottom:5px;
+    font-weight:bold;   
+}
+
+.quickview-content .quickview-item{
+    font-size:11px;
+    padding: 3px 0px 3px 0px;
+    line-height: 12px;
+}
+
+.quickview-content .quickview-item span{
+    background: #fff;
+    width: 50px;
+    text-align: center;
+}
+
+.portlet.light{
+    padding:5px 10px 5px 10px;
+    margin-bottom: 15px;
+}
+.portlet-title{
+    padding:0 !important;
+    margin:0;
+    min-height: 35px !important;
+    border:none !important
+}
+
+.portlet-body{
+    border-top: 1px solid #eef1f5;
+    overflow-x:auto;
+}
+
+.portlet-body table{
+    margin-top:10px;
+}
+
+.quickview-item.break {
+    margin-bottom: 9px;
+}
+.m-r-5 {
+    margin: 5px;
+  }
+ 

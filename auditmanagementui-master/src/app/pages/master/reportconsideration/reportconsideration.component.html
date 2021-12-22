@@ -1,0 +1,126 @@
+<div id="reportconsiderationComponent">
+  <div class="portlet light">
+    <div class="portlet-title">
+      <div class="caption">
+        <span class="caption-subject bold uppercase">Report Consideration</span>
+      </div>
+
+      <div class="actions">
+        <button [disabled]="isStackHolder"
+          type="button"
+          (click)="addRC()"
+          class="btn btn-primary"
+          *ngIf="accessRights.isAdd"
+        >
+          <i class="fa fa-plus"></i> New
+        </button>
+      </div>
+    </div>
+
+    <div class="portlet-body">
+      <app-table
+        [tableId]="reportConsideration_table"
+        [tableColumns]="tableColumns"
+        [tableScroll]="true"
+        [tableApi]="'api/reportconsideration'"
+        [tableFilters]="tableFilters"
+      ></app-table>
+    </div>
+  </div>
+</div>
+
+<form name="form" #reportConsiderationsForm="ngForm" novalidate>
+  <div
+    class="modal fade"
+    id="manageRCModal"
+    tabindex="-1"
+    data-width="760"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header" *ngIf="!isEdit">
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-hidden="true"
+          ></button>
+          <h4 class="modal-title" style="font-weight: bold">
+            <i class="fa fa-plus"></i> &nbsp;New Report Consideration
+          </h4>
+        </div>
+        <div class="modal-header" *ngIf="isEdit">
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-hidden="true"
+          ></button>
+          <h4 class="modal-title" style="font-weight: bold">
+            <i class="fa fa-edit"></i> &nbsp;Update Report Consideration
+          </h4>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="control-label"
+              >Report Consideration Name<span class="text-danger"
+                >*</span
+              ></label
+            >
+            <input
+              #rcNames="ngModel"
+              type="text"
+              id="rcName"
+              name="rcName"
+              [(ngModel)]="rcName"
+              placeholder="Enter report considertaion name"
+              class="form-control"
+              required
+              ngModel
+              [ngClass]="{
+                'red-border-class': rcNames.errors && submitted
+              }"
+            />
+            <div *ngIf="submitted && rcNames.errors" class="invalid-feedback">
+              <div class="text-danger" *ngIf="submitted && rcNames.errors">
+                Report Consideration Name is required
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-success"
+            (click)="saveRC()"
+            *ngIf="!isEdit"
+          >
+            <i class="fa fa-save"></i> Save
+          </button>
+          <button
+            type="button"
+            class="btn btn-success"
+            (click)="saveRC()"
+            *ngIf="isEdit"
+          >
+            <i class="fa fa-save"></i> Save
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-default"
+            data-dismiss="modal"
+            (click)="cancelAddEdit($event)"
+          >
+            <i class="fa fa-close"></i> Close
+          </button>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+</form>

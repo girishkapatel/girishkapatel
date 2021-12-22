@@ -1,0 +1,779 @@
+<div class="page-content">
+  <div class="page-bar">
+    <ul class="page-breadcrumb">
+      <li>
+        <a routerLink="./pages/dashboard">Home</a>
+        <i class="fa fa-circle"></i>
+      </li>
+      <li>
+        <span>Dashboard</span>
+      </li>
+    </ul>
+    <div
+      id="dashboard-report-range"
+      class="pull-right tooltips btn btn-fit-height blue"
+      style="margin-top: 4px"
+      data-placement="top"
+      data-original-title="Change dashboard date range"
+    >
+      <i class="icon-calendar"></i>&nbsp;
+      <span class="thin uppercase hidden-xs"></span>&nbsp;
+      <i class="fa fa-angle-down"></i>
+    </div>
+    <button
+      [ngClass]="{ hide: !showDetails }"
+      type="button"
+      class="btn btn-default pull-right"
+      style="margin-top: 4px; margin-right: 10px"
+      (click)="showMap()"
+    >
+      <i class="fa fa-arrow-left"></i> Back to Map
+    </button>
+  </div>
+
+  <div class="row pt-10 position-relative" [ngClass]="{ hide: showDetails }">
+    <div class="text-center mb-20 dashboard-title">
+      <h2 class="nmt">Overall Audit View</h2>
+    </div>
+    <div class="pull-right mr-20">
+      <div class="btn-group mr-10">
+        <a
+          href=""
+          class="btn btn-circle grey-salsa btn-sm dropdown-toggle"
+          data-toggle="dropdown"
+          data-hover="dropdown"
+          data-close-others="true"
+        >
+          {{ this.BusinessUnitTitle }}
+          <span class="fa fa-angle-down"> </span>
+        </a>
+        <ul class="dropdown-menu pull-right">
+          <li>
+            <a 
+              (click)="
+                this.BusinessUnitTitle = 'All Sectors'; this.BusinessUnit = '';getDashboardData();
+              "
+            >
+              All Sectors
+            </a>
+          </li>
+          <li *ngFor="let unit of BusinessUnitData">
+            <a
+              (click)="
+                this.BusinessUnitTitle = unit.name; this.BusinessUnit = unit.id;getDashboardData();
+              "
+              >{{ unit.name }}</a
+            >
+          </li>
+        </ul>
+      </div>
+      <div class="btn-group">
+        <a
+          href=""
+          class="btn btn-circle grey-salsa btn-sm dropdown-toggle"
+          data-toggle="dropdown"
+          data-hover="dropdown"
+          data-close-others="true"
+        >
+          {{ this.CountryTitle }}
+          <span class="fa fa-angle-down"> </span>
+        </a>
+        <ul class="dropdown-menu pull-right">
+          <li>
+            <a (click)="this.CountryTitle = 'All Countries'; this.Country = '';getDashboardData();">
+              All Countries
+            </a>
+          </li>
+          <li *ngFor="let data of CountryData">
+            <a (click)="this.CountryTitle = data.name; this.Country = data.id;getDashboardData();">
+              {{ data.name }}
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="btn-group ml-10">
+        <a
+          href=""
+          class="btn btn-circle grey-salsa btn-sm dropdown-toggle"
+          data-toggle="dropdown"
+          data-hover="dropdown"
+          data-close-others="true"
+        >
+          {{ this.CompanyTitle }}
+          <span class="fa fa-angle-down"> </span>
+        </a>
+        <ul class="dropdown-menu pull-right">
+          <li>
+            <a (click)="this.CompanyTitle = 'All Companies'; this.Company = '';getDashboardData();">
+              All Companies
+            </a>
+          </li>
+          <li *ngFor="let data of CompanyData">
+            <a (click)="this.CompanyTitle = data.name; this.Company = data.id;getDashboardData();">
+              {{ data.name }}
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="btn-group ml-10">
+        <a
+          href=""
+          class="btn btn-circle grey-salsa btn-sm dropdown-toggle"
+          data-toggle="dropdown"
+          data-hover="dropdown"
+          data-close-others="true"
+        >
+          {{ this.CriticalityTitle }}
+          <span class="fa fa-angle-down"> </span>
+        </a>
+        <ul class="dropdown-menu pull-right">
+          <li>
+            <a
+              (click)="
+                this.CriticalityTitle = 'All Criticality'; this.Criticality = ''
+              ;getDashboardData();"
+            >
+              All Criticality
+            </a>
+          </li>
+          <li *ngFor="let data of CriticalityData">
+            <a (click)="this.CriticalityTitle = data; this.Criticality = data;getDashboardData();">
+              {{ data }}
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- <div class="btn-group ml-10">
+        <a
+          href="javascript:void(0)"
+          (click)="getDashboardData()"
+          class="btn btn-circle red btn-sm"
+        >
+          <span class="fa fa-search"> </span
+        ></a>
+      </div> -->
+    </div>
+    <!-- BEGIN Portlet PORTLET-->
+    <div id="quickview" class="portlet light">
+      <div class="portlet-title">
+        <div class="caption">
+          <i class="icon-eye"></i>
+          <span class="caption-subject bold uppercase"> Quick View</span>
+        </div>
+        <div class="tools">
+          <a href="" class="expand"> </a>
+        </div>
+      </div>
+      <div class="portlet-body" style="display: none">
+        <div
+          class="scroller"
+          data-rail-visible="1"
+          data-rail-color="yellow"
+          data-handle-color="#a1b2bd"
+        >
+          <div class="row">
+            <div class="col-md-12 quickview-content">
+              <div class="quickview-heading">Audit Execution</div>
+              <div class="quickview-item">
+                Audit To Be Initiated
+                <span class="pull-right">{{
+                  this.auditOverview.auditExecution.auditInitiated
+                }}</span>
+              </div>
+              <div class="quickview-item">
+                Audit In Progress
+                <span class="pull-right">{{
+                  this.auditOverview.auditExecution.auditPending
+                }}</span>
+              </div>
+              <div class="quickview-item">
+                Audit Completed
+                <span class="pull-right">{{
+                  this.auditOverview.auditExecution.auditCompleted
+                }}</span>
+              </div>
+              <!-- <div class="quickview-item">
+                Completed With Delay
+                <span class="pull-right">{{
+                  this.auditOverview.auditExecution.completedWithDelayed
+                }}</span>
+              </div> -->
+              <div class="quickview-item">
+                Audit Overdue
+                <span class="pull-right">{{
+                  this.auditOverview.auditExecution.overdue
+                }}</span>
+              </div>
+              <div class="quickview-item">
+                Audit Unplanned
+                <span class="pull-right">{{
+                  this.auditOverview.auditExecution.unPlannedAudit
+                }}</span>
+              </div>
+            </div>
+            <div class="col-md-12 quickview-content">
+              <div class="quickview-heading">Action Taken</div>
+              <div class="quickview-item">
+                Action In Progress
+                <span class="pull-right">{{
+                  this.auditOverview.actionTaken.auditRequired
+                }}</span>
+              </div>
+              <div class="quickview-item">
+                 Action Due Today
+                <span class="pull-right">{{
+                  this.auditOverview.actionTaken.dueToday
+                }}</span>
+              </div>
+              <div class="quickview-item">
+                Actions Overdue
+               <span class="pull-right">{{
+                 this.auditOverview.actionTaken.delayed
+               }}</span>
+             </div>
+             <div class="quickview-item">
+              Actions Not Due
+             <span class="pull-right">{{
+               this.auditOverview.actionTaken.notdue
+             }}</span>
+           </div>
+              <div class="quickview-item">
+                Actions Completed
+                <span class="pull-right">{{
+                  this.auditOverview.actionTaken.completed
+                }}</span>
+              </div>
+              <div class="quickview-item">
+                Actions with Revised Timelines
+                <span class="pull-right">{{
+                  this.auditOverview.actionTaken.revisedTimeline
+                }}</span>
+              </div>
+            </div>
+
+            <div class="col-md-12 quickview-content">
+              <div class="quickview-heading">Value Scorecard</div>
+              <div class="quickview-item">
+                Potential Saving (in Lacs)
+                <span class="pull-right">{{
+                  this.auditOverview.valueScorecard.potentialSaving
+                }}</span>
+              </div>
+              <div class="quickview-item">
+                Enhancement (Process/IT)
+                <span class="pull-right">{{
+                  this.auditOverview.valueScorecard.enhancement
+                }}</span>
+              </div>
+              <div class="quickview-item">
+                Best Practices
+                <span class="pull-right">{{
+                  this.auditOverview.valueScorecard.bestPractices
+                }}</span>
+              </div>
+            </div>
+
+            <div class="col-md-12 quickview-content">
+              <div class="quickview-heading">Assurance / process health</div>
+              <div class="quickview-item">
+                Red Flags
+                <span class="pull-right">{{
+                  this.auditOverview.assurance.redFlags
+                }}</span>
+              </div>
+              <div class="quickview-item">
+                Statutory Default
+                <span class="pull-right">{{
+                  this.auditOverview.assurance.statutoryDefault
+                }}</span>
+              </div>
+              <div class="quickview-item">
+                High Rated Observations
+                <span class="pull-right">{{
+                  this.auditOverview.assurance.highRatedObservations
+                }}</span>
+              </div>
+              <div class="quickview-item">
+                Repeat Observations
+                <span class="pull-right">{{
+                  this.auditOverview.assurance.repeatObservations
+                }}</span>
+              </div>
+              <div class="quickview-item">
+                Controls OK Report
+                <span class="pull-right">{{
+                  this.auditOverview.assurance.controlsReport
+                }}</span>
+              </div>
+            </div>
+
+            <!-- <div class="col-md-12 quickview-content">
+              <div class="quickview-heading">Audit health</div>
+              <div class="quickview-item">
+                On Time Compilation
+                <span class="pull-right">{{
+                  this.auditOverview.auditHealth.onTimeCompilation
+                }}</span>
+              </div>
+              <div class="quickview-item">
+                Data Challenges
+                <span class="pull-right"
+                  >{{ this.auditOverview.auditHealth.dataChallenge }}%</span
+                >
+              </div>
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END Portlet PORTLET-->
+    <div class="col-md-12 mt-30">
+      <div id="vmap_world" class="vmaps"></div>
+    </div>
+  </div>
+
+  <div class="row pt-20" [ngClass]="{ hide: !showDetails }">
+    <!-- <div class="col-lg-4 col-xs-12 col-sm-12 mb-20">
+            <h2 class="nmt">{{BusinessUnitTitle}}</h2>  
+        </div>
+        <div class="col-lg-8 col-xs-12 col-sm-12 mb-20">
+            <form class="horizontal-form">
+                <div class="form-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <select class="form-control" id="company" placeholder="Select Company">
+                                    <option value="">All Companies</option>
+                                    <option value="">Tata Chemical Limited</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <select class="form-control" id="Criticality" placeholder="Select Criticality">
+                                    <option value="">All Critical Levels</option>
+                                    <option value="">High</option>
+                                    <option value="">Medium</option>
+                                    <option value="">Low</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div> -->
+    <div class="col-lg-4 col-xs-12 col-sm-12">
+      <!-- BEGIN REGIONAL STATS PORTLET-->
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption">
+            <i class="icon-bar-chart font-dark hide"></i>
+            <span class="caption-subject font-dark bold uppercase"
+              >Overall Audits</span
+            >
+          </div>
+        </div>
+        <div class="portlet-body">
+          <h4>&nbsp;</h4>
+          <app-charts
+            [chartDataChange]="overallDataChange"
+            chartId="chart1"
+          ></app-charts>
+        </div>
+      </div>
+      <!-- END REGIONAL STATS PORTLET-->
+    </div>
+    <div class="col-lg-4 col-xs-12 col-sm-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption">
+            <i class="icon-bar-chart font-dark hide"></i>
+            <span class="caption-subject font-dark bold uppercase"
+              >Division wise Audits</span
+            >
+          </div>
+          <div class="actions">
+            <div class="btn-group">
+              <select
+                id="chartdivision"
+                name="chartdivision"
+                [(ngModel)]="chartdivision"
+                placeholder="Select Division"
+                (change)="onChartDivisionChange($event)"
+                class="form-control"
+              >
+                <option value="">Overall</option>
+                <option
+                  *ngFor="let division of chartdivisionPopulate"
+                  [value]="division.id"
+                >
+                  {{ division.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="portlet-body">
+          <app-charts
+            [chartDataChange]="divisionDataChange"
+            chartId="chart2"
+          ></app-charts>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4 col-xs-12 col-sm-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption">
+            <i class="icon-bar-chart font-dark hide"></i>
+            <span class="caption-subject font-dark bold uppercase"
+              >Location Wise Audits</span
+            >
+          </div>
+          <div class="actions">
+            <div class="btn-group">
+              <select
+                id="chartlocation"
+                class="form-control"
+                name="chartlocation"
+                (change)="onChartLocationChange($event)"
+                [(ngModel)]="chartlocation"
+              >
+                <option value="" selected>Overall</option>
+                <option
+                  *ngFor="let location of chartlocationPopulate"
+                  [value]="location.value"
+                >
+                  {{ location.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="portlet-body">
+          <app-charts
+            [chartDataChange]="locationDataChange"
+            chartId="chart3"
+          ></app-charts>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12 col-xs-12 col-sm-12" #dataDiv>
+      <div class="portlet light bordered">
+        <div class="portlet-title tabbable-line">
+          <div class="caption">
+            <i class="icon-globe font-dark"></i>
+            <span class="caption-subject font-dark bold uppercase"
+              >Overall Audits Information</span
+            >
+          </div>
+
+          <div class="tools">
+            <a href="" class="expand"> </a>
+          </div>
+        </div>
+
+        <div class="portlet-body" style="overflow-x: auto; display: none">
+          <button
+            type="button"
+            class="btn btn-primary m-r-5 pull-right"
+            (click)="exportToPPT()"
+          >
+            <i class="fa fa-file-pdf-o"></i> Export to PPT
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary m-r-5 pull-right"
+            (click)="exportToPDF()"
+          >
+            <i class="fa fa-file-pdf-o"></i> Export to PDF
+          </button>
+          <table id="table3" class="table table-bordered">
+            <thead>
+              <tr>
+                <!-- <th rowspan="2">Location</th> -->
+                <th rowspan="2">Audit</th>
+                <th rowspan="2">Year</th>
+                <th rowspan="2">Status</th>
+                <th colspan="4" class="text-center">Audit Health</th>
+                <th colspan="2" class="text-center">Action Taken</th>
+                <!-- <th rowspan="2">Actions</th> -->
+              </tr>
+              <tr>
+                <th>Audit rating</th>
+                <th>High rated</th>
+                <th>Red flags</th>
+                <th>Repeat</th>
+                <th>Total</th>
+                <th>Closed (%)</th>
+                <!-- <th>Completed With Delay</th>
+                <th>Overdue</th> -->
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let audit of TableDataForOverAll">
+                <td>
+                  {{
+                    audit.Audit.processLocationMapping
+                      ? audit.Audit.processLocationMapping.auditName
+                      : audit.Audit.audit.auditName
+                  }}
+                </td>
+                <td>
+                  {{
+                    getCurrentFinancialYear(
+                      audit.Audit.auditEndDate,
+                      audit.Audit.auditStartDate
+                    )
+                  }}
+                </td>
+                <!-- <td>{{ audit.Audit.auditEndDate }}</td> -->
+                <td>
+                  {{
+                    audit.Audit.status ? audit.Audit.status : "to be Initiated"
+                  }}
+                </td>
+                <td>{{ audit.Data.assurance.highRatedObservations }}</td>
+                <td>{{ audit.Data.assurance.highRatedObservations }}</td>
+                <td>{{ audit.Data.assurance.redFlags }}</td>
+                <td>{{ audit.Data.assurance.repeatObservations }}</td>
+                <td>{{ audit.Data.actionTaken.auditRequired }}</td>
+                <td>{{ audit.Data.actionTaken.completed }}</td>
+              </tr>
+            </tbody>
+            <!-- <tbody>
+              <tr>
+                 <td></td>  
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>0</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                  {{ this.overallTableData.assurance.highRatedObservations }}
+                </td>
+                <td>{{ this.overallTableData.assurance.redFlags }}</td>
+                <td>
+                  {{ this.overallTableData.assurance.repeatObservations }}
+                </td>
+                <td>{{ this.overallTableData.actionTaken.auditRequired }}</td>
+                <td>{{ this.overallTableData.actionTaken.completed }}</td>  
+               <td>
+                  {{ this.overallTableData.actionTaken.completedWithDelayed }}
+                </td>
+                <td>{{ this.overallTableData.actionTaken.delayed }}</td> 
+                <td>
+                   <button
+                    *ngIf="audit.location !== 'Total'"
+                    type="button"
+                    class="btn yellow viewAudit"
+                  >
+                    <i class="fa fa-arrow-eye"></i> View
+                  </button>  
+                </td>
+              </tr>
+            </tbody> -->
+          </table>
+        </div>
+      </div>
+      <div class="portlet light bordered">
+        <div class="portlet-title tabbable-line">
+          <div class="caption">
+            <i class="icon-globe font-dark"></i>
+            <span class="caption-subject font-dark bold uppercase"
+              >Division Wise Audits Information</span
+            >
+          </div>
+          <div class="tools">
+            <a href="" class="expand"> </a>
+          </div>
+        </div>
+        <div class="portlet-body" style="overflow-x: auto; display: none">
+          <button
+            type="button"
+            class="btn btn-primary m-r-5 pull-right"
+            (click)="exportToDivisionPPT()"
+          >
+            <i class="fa fa-file-pdf-o"></i> Export to PPT
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary m-r-5 pull-right"
+            (click)="exportToDivisionPDF($event)"
+          >
+            <i class="fa fa-file-pdf-o"></i> Export to PDF
+          </button>
+          <table id="table1" class="table table-bordered">
+            <thead>
+              <tr>
+                <th rowspan="2">Business Division</th>
+                <th colspan="5">Audit (#)</th>
+                <th colspan="5">Audit Effectiveness</th>
+                <th colspan="6">Action Taken Report</th>
+                <th colspan="3">Value Scorecard</th>
+              </tr>
+              <tr>
+                <th>Initiated</th>
+                <th>Completed</th>
+                <th>In Progress</th>
+                <th>Overdue</th>
+                <th>Unplanned</th>
+                <th>High risk observations</th>
+                <th>Repeat observations</th>
+                <th>Red flags</th>
+                <th>Statutory defaults</th>
+                <th>Control with no exception</th>
+                <!-- <th>Control with exception</th>
+                                <th>Operating gaps	</th> -->
+                <th>In Progress</th>
+                <th>Due Today</th>
+                <th>Overdue</th>
+                <th>Not due</th>
+                <th>Completed</th>
+                <th>Revised Timelines</th>
+                <th>Saving Potential</th>
+                <th>Enhancement</th>
+                <th>Best Practices</th>
+                <!-- <th>People</th> -->
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let audit of divisionTableData">
+                <td>{{ audit.sector }}</td>
+                <td>{{ audit.auditExecution.auditInitiated }}</td>
+                <td>{{ audit.auditExecution.auditCompleted }}</td>
+                <td>{{ audit.auditExecution.auditPending }}</td>
+                <td>{{ audit.auditExecution.overdue }}</td>
+                <td>{{ audit.auditExecution.unPlannedAudit }}</td>
+                <td>{{ audit.assurance.highRatedObservations }}</td>
+                <td>{{ audit.assurance.repeatObservations }}</td>
+                <td>{{ audit.assurance.redFlags }}</td>
+                <td>{{ audit.assurance.statutoryDefault }}</td>
+                <td>{{ audit.assurance.controlsReport }}</td>
+                <!-- <td>{{audit.sector}}</td>
+                                <td>{{audit.sector}}</td>	 -->
+                <td>{{ audit.actionTaken.auditRequired }}</td>
+                <td>{{ audit.actionTaken.dueToday }}</td>
+                <td>{{ audit.actionTaken.delayed }}</td>
+                <td>{{ audit.actionTaken.notdue }}</td>
+                <td>{{ audit.actionTaken.completed }}</td>
+                <td>{{ audit.actionTaken.revisedTimeline }}</td>
+                <td>{{ audit.valueScorecard.potentialSaving }}</td>
+                <td>{{ audit.valueScorecard.enhancement }}</td>
+                <td>{{ audit.valueScorecard.bestPractices }}</td>
+                <!-- <td>{{audit.sector}}</td>	 -->
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="portlet light bordered">
+        <div class="portlet-title tabbable-line">
+          <div class="caption">
+            <i class="icon-globe font-dark"></i>
+            <span class="caption-subject font-dark bold uppercase"
+              >Location Wise Audits Information
+            </span>
+          </div>
+          <div class="tools">
+            <a href="" class="expand"> </a>
+          </div>
+        </div>
+        <div class="portlet-body" style="overflow-x: auto; display: none">
+          <button
+            type="button"
+            class="btn btn-primary m-r-5 pull-right"
+            (click)="exportToLocationPPT()"
+          >
+            <i class="fa fa-file-pdf-o"></i> Export to PPT
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary m-r-5 pull-right"
+            (click)="exportToLocationPDF()"
+          >
+            <i class="fa fa-file-pdf-o"></i> Export to PDF
+          </button>
+          <table id="table2" class="table table-bordered">
+            <thead>
+              <tr>
+                <th rowspan="2">Location</th>
+                <th colspan="5">Audit (#)</th>
+                <th colspan="5">Audit health</th>
+                <th colspan="6">Action Taken Report</th>
+                <th colspan="3">Value Scorecard</th>
+              </tr>
+              <tr>
+                <th>Initiated</th>
+                <th>Completed</th>
+                <th>In Progress</th>
+                <th>Overdue</th>
+                <th>Unplanned</th>
+                <th>High risk observations</th>
+                <th>Repeat observations</th>
+                <th>Red flags</th>
+                <th>Statutory defaults</th>
+                <th>Control with no exception</th>
+                <!-- <th>Control with exception</th> -->
+                <th>In Progress</th>
+                <th>Due Today</th>
+                <th>Overdue</th>
+                <th>Not due</th>
+                <th>Completed</th>
+                <th>Revised Timelines</th>
+                <th>Saving Potential</th>
+                <th>Process Improvement</th>
+                <th>Reporting Considerations</th>
+                <!-- <th>People</th> -->
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let audit of locationTableData">
+                <td>{{ audit.location }}</td>
+                <td>{{ audit.auditExecution.auditInitiated }}</td>
+                <td>{{ audit.auditExecution.auditCompleted }}</td>
+                <td>{{ audit.auditExecution.auditPending }}</td>
+                <td>{{ audit.auditExecution.overdue }}</td>
+                <td>{{ audit.auditExecution.unPlannedAudit }}</td>
+                <td>{{ audit.assurance.highRatedObservations }}</td>
+                <td>{{ audit.assurance.repeatObservations }}</td>
+                <td>{{ audit.assurance.redFlags }}</td>
+                <td>{{ audit.assurance.statutoryDefault }}</td>
+                <td>{{ audit.assurance.controlsReport }}</td>
+                <!-- <td>{{audit.g}}</td>	 -->
+                <td>{{ audit.actionTaken.auditRequired }}</td>
+                <td>{{ audit.actionTaken.dueToday }}</td>
+                <td>{{ audit.actionTaken.delayed }}</td>
+                <td>{{ audit.actionTaken.notdue }}</td>
+                <td>{{ audit.actionTaken.completed }}</td>
+                <td>{{ audit.actionTaken.revisedTimeline }}</td>
+                <td>{{ audit.valueScorecard.potentialSaving }}</td>
+                <td>{{ audit.valueScorecard.enhancement }}</td>
+                <td>{{ audit.valueScorecard.bestPractices }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="clearfix"></div>
+</div>
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+>
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

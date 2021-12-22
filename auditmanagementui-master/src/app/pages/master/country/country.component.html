@@ -1,0 +1,112 @@
+<div class="col-md-12" id="countryComponent">
+  <div *ngIf="!formVisible" class="form-actions top text-right">
+    <button
+      type="button"
+      (click)="addCountry()"
+      class="btn btn-primary"
+      *ngIf="accessRights.isAdd"
+      [disabled]="isStackHolder"
+    >
+      <i class="fa fa-plus"></i> New
+    </button>
+
+    <button type="button" class="btn btn-primary" (click)="exportCountries()">
+      <i class="fa fa-file-excel-o"></i> Download Excel
+    </button>
+    <button type="button" class="btn btn-primary" (click)="sampleExportCountries()"  [disabled]="isStackHolder">
+      <i class="fa fa-file-excel-o"></i> Sample Excel
+    </button>
+    <input type="file" #fileInput class="hidden" (change)="importExcel()" />
+    <button  [disabled]="isStackHolder"
+      type="button"
+      class="btn btn-primary"
+      (click)="fileInput.click()"
+      *ngIf="accessRights.isEdit"
+    >
+      <i class="fa fa-file-excel-o"></i> Upload Excel
+    </button>
+  </div>
+
+  <div *ngIf="!formVisible" class="mt-20">
+    <app-table
+      [tableId]="tableId"
+      [tableColumns]="tableColumns"
+      [tableApi]="'api/country'"
+      [tableFilters]="tableFilters"
+    ></app-table>
+  </div>
+
+  <div *ngIf="formVisible">
+    <div class="portlet box blue">
+      <div class="portlet-title">
+        <div class="caption"><i class="fa fa-plus"></i> Country</div>
+        <div class="tools">
+          <a href="javascript:;" class="collapse"> </a>
+        </div>
+      </div>
+      <div class="portlet-body form">
+        <form (ngSubmit)="saveCountry($event)" #countryForm="ngForm" novalidate>
+          <div class="form-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">Country Name</label>
+                  <span class="text-danger">*</span>
+                  <input
+                    type="text"
+                    id="countryname"
+                    name="Name"
+                    placeholder="Enter Country Name"
+                    #countryNames="ngModel"
+                    [(ngModel)]="countryName"
+                    class="form-control"
+                    [ngClass]="{
+                      'red-border-class': countryNames.errors && submitted
+                    }"
+                    required
+                    ngModel
+                  />
+                  <div
+                    *ngIf="countryForm.submitted && countryNames.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger"
+                      *ngIf="countryNames.errors.required"
+                    >
+                      Country Name is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-actions">
+            <div class="row">
+              <div class="col-md-12 text-right">
+                <button type="submit" class="btn btn-success">
+                  <i class="fa fa-save"></i> Save
+                </button>
+                <button
+                  type="button"
+                  (click)="cancelAddEdit($event)"
+                  class="btn btn-default"
+                >
+                  <i class="fa fa-close"></i> Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<ngx-spinner
+bdColor="rgba(51,51,51,0.8)"
+size="medium"
+color="#fff"
+type="ball-scale-multiple"
+>
+<p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

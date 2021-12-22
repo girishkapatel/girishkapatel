@@ -1,0 +1,160 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "auditmanagement": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/auditmanagement",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "tsconfig.app.json",
+            "aot": false,
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": [
+              "src/styles.css",
+              "node_modules/ngx-toastr/toastr.css",
+              "src/assets/appstyles/global/fonts.css",
+              "src/assets/appstyles/plugins/font-awesome/css/font-awesome.min.css",
+              "src/assets/appstyles/plugins/simple-line-icons/simple-line-icons.min.css",
+              "src/assets/appstyles/plugins/bootstrap/css/datatables.bootstrap.css",
+              "src/assets/appstyles/plugins/bootstrap/css/bootstrap.min.css",
+              "src/assets/appstyles/plugins/bootstrap-multiselect/bootstrap-multiselect.css",
+              "src/assets/appstyles/plugins/jstree/default/style.min.css",
+              "node_modules/datatables/media/css/jquery.dataTables.min.css",
+              "src/assets/appstyles/plugins/bootstrap-switch/css/bootstrap-switch.min.css",
+              "src/assets/appstyles/global/components.min.css",
+              "src/assets/appstyles/global/plugins.min.css",
+              "src/assets/appstyles/layouts/layout.min.css",
+              "src/assets/appstyles/layouts/darkblue.min.css",
+              "src/assets/appstyles/layouts/custom.min.css",
+              "node_modules/ngx-ui-switch/ui-switch.component.css"
+            ],
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "src/assets/appscripts/jquery.min.js",
+              "node_modules/datatables/media/js/jquery.dataTables.min.js",
+              "src/assets/appscripts/dataTables.buttons.min.js",
+              "src/assets/appscripts/buttons.flash.min.js",
+              "src/assets/appscripts/jszip.min.js",
+              "src/assets/appscripts/pdfmake.min.js",
+              "src/assets/appscripts/vfs_fonts.js",
+              "src/assets/appscripts/buttons.html5.min.js",
+              "src/assets/appscripts/buttons.print.min.js",
+              "src/assets/appscripts/bootstrap.min.js",
+              "src/assets/appscripts/bootstrap-multiselect.js",
+              "src/assets/appscripts/js.cookie.min.js",
+              "src/assets/appscripts/jquery.slimscroll.min.js",
+              "src/assets/appscripts/jquery.blockui.min.js",
+              "src/assets/appscripts/bootstrap-switch.min.js",
+              "src/assets/appscripts/app.min.js",
+              "src/assets/appscripts/quick-sidebar.min.js",
+              "src/assets/appscripts/quick-nav.min.js",
+              "src/assets/appscripts/layout.min.js",
+              "src/assets/appscripts/demo.min.js",
+              "src/assets/appscripts/moment.min.js",
+              "src/assets/appscripts/daterangepicker.min.js",
+              "src/assets/appscripts/jstree.min.js",
+              "src/assets/appscripts/demo.js",
+              "src/assets/appscripts/demos.js",
+              "src/assets/appscripts/pptxgen.bundle.js"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "auditmanagement:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "auditmanagement:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "auditmanagement:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "src/test.ts",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "tsconfig.spec.json",
+            "karmaConfig": "karma.conf.js",
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["src/styles.css"],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "tsconfig.app.json",
+              "tsconfig.spec.json",
+              "e2e/tsconfig.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "e2e/protractor.conf.js",
+            "devServerTarget": "auditmanagement:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "auditmanagement:serve:production"
+            }
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "auditmanagement"
+}

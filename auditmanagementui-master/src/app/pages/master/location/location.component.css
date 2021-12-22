@@ -1,0 +1,15 @@
+.m-r-5 {
+  margin-right: 5px;
+}
+
+.portlet.light {
+  padding-right: 0;
+  padding-left: 0;
+}
+.myClass {
+  font-weight: bold;
+}
+.red-border-class {
+  border: 1px solid red;
+}
+

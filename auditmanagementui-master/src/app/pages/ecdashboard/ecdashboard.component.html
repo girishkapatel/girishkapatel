@@ -1,0 +1,204 @@
+<div class="page-content">
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+            <li>
+                <a routerLink="./pages/dashboard">Home</a>
+                <i class="fa fa-circle"></i>
+            </li>
+            <li>
+                <span>Dashboard</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="row pt-30">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <a class="dashboard-stat dashboard-stat-v2 blue">
+                <div class="visual">
+                    <i class="fa fa-comments"></i>
+                </div>
+                <div class="details">
+                    <div class="number">
+                        <span data-counter="counterup" data-value="1349">1</span>
+                    </div>
+                    <div class="desc"> Today's  Action Plan</div>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <a class="dashboard-stat dashboard-stat-v2 red">
+                <div class="visual">
+                    <i class="fa fa-bar-chart-o"></i>
+                </div>
+                <div class="details">
+                    <div class="number">
+                        <span data-counter="counterup" data-value="10">1</span>
+                    </div>
+                    <div class="desc"> Today's  Approvals </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <a class="dashboard-stat dashboard-stat-v2 green">
+                <div class="visual">
+                    <i class="fa fa-shopping-cart"></i>
+                </div>
+                <div class="details">
+                    <div class="number">
+                        <span data-counter="counterup" data-value="549">1</span>
+                    </div>
+                    <div class="desc"> Total Action Plans </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <a class="dashboard-stat dashboard-stat-v2 purple">
+                <div class="visual">
+                    <i class="fa fa-globe"></i>
+                </div>
+                <div class="details">
+                    <div class="number"> 
+                        <span data-counter="counterup" data-value="89">1</span> </div>
+                    <div class="desc"> Total Approvals </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    
+    <div class="row pt-10">
+        <div class="col-lg-4 col-xs-12 col-sm-12" >
+            <!-- BEGIN REGIONAL STATS PORTLET-->
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="icon-bar-chart font-dark hide"></i>
+                        <span class="caption-subject font-dark bold uppercase">My Audits</span>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <app-charts chartId="chart1" chartHeight="300px" [chartLegend]="false" [chartData]="auditChartData"></app-charts>
+                </div>
+            </div>
+            <!-- END REGIONAL STATS PORTLET-->
+        </div>
+        <div class="col-lg-4 col-xs-12 col-sm-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="icon-bar-chart font-dark hide"></i>
+                        <span class="caption-subject font-dark bold uppercase">Actions</span>
+                    </div>
+                    
+                </div>
+                <div class="portlet-body">
+                    <app-charts chartId="chart2" chartHeight="300px" [chartLegend]="false" [chartData]="actionsChartData"></app-charts>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-xs-12 col-sm-12" >
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="icon-bar-chart font-dark hide"></i>
+                        <span class="caption-subject font-dark bold uppercase">My Observations</span>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <app-charts chartId="chart3" chartHeight="300px" [chartLegend]="false" [chartData]="obsChartData"></app-charts>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-xs-12 col-sm-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title tabbable-line">
+                    <div class="caption">
+                        <i class="icon-globe font-dark"></i>
+                        <span class="caption-subject font-dark bold uppercase">How am I doing ?  </span>
+                    </div>
+                    <div class="tools">
+                        <a href="" class="expand"> </a>
+                    </div>
+                </div>
+                <div class="portlet-body" style="display:none">
+                    <table id="table3" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th rowspan="2">Location</th>
+                                <th rowspan="2">Audit</th>
+                                <th rowspan="2">Year</th>
+                                <th rowspan="2">Status</th>
+                                <th colspan="2">Audit Effectiveness</th>
+                                <th colspan="5">Audit Health</th>
+                                <th colspan="2">Action Taken</th>
+                            </tr>
+                            <tr>
+                                <th>Info rating</th>
+                                <th>Punctuality</th>
+                                <th>Audit rating	</th>
+                                <th>Process health</th>	
+                                <th>High rated observations	</th>
+                                <th>Red flags	</th>
+                                <th>Repeat observations</th>
+                                <th>Total	</th>
+                                <th>Closed (%)	</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>	
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-xs-12 col-sm-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title tabbable-line">
+                    <div class="caption">
+                        <i class="icon-globe font-dark"></i>
+                        <span class="caption-subject font-dark bold uppercase">Action Taken Report </span>
+                    </div>
+                    <div class="tools">
+                        <a href="" class="expand"> </a>
+                    </div>
+                </div>
+                <div class="portlet-body" style="display:none">
+                    <app-table [tableId]="'actionTable'" [tableScroll]="true"  [tableColumns]="tableColumnsAction" [tableData]="tableData_action"></app-table>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-xs-12 col-sm-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title tabbable-line">
+                    <div class="caption">
+                        <i class="icon-globe font-dark"></i>
+                        <span class="caption-subject font-dark bold uppercase">Who do I need to chase ? </span>
+                    </div>
+                    <div class="tools">
+                        <a href="" class="expand"> </a>
+                    </div>
+                </div>
+                <div class="portlet-body" style="display:none">
+                    <app-table [tableId]="'chaseTable'" [tableColumns]="tableColumnsChase" [tableData]="tableData_chase"></app-table>
+                </div>
+            </div>
+        </div>
+      
+    </div>
+   
+    <div class="clearfix"></div>
+</div>

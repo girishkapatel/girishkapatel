@@ -1,0 +1,14 @@
+
+*.config
+.vs/AuditManagementCore/v16/.suo
+*.dll
+*.pdb
+*.json
+*.cache
+*.txt
+*.config
+*.v2
+.vs/AuditManagementCore/v16/.suo
+*.dll
+*.pdb
+*.json

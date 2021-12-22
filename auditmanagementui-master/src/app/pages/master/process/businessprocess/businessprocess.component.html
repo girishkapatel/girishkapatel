@@ -1,0 +1,97 @@
+<div id="bcComponent">
+  <div *ngIf="!formVisible" class="form-actions top text-right">
+    <button [disabled]="isStackHolder"
+      type="button"
+      (click)="addBusinessProcess()"
+      class="btn btn-primary"
+      *ngIf="accessRights.isAdd"
+    >
+      <i class="fa fa-plus"></i> New
+    </button>
+  </div>
+
+  <div *ngIf="!formVisible" class="mt-20">
+    <app-table
+      [tableId]="tableId"
+      [tableColumns]="tableColumns"
+      [tableApi]="'api/businesscycle'"
+      [tableFilters]="tableFilters"
+    ></app-table>
+  </div>
+
+  <div *ngIf="formVisible">
+    <div class="portlet box blue">
+      <div class="portlet-title">
+        <div class="caption"><i class="fa fa-plus"></i> Business Cycle</div>
+        <div class="tools">
+          <a href="javascript:;" class="collapse"> </a>
+        </div>
+      </div>
+      <div class="portlet-body form">
+        <form
+          (ngSubmit)="saveBusinessProcess($event)"
+          #businessprocessForm="ngForm"
+          novalidate
+        >
+          <div class="form-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label"
+                    >Business Cycle Name<span class="text-danger"
+                      >*</span
+                    ></label
+                  >
+                  <input
+                    #businessprocessNames="ngModel"
+                    type="text"
+                    id="businessprocessname"
+                    name="Name"
+                    placeholder="Enter Business Cycle Name"
+                    [(ngModel)]="businessprocessName"
+                    class="form-control"
+                    [ngClass]="{
+                      'red-border-class':
+                        businessprocessNames.errors && submitted
+                    }"
+                    required
+                  />
+                  <div
+                    *ngIf="
+                      businessprocessForm.submitted &&
+                      businessprocessNames.invalid
+                    "
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger"
+                      *ngIf="businessprocessNames.errors.required"
+                    >
+                      Business Cycle Name is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-actions">
+            <div class="row">
+              <div class="col-md-12 text-right">
+                <button type="submit" class="btn btn-success">
+                  <i class="fa fa-save"></i> Save
+                </button>
+                <button
+                  type="button"
+                  (click)="cancelAddEdit($event)"
+                  class="btn btn-default"
+                >
+                  <i class="fa fa-close"></i> Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

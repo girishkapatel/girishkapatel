@@ -1,0 +1,1517 @@
+<div *ngIf="!formVisible" class="form-actions top form-group">
+  <button type="button" class="btn btn-default" (click)="refreshTable()">
+    <i class="fa fa-eraser"></i> Clear Filters
+  </button>
+
+  <div class="pull-right">
+    <button
+      [disabled]="isStackHolder"
+      type="button"
+      class="btn btn-primary"
+      (click)="sendMultipleEmail()"
+    >
+      <i class="fa fa-send"></i> Send Email
+    </button>
+
+    <button type="button" class="btn btn-primary" (click)="exportToPDF()">
+      <i class="fa fa-file-pdf-o"></i> Export to PDF
+    </button>
+    <button type="button" class="btn btn-primary" (click)="exportToExcel()">
+      <i class="fa fa-file-excel-o"></i> Export to Excel
+    </button>
+  </div>
+</div>
+
+<div [ngClass]="{ hide: formVisible }" class="row widget-row">
+  <div class="col-md-5">
+    <!-- BEGIN WIDGET THUMB -->
+    <div
+      class="
+        widget-thumb widget-bg-color-white
+        text-uppercase
+        margin-bottom-20
+        bordered
+      "
+    >
+      <h4 class="widget-thumb-heading">
+        Draft Report - Grading ({{ summaryGradingTotal }})
+      </h4>
+
+      <div class="row">
+        <div class="col-md-3">
+          <div class="widget-thumb-wrap">
+            <div
+              class="widget-thumb-body text-center"
+              [ngClass]="{ highlight: filterGrading == 'Critical' }"
+            >
+              <a (click)="FilterByGrading('Critical')">
+                <span class="widget-thumb-subtitle">Critical</span>
+                <span class="widget-thumb-body-stat">{{
+                  summaryCriticalGrade
+                }}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="widget-thumb-wrap">
+            <div
+              class="widget-thumb-body text-center"
+              [ngClass]="{ highlight: filterGrading == 'High' }"
+            >
+              <a (click)="FilterByGrading('High')">
+                <span class="widget-thumb-subtitle">High</span>
+                <span class="widget-thumb-body-stat">{{
+                  summaryHighGrade
+                }}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="widget-thumb-wrap">
+            <div
+              class="widget-thumb-body text-center"
+              [ngClass]="{ highlight: filterGrading == 'Medium' }"
+            >
+              <a (click)="FilterByGrading('Medium')">
+                <span class="widget-thumb-subtitle">Medium</span>
+                <span class="widget-thumb-body-stat">{{
+                  summaryMediumGrade
+                }}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="widget-thumb-wrap">
+            <div
+              class="widget-thumb-body text-center"
+              [ngClass]="{ highlight: filterGrading == 'Low' }"
+            >
+              <a (click)="FilterByGrading('Low')">
+                <span class="widget-thumb-subtitle">Low</span>
+                <span class="widget-thumb-body-stat">{{
+                  summaryLowGrade
+                }}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END WIDGET THUMB -->
+  </div>
+
+  <div class="col-md-7">
+    <!-- BEGIN WIDGET THUMB -->
+    <div
+      class="
+        widget-thumb widget-bg-color-white
+        text-uppercase
+        margin-bottom-20
+        bordered
+      "
+    >
+      <h4 class="widget-thumb-heading">
+        Draft Report in Scope ({{ summaryStatusTotal }})
+      </h4>
+
+      <div class="row">
+        <div class="col-md-3">
+          <div class="widget-thumb-wrap">
+            <div
+              class="widget-thumb-body text-center"
+              [ngClass]="{ highlight: filterStatus == 'notstarted' }"
+            >
+              <a (click)="FilterByStatus('notstarted')">
+                <span class="widget-thumb-subtitle">Not Started</span>
+                <span class="widget-thumb-body-stat">{{
+                  summaryNotStarted
+                }}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="widget-thumb-wrap">
+            <div
+              class="widget-thumb-body text-center"
+              [ngClass]="{ highlight: filterStatus == 'inprogress' }"
+            >
+              <a (click)="FilterByStatus('inprogress')">
+                <span class="widget-thumb-subtitle">In Progress</span>
+                <span class="widget-thumb-body-stat">{{
+                  summaryInProgress
+                }}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="widget-thumb-wrap">
+            <div
+              class="widget-thumb-body text-center"
+              [ngClass]="{ highlight: filterStatus == 'inreview' }"
+            >
+              <a (click)="FilterByStatus('inreview')">
+                <span class="widget-thumb-subtitle">In Review</span>
+                <span class="widget-thumb-body-stat">{{
+                  summaryInReview
+                }}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="widget-thumb-wrap">
+            <div
+              class="widget-thumb-body text-center"
+              [ngClass]="{ highlight: filterStatus == 'completed' }"
+            >
+              <a (click)="FilterByStatus('completed')">
+                <span class="widget-thumb-subtitle">Completed</span>
+                <span class="widget-thumb-body-stat">{{
+                  summaryCompleted
+                }}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END WIDGET THUMB -->
+  </div>
+</div>
+
+<div
+  [ngClass]="{ hide: formVisible }"
+  class="row mt-20"
+  id="auditReportComponent"
+>
+  <div class="col-md-12">
+    <!-- <div class="wrapper1">
+      <div class="div1"></div>
+    </div> -->
+
+    <!-- <div class="wrapper2">
+      <div class="div2"> -->
+        <table [id]="tableId" class="table table-bordered"></table>
+      <!-- </div>
+    </div> -->
+    <!-- <app-table -->
+    <!-- [tableId]="'report_table'" -->
+    <!-- [tableColumns]="tableColumnsReport" -->
+    <!-- [tableApi]="tableApiUrl" -->
+    <!-- [tableFilters]="tableFilters" -->
+    <!-- ></app-table> -->
+  </div>
+</div>
+
+<div [ngClass]="{ hide: !formVisible }">
+  <div class="portlet box" [ngClass]="{ blue: !isEdit, yellow: isEdit }">
+    <div class="portlet-title">
+      <div class="caption">
+        <i class="fa" [ngClass]="{ 'fa-plus': !isEdit, 'fa-edit': isEdit }"></i>
+        Draft Report
+      </div>
+      <div class="tools">
+        <a href="javascript:;" class="collapse"> </a>
+      </div>
+    </div>
+    <div class="portlet-body form">
+      <form
+        name="form"
+        action="#"
+        (ngSubmit)="(auditForm.form.valid)"
+        #auditForm="ngForm"
+        class="horizontal-form"
+        novalidate
+      >
+        <div class="form-body">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label"
+                  >Observation No
+                  <span class="required" aria-required="true"> * </span></label
+                >
+                <input
+                  [disabled]="isStackHolder"
+                  #ObservationNumbers="ngModel"
+                  type="text"
+                  id="ObservationNumber"
+                  name="ObservationNumber"
+                  [(ngModel)]="ObservationNumber"
+                  class="form-control"
+                  placeholder="Observation No"
+                  [ngClass]="{
+                    'red-border-class': ObservationNumbers.errors && submitted
+                  }"
+                  required
+                />
+                <div
+                  *ngIf="ObservationNumbers.invalid && submitted"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="ObservationNumbers.errors.required"
+                  >
+                    Observation Number is required
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label"
+                  >RACM Number<span class="required" aria-required="true">
+                    *
+                  </span></label
+                >
+                <input
+                  [disabled]="isStackHolder"
+                  type="text"
+                  id="RACMNumber"
+                  name="RACMNumber"
+                  [value]="RACMNumber"
+                  class="form-control"
+                  placeholder="RACM Number"
+                  disabled
+                />
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="control-label"
+                  >Observation Heading<span
+                    class="required"
+                    aria-required="true"
+                  >
+                    *
+                  </span></label
+                >
+                <textarea
+                  [disabled]="isStackHolder"
+                  #ObservationHeadings="ngModel"
+                  id="ObservationHeading"
+                  name="ObservationHeading"
+                  [value]="ObservationHeading"
+                  [(ngModel)]="ObservationHeading"
+                  class="form-control"
+                  placeholder="Enter Observation Heading"
+                  [ngClass]="{
+                    'red-border-class': ObservationHeadings.errors && submitted
+                  }"
+                  disabled
+                ></textarea>
+
+                <!-- <ckeditor -->
+                <!-- #ObservationHeadings="ngModel" -->
+                <!-- [(ngModel)]="ObservationHeading" -->
+                <!-- name="ObservationHeading" -->
+                <!-- placeholder="Enter Observation Heading" -->
+                <!-- [editor]="Editor" -->
+                <!-- disabled="false" -->
+                <!-- [ngClass]="{ -->
+                <!-- 'red-border-class': ObservationHeadings.errors && submitted -->
+                <!-- }" -->
+                <!-- required -->
+                <!-- ></ckeditor> -->
+                <div
+                  *ngIf="ObservationHeadings.invalid && submitted"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="ObservationHeadings.errors.required"
+                  >
+                    Observation Heading is required
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="control-label">Background</label>
+                <!-- <textarea -->
+                <!-- type="text" -->
+                <!-- id="FieldBackground" -->
+                <!-- name="FieldBackground" -->
+                <!-- [(ngModel)]="FieldBackground" -->
+                <!-- class="form-control" -->
+                <!-- placeholder="Enter field background" -->
+                <!-- ></textarea> -->
+                <ckeditor
+                  [disabled]="isStackHolder"
+                  [(ngModel)]="FieldBackground"
+                  name="FieldBackground"
+                  placeholder="Enter background"
+                  [editor]="Editor"
+                ></ckeditor>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <label class="control-label"
+                >Detailed Observation
+                <span class="required" aria-required="true"> * </span></label
+              >
+              <!-- <textarea -->
+              <!-- id="DetailedObservation" -->
+              <!-- name="DetailedObservation" -->
+              <!-- [value]="DetailedObservation" -->
+              <!-- class="form-control" -->
+              <!-- placeholder="Enter Detailed Observation" -->
+              <!-- disabled -->
+              <!-- ></textarea> -->
+              <ckeditor
+                [(ngModel)]="DetailedObservation"
+                name="DetailedObservation"
+                placeholder="Enter Detailed Observation"
+                [editor]="Editor"
+                [disabled]="isStackHolder"
+              ></ckeditor>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="control-label"
+                  >Root Cause
+                  <span class="required" aria-required="true"> * </span></label
+                >
+                <!-- <textarea -->
+                <!-- id="RootCause" -->
+                <!-- name="RootCause" -->
+                <!-- [value]="RootCause" -->
+                <!-- class="form-control" -->
+                <!-- placeholder="Enter Root Cause" -->
+                <!-- disabled -->
+                <!-- ></textarea> -->
+                <ckeditor
+                  [(ngModel)]="RootCause"
+                  name="RootCause"
+                  placeholder="Enter Root Cause"
+                  [editor]="Editor"
+                  [disabled]="isStackHolder"
+                ></ckeditor>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="control-label"
+                  >Risks / Business Impact
+                  <span class="required" aria-required="true"> * </span></label
+                >
+                <!-- <textarea -->
+                <!-- id="Risks" -->
+                <!-- name="Risks" -->
+                <!-- [value]="Risks" -->
+                <!-- class="form-control" -->
+                <!-- placeholder="Enter Risks/ Implications" -->
+                <!-- disabled -->
+                <!-- ></textarea> -->
+                <ckeditor
+                  [(ngModel)]="Risks"
+                  name="Risks"
+                  placeholder="Enter Risks / Business Impact"
+                  [editor]="Editor"
+                  [disabled]="isStackHolder"
+                ></ckeditor>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="control-label"
+                  >Recommendation
+                  <span class="required" aria-required="true"> * </span></label
+                >
+                <!-- <textarea -->
+                <!-- id="RootCause" -->
+                <!-- name="RootCause" -->
+                <!-- [value]="RootCause" -->
+                <!-- class="form-control" -->
+                <!-- placeholder="Enter Root Cause" -->
+                <!-- disabled -->
+                <!-- ></textarea> -->
+                <ckeditor
+                  [(ngModel)]="Recommendation"
+                  name="Recommendation"
+                  placeholder="Enter Recommendation"
+                  [editor]="Editor"
+                  [disabled]="isStackHolder"
+                ></ckeditor>
+              </div>
+            </div>
+
+            <!-- <div class="col-md-12"> -->
+            <!-- <div class="form-group"> -->
+            <!-- <label class="control-label" -->
+            <!-- >Financial Impact -->
+            <!-- <span class="required" aria-required="true"> * </span></label -->
+            <!-- > -->
+            <!-- <ckeditor -->
+            <!-- [(ngModel)]="FinancialImpact" -->
+            <!-- name="FinancialImpact" -->
+            <!-- placeholder="Enter Financial Impact" -->
+            <!-- [editor]="Editor" -->
+            <!-- disabled="false" -->
+            <!-- ></ckeditor> -->
+            <!-- </div> -->
+            <!-- </div> -->
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label"
+                  >Risk Type
+                  <span class="required" aria-required="true"> * </span></label
+                >
+                <ng-multiselect-dropdown
+                  [placeholder]="'Select Risk Type'"
+                  [data]="riskTypeOptions"
+                  [(ngModel)]="selectedRiskTypeIds"
+                  [settings]="dropdownSettings"
+                  name="RiskTypeIds"
+                  [disabled]="isStackHolder"
+                  #riskTypeOptionss="ngModel"
+                  [ngClass]="{
+                    'red-border-class':
+                    riskTypeOptionss.errors && submitted
+                  }"
+                >
+                </ng-multiselect-dropdown>
+                <div
+                *ngIf="riskTypeOptionss.invalid && submitted"
+                class="invalid-feedback"
+              >
+                <div
+                  class="text-danger myClass"
+                  *ngIf="riskTypeOptionss.errors.required"
+                >
+                Risk Type is required
+                </div>
+              </div>
+                <!-- <input
+                  type="text"
+                  id="RiskType"
+                  name="RiskType"
+                  [value]="RiskType"
+                  class="form-control"
+                  placeholder="Risk Type"
+                  [disabled]="isStackHolder"
+                /> -->
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label">Value At Risk  (INR)</label>
+                <input
+                  [disabled]="isStackHolder"
+                  type="number"
+                  id="ValueAtRisk"
+                  name="ValueAtRisk"
+                  [(ngModel)]="ValueAtRisk"
+                  class="form-control"
+                />
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label"
+                  >Observations Grading
+                  <span class="required" aria-required="true"> * </span></label
+                >
+                <select
+                  [disabled]="isStackHolder"
+                  id="ObservationGrading"
+                  name="ObservationGrading"
+                  [(ngModel)]="ObservationGrading"
+                  class="form-control"
+                >
+                  <option value="3">Critical</option>
+                  <option value="2">High</option>
+                  <option value="1">Medium</option>
+                  <option value="0">Low</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-2 mt-20">
+              <div class="form-group">
+                <input
+                  [disabled]="isStackHolder"
+                  type="checkbox"
+                  id="isRepeat"
+                  name="isRepeat"
+                  [(ngModel)]="isRepeat"
+                />&nbsp;
+                <label for="isRepeat" class="control-label">Repeat</label>
+              </div>
+            </div>
+
+            <div class="col-md-3 mt-20">
+              <div class="form-group">
+                <input
+                  [disabled]="isStackHolder"
+                  type="checkbox"
+                  id="isSystemImprovement"
+                  name="isSystemImprovement"
+                  [(ngModel)]="isSystemImprovement"
+                />&nbsp;
+                <label for="isSystemImprovement" class="control-label"
+                  >System Improvement</label
+                >
+              </div>
+            </div>
+
+            <div class="col-md-2 mt-20">
+              <div class="form-group">
+                <input
+                  [disabled]="isStackHolder"
+                  type="checkbox"
+                  id="isRedFlag"
+                  name="isRedFlag"
+                  [(ngModel)]="isRedFlag"
+                />&nbsp;
+                <label for="isRedFlag" class="control-label">Red Flag</label>
+              </div>
+            </div>
+
+            <div class="col-md-3 mt-20">
+              <div class="form-group">
+                <input
+                  [disabled]="isStackHolder"
+                  type="checkbox"
+                  id="isLeadingPractices"
+                  name="isLeadingPractices"
+                  [(ngModel)]="isLeadingPractices"
+                />&nbsp;
+                <label for="isLeadingPractices" class="control-label"
+                  >Leading Practices</label
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label"
+                  >Potential Saving (INR)<span class="required" aria-required="true">
+                    *
+                  </span></label
+                >
+                <input
+                  [disabled]="isStackHolder"
+                  #PotentialSavings="ngModel"
+                  type="number"
+                  class="form-control"
+                  placeholder="Enter Potential Saving"
+                  id="PotentialSaving"
+                  name="PotentialSaving"
+                  [(ngModel)]="PotentialSaving"
+                  [ngClass]="{
+                    'red-border-class': PotentialSavings.errors && submitted
+                  }"
+                  required
+                />
+
+                <div
+                  *ngIf="PotentialSavings.invalid && submitted"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="PotentialSavings.errors.required"
+                  >
+                    Potential Saving is required
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label"
+                  >Realised Saving (INR)<span class="required" aria-required="true">
+                    *
+                  </span></label
+                >
+                <input
+                  [disabled]="isStackHolder"
+                  #RealisedSavings="ngModel"
+                  type="number"
+                  class="form-control"
+                  placeholder="Enter Realised Saving"
+                  id="RealisedSaving"
+                  name="RealisedSaving"
+                  [(ngModel)]="RealisedSaving"
+                  [ngClass]="{
+                    'red-border-class': RealisedSavings.errors && submitted
+                  }"
+                  required
+                />
+
+                <div
+                  *ngIf="RealisedSavings.invalid && submitted"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="RealisedSavings.errors.required"
+                  >
+                    Realised Saving is required
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label"
+                  >Leakage (INR)<span class="required" aria-required="true">
+                    *
+                  </span></label
+                >
+                <input
+                  [disabled]="isStackHolder"
+                  #Leakages="ngModel"
+                  type="number"
+                  class="form-control"
+                  placeholder="Enter Leakage"
+                  id="Leakage"
+                  name="Leakage"
+                  [(ngModel)]="Leakage"
+                  [ngClass]="{
+                    'red-border-class': Leakages.errors && submitted
+                  }"
+                  required
+                />
+
+                <div
+                  *ngIf="Leakages.invalid && submitted"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="Leakages.errors.required"
+                  >
+                    Leakage is required
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="control-label"
+                      >Report Consideration
+                      <span class="required" aria-required="true">
+                        *
+                      </span></label
+                    >
+                    <ng-multiselect-dropdown
+                      [disabled]="isStackHolder"
+                      #reportConsiderations="ngModel"
+                      [placeholder]="'Select Report Consideration'"
+                      [data]="reportConsiderationOptions"
+                      [(ngModel)]="selectedReportConsiderations"
+                      [settings]="dropdownSettings"
+                      name="reportConsiderations"
+                      [ngClass]="{
+                        'red-border-class':
+                          reportConsiderations.invalid && submitted
+                      }"
+                      required
+                    >
+                    </ng-multiselect-dropdown>
+
+                    <div
+                      *ngIf="reportConsiderations.invalid && submitted"
+                      class="invalid-feedback"
+                    >
+                      <div
+                        class="text-danger myClass"
+                        *ngIf="reportConsiderations.errors.required"
+                      >
+                        Report Consideration is required
+                      </div>
+                    </div>
+                    <!-- <div -->
+                    <!-- *ngIf="reportConsiderationOptions.invalid && submitted" -->
+                    <!-- class="invalid-feedback" -->
+                    <!-- > -->
+                    <!-- <div -->
+                    <!-- class="text-danger myClass" -->
+                    <!-- *ngIf="reportConsiderationOptions.errors.required" -->
+                    <!-- > -->
+                    <!-- Report Consideration Options is required -->
+                    <!-- </div> -->
+                    <!-- </div> -->
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="control-label"> Impact </label>
+                    <ng-multiselect-dropdown
+                      [disabled]="isStackHolder"
+                      [placeholder]="'Select Impact'"
+                      [data]="impactOptions"
+                      [(ngModel)]="selectedImpacts"
+                      [settings]="dropdownSettings"
+                      name="impacts"
+                    >
+                    </ng-multiselect-dropdown>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="control-label"
+                      >Recommendation
+                      <span class="required" aria-required="true">
+                        *
+                      </span></label
+                    >
+                    <ng-multiselect-dropdown
+                      [disabled]="isStackHolder"
+                      #recommendations="ngModel"
+                      [placeholder]="'Select Recommendation'"
+                      [data]="recommendationOptions"
+                      [(ngModel)]="selectedRecommendations"
+                      [settings]="dropdownSettings"
+                      name="recommendations"
+                      required
+                    >
+                    </ng-multiselect-dropdown>
+                    <!-- <select -->
+                    <!-- id="Recommendation" -->
+                    <!-- name="Recommendation" -->
+                    <!-- [(ngModel)]="Recommendation" -->
+                    <!-- class="form-control" -->
+                    <!-- > -->
+                    <!-- <option value="">Select Recommendation</option> -->
+                    <!-- <option value="People">People</option> -->
+                    <!-- <option value="Process">Process</option> -->
+                    <!-- <option value="Technology">Technology</option> -->
+                    <!-- </select> -->
+
+                    <div
+                      *ngIf="recommendations.invalid && submitted"
+                      class="invalid-feedback"
+                    >
+                      <div
+                        class="text-danger myClass"
+                        *ngIf="recommendations.errors.required"
+                      >
+                        Recommendations is required
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="control-label"
+                      >Cause
+                      <span class="required" aria-required="true">
+                        *
+                      </span></label
+                    >
+                    <ng-multiselect-dropdown
+                      [disabled]="isStackHolder"
+                      #RootCauses="ngModel"
+                      [placeholder]="'Select Root Cause'"
+                      [data]="rootCauseOptions"
+                      [(ngModel)]="selectedRootCauses"
+                      [settings]="dropdownSettings"
+                      name="rootCauses"
+                      required
+                    >
+                    </ng-multiselect-dropdown>
+                    <!-- <select -->
+                    <!-- id="RootCauseDR" -->
+                    <!-- name="RootCauseDR" -->
+                    <!-- [(ngModel)]="RootCauseDR" -->
+                    <!-- class="form-control" -->
+                    <!-- > -->
+                    <!-- <option value="">Select Root Cause</option> -->
+                    <!-- <option value="Control Design">Control Design</option> -->
+                    <!-- <option value="Control Operating Effectiveness"> -->
+                    <!-- Control Operating Effectiveness -->
+                    <!-- </option> -->
+                    <!-- <option value="System Limitation">System Limitation</option> -->
+                    <!-- <option value="Process Compliance">Process Compliance</option> -->
+                    <!-- </select> -->
+
+                    <div
+                      *ngIf="RootCauses.invalid && submitted"
+                      class="invalid-feedback"
+                    >
+                      <div
+                        class="text-danger myClass"
+                        *ngIf="RootCauses.errors.required"
+                      >
+                        Root Causes is required
+                      </div>
+                    </div>
+                    <!-- <div -->
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label class="control-label"
+                      >Management Response
+                      <span class="required" aria-required="true">
+                        *
+                      </span></label
+                    >
+                    <ckeditor
+                      [(ngModel)]="ManagementResponse"
+                      name="ManagementResponse"
+                      placeholder="Enter management Response"
+                      [editor]="Editor"
+                      #ManagementResponses="ngModel"
+                      [ngClass]="{
+                        'red-border-class':
+                          ManagementResponses.errors && submitted
+                      }"
+                      required
+                    ></ckeditor>
+                    <div
+                      *ngIf="ManagementResponses.invalid && submitted"
+                      class="invalid-feedback"
+                    >
+                      <div
+                        class="text-danger myClass"
+                        *ngIf="ManagementResponses.errors.required"
+                      >
+                        Management Response is required
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <hr />
+
+          <div class="row">
+            <div class="col-md-12 text-right form-group">
+              <button
+                [disabled]="isStackHolder"
+                type="button"
+                class="btn btn-primary"
+                (click)="addNewActionPlan()"
+              >
+                <i class="fa fa-plus"></i> New Action Plan
+              </button>
+            </div>
+
+            <div class="col-md-12">
+              <table id="selectedActionPlans" class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Action Plan</th>
+                    <th>Implementation Owner</th>
+                    <th>Implementation Start Date</th>
+                    <th>Agreed Timeline</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+
+          <hr />
+
+          <div class="row">
+            <div class="col-md-12 form-group">
+              <input
+                type="file"
+                #fileInputDR
+                class="hidden"
+                (change)="uploadDRFile()"
+                accept=".xlsx, .xls"
+              />
+              <button
+                type="button"
+                class="btn btn-primary pull-right"
+                (click)="fileInputDR.click()"
+              >
+                <i class="fa fa-upload"></i> Upload File
+              </button>
+            </div>
+
+            <div class="col-md-12">
+              <table id="uploadedDRFiles" class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>File</th>
+                    <th>Uploaded Date</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions right">
+          <button
+            type="button"
+            (click)="confirmSaveReport($event)"
+            class="btn btn-success"
+          >
+            <i class="fa fa-save"></i> Save
+          </button>
+          <button
+            type="button"
+            (click)="history.show()"
+            class="btn btn-primary pull-left"
+          >
+            <i class="fa fa-history"></i> History
+          </button>
+          <!-- <button -->
+          <!-- type="button" -->
+          <!-- *ngIf="!isApprover && isEdit" -->
+          <!-- (click)="updateStatus('pending')" -->
+          <!-- class="btn green" -->
+          <!-- > -->
+          <!-- Send For Approval -->
+          <!-- </button> -->
+          <button
+            [disabled]="isStackHolder"
+            type="button"
+            *ngIf="isApprover && isEdit"
+            (click)="updateStatus('approved')"
+            class="btn btn-success"
+          >
+            <i class="fa fa-check"></i> Approve
+          </button>
+          <button
+            [disabled]="isStackHolder"
+            type="button"
+            (click)="handleRejectModal('show')"
+            *ngIf="isApprover && isEdit"
+            class="btn btn-danger"
+          >
+            <i class="fa fa-ban"></i> Reject
+          </button>
+          <button
+            [disabled]="isStackHolder"
+            type="button"
+            *ngIf="!Status && isEdit"
+            (click)="updateStatus('completed')"
+            class="btn btn-success"
+          >
+            <i class="fa fa-file"></i> Save Final Report
+          </button>
+          <button
+            type="button"
+            (click)="cancelAddEdit($event)"
+            class="btn btn-default"
+          >
+            <i class="fa fa-close"></i> Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="rejectDRModal"
+  tabindex="-1"
+  data-width="760"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        ></button>
+        <h4 class="modal-title" style="font-weight: bold">
+          <i class="fa fa-cogs"></i> &nbsp;Reject Testing of Control
+        </h4>
+      </div>
+      <form>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="control-label">Enter Justification</label>
+                <textarea
+                  name="Justification"
+                  [(ngModel)]="Justification"
+                  placeholder="Enter Justification"
+                  class="form-control"
+                  required
+                ></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            id="rejectDR"
+            (click)="rejectDR()"
+            class="btn btn-success"
+          >
+            <i class="fa fa-save"></i> Save
+          </button>
+
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <i class="fa fa-close"></i> Close
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="arContentModal"
+  tabindex="-1"
+  data-width="760"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        ></button>
+        <h4 class="modal-title" style="font-weight: bold">
+          <i class="fa fa-cogs"></i> &nbsp;<span id="arcontent-title"></span>
+        </h4>
+      </div>
+      <form>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12" id="arcontent"></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <i class="fa fa-close"></i> Close
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="manageActionPlan"
+  tabindex="-1"
+  data-width="760"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header" *ngIf="!isEditActionPlan">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        ></button>
+        <h4 class="modal-title" style="font-weight: bold">
+          <i class="fa fa-plus"></i> &nbsp;New Action Plan
+        </h4>
+      </div>
+      <div class="modal-header" *ngIf="isEditActionPlan">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        ></button>
+        <h4 class="modal-title" style="font-weight: bold">
+          <i class="fa fa-edit"></i> &nbsp;Update Action Plan
+        </h4>
+      </div>
+      <form
+        name="form"
+        (ngSubmit)="addActionPlan($event) && apForm.form.valid"
+        #apForm="ngForm"
+      >
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="control-label">Action Plan </label>
+                <ckeditor
+                  [(ngModel)]="ActionPlan"
+                  name="ActionPlan"
+                  placeholder="Enter background"
+                  [editor]="Editor"
+                ></ckeditor>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label"
+                  >Implementation Owner
+                  <span class="required" aria-required="true"> * </span></label
+                >
+                <ng-multiselect-dropdown
+                  [placeholder]="'Select Implementation Owner'"
+                  [data]="shOpts"
+                  [(ngModel)]="selectedImplementationOwnerId"
+                  [settings]="OwnerdropdownSettings"
+                  name="ImplementationOwnerId"
+                  #ProcessOwnerIDs="ngModel"
+                  [ngClass]="{
+                    'red-border-class':
+                      ProcessOwnerIDs.errors && apForm.submitted
+                  }"
+                  required
+                >
+                </ng-multiselect-dropdown>
+                <!-- <select
+                  #ProcessOwnerIDs="ngModel"
+                  id="ProcessOwnerID"
+                  placeholder="Select Implementation Owner"
+                  class="form-control"
+                  [(ngModel)]="ProcessOwnerID"
+                  name="ProcessOwnerID"
+                  required
+                  [ngClass]="{
+                    'red-border-class':
+                      ProcessOwnerIDs.errors && apForm.submitted
+                  }"
+                >
+                  <option value="">Select Implementation Owner</option>
+                  <option
+                    *ngFor="let user of shOpts; let i = index"
+                    [attr.data-index]="i"
+                    [value]="user.id"
+                  >
+                    {{ user.firstName }} {{ user.lastName }}
+                  </option>
+                </select> -->
+                <div
+                  *ngIf="apForm.submitted && ProcessOwnerIDs.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="ProcessOwnerIDs.errors.required"
+                  >
+                    Implementation owner is required
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label"
+                  >Implementation Start Date
+                  <span class="required" aria-required="true"> * </span></label
+                >
+                <div
+                  class="input-group"
+                  [ngClass]="{
+                    'red-border-class':
+                      ImplementationStartDates.errors && apForm.submitted
+                  }"
+                >
+                  <input
+                    type="text"
+                    id="ImplementationStartDate"
+                    name="ImplementationStartDate"
+                    [(ngModel)]="ImplementationStartDate"
+                    class="form-control"
+                    placeholder="dd/mm/yyyy"
+                    ngbDatepicker
+                    #implStartDate="ngbDatepicker"
+                    required
+                    readonly
+                    #ImplementationStartDates="ngModel"
+                  />
+                  <div class="input-group-btn">
+                    <button
+                      class="btn btn-default calendar"
+                      (click)="implStartDate.toggle()"
+                      type="button"
+                    >
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <div
+                  *ngIf="apForm.submitted && ImplementationStartDates.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="ImplementationStartDates.errors.required"
+                  >
+                    Implementation StartDate is required
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label"
+                  >Agreed Timeline
+                  <span class="required" aria-required="true"> * </span></label
+                >
+                <div
+                  class="input-group"
+                  [ngClass]="{
+                    'red-border-class':
+                      ImplementationEndDates.errors && apForm.submitted
+                  }"
+                >
+                  <input
+                    type="text"
+                    id="ImplementationEndDate"
+                    name="ImplementationEndDate"
+                    [(ngModel)]="ImplementationEndDate"
+                    class="form-control"
+                    placeholder="dd/mm/yyyy"
+                    ngbDatepicker
+                    #implEndDate="ngbDatepicker"
+                    required
+                    readonly
+                    #ImplementationEndDates="ngModel"
+                  />
+                  <div class="input-group-btn">
+                    <button
+                      class="btn btn-default calendar"
+                      (click)="implEndDate.toggle()"
+                      type="button"
+                    >
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <div
+                  *ngIf="apForm.submitted && ImplementationEndDates.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="ImplementationEndDates.errors.required"
+                  >
+                  Agreed Timeline is required
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            type="submit"
+            class="btn btn-success"
+            *ngIf="!isEditActionPlan"
+          >
+            <i class="fa fa-save"></i> Save
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-success"
+            (click)="saveActionPlan()"
+            *ngIf="isEditActionPlan"
+          >
+            <i class="fa fa-save"></i> Save
+          </button>
+
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <i class="fa fa-close"></i> Close
+          </button>
+        </div>
+      </form>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
+<div
+  class="modal fade"
+  id="ConfimSendDRForApprovalModal"
+  tabindex="-1"
+  data-width="760"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        ></button>
+
+        <h4 class="modal-title" style="font-weight: bold">
+          <i class="fa fa-exclamation"></i> &nbsp;Confirm
+        </h4>
+      </div>
+
+      <div class="modal-body">
+        do you want to save?
+      </div>
+
+      <div class="modal-footer">
+        <button
+          [disabled]="isStackHolder"
+          type="button"
+          *ngIf="!isApprover && isEdit"
+          (click)="saveSendReport()"
+          class="btn btn-success"
+        >
+          <i class="fa fa-send"></i> Send & Save
+        </button>
+
+        <button type="button" class="btn btn-success" (click)="saveReport()">
+          <i class="fa fa-save"></i> Save Only
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="sendDRMultipleMailModal"
+  tabindex="-1"
+  data-width="760"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header bg-warning">
+        <h4 class="modal-title" style="font-weight: bold">
+          <i class="fa fa-send"></i> &nbsp;Sending mail in progress...
+        </h4>
+      </div>
+
+      <div class="modal-body bg-warning">
+        <p>Please wait while we sending mail(s) to all selected records.</p>
+        <p>{{ drMailSent }} mail(s) sent out of {{ drMailTotal }}.</p>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<div
+  class="modal fade"
+  id="HistoryModal"
+  tabindex="-1"
+  data-width="1200"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        ></button>
+
+        <h4 class="modal-title" style="font-weight: bold">Histroy</h4>
+      </div>
+
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <table [id]="tableIdHistory" class="table table-bordered"></table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div
+  class="modal fade"
+  id="SendMailModal"
+  tabindex="-1"
+  data-width="1200"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        ></button>
+
+        <h4 class="modal-title" style="font-weight: bold">Send Mail History</h4>
+      </div>
+
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <table [id]="tableIdsendMail" class="table table-bordered"></table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+>
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

@@ -1,0 +1,36 @@
+.red-border-class {
+  border: 1px solid red;
+  font-weight: bold;
+}
+
+.myClass {
+  font-weight: bold;
+}
+
+.highlight {
+  background-color: lightgreen;
+}
+
+.highlight .widget-thumb-subtitle,
+.highlight .widget-thumb-body-stat {
+  color: #fff;
+}
+.disabledPoint {
+  pointer-events: none;
+}   
+
+.wrapper1,
+.wrapper2 {
+  width: 100%;
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+
+.div1 {
+  width: 2400px;
+  height: 30px; 
+}
+
+.div2 {
+  width: 2000px;
+}

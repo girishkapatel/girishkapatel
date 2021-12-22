@@ -1,0 +1,248 @@
+<div class="form-actions top form-group">
+  <button type="button" class="btn btn-default" (click)="refreshTable()">
+    <i class="fa fa-eraser"></i> Clear Filters
+  </button>
+  <div class="pull-right">
+    <button type="button" class="btn btn-primary" (click)="exportToPDF()">
+      <i class="fa fa-file-pdf-o"></i> Export to PDF
+    </button>
+  </div>
+  <!-- <div class="pull-right"> -->
+  <!-- <button type="button" class="btn green" (click)="sendMultipleEmail()"> -->
+  <!-- <i class="fa fa-send"></i> Send Email -->
+  <!-- </button> -->
+  <!-- </div> -->
+</div>
+
+<div [ngClass]="{ hide: formVisible }" class="row widget-row">
+  <div class="col-md-5">
+    <!-- BEGIN WIDGET THUMB -->
+    <div
+      class="
+        widget-thumb widget-bg-color-white
+        text-uppercase
+        margin-bottom-20
+        bordered
+      "
+    >
+      <h4 class="widget-thumb-heading">
+        Draft Report - Grading ({{ summaryGradingTotal }})
+      </h4>
+
+      <div class="row">
+        <div class="col-md-3">
+          <div class="widget-thumb-wrap">
+            <div
+              class="widget-thumb-body text-center"
+              [ngClass]="{ highlight: filterGrading == 'Critical' }"
+            >
+              <a (click)="FilterByGrading('Critical')">
+                <span class="widget-thumb-subtitle">Critical</span>
+                <span class="widget-thumb-body-stat">{{
+                  summaryCriticalGrade
+                }}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="widget-thumb-wrap">
+            <div
+              class="widget-thumb-body text-center"
+              [ngClass]="{ highlight: filterGrading == 'High' }"
+            >
+              <a (click)="FilterByGrading('High')">
+                <span class="widget-thumb-subtitle">High</span>
+                <span class="widget-thumb-body-stat">{{
+                  summaryHighGrade
+                }}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="widget-thumb-wrap">
+            <div
+              class="widget-thumb-body text-center"
+              [ngClass]="{ highlight: filterGrading == 'Medium' }"
+            >
+              <a (click)="FilterByGrading('Medium')">
+                <span class="widget-thumb-subtitle">Medium</span>
+                <span class="widget-thumb-body-stat">{{
+                  summaryMediumGrade
+                }}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="widget-thumb-wrap">
+            <div
+              class="widget-thumb-body text-center"
+              [ngClass]="{ highlight: filterGrading == 'Low' }"
+            >
+              <a (click)="FilterByGrading('Low')">
+                <span class="widget-thumb-subtitle">Low</span>
+                <span class="widget-thumb-body-stat">{{
+                  summaryLowGrade
+                }}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END WIDGET THUMB -->
+  </div>
+
+  <div class="col-md-7">
+    <!-- BEGIN WIDGET THUMB -->
+    <div
+      class="
+        widget-thumb widget-bg-color-white
+        text-uppercase
+        margin-bottom-20
+        bordered
+      "
+    >
+      <h4 class="widget-thumb-heading">
+        Draft Report in Scope ({{ summaryStatusTotal }})
+      </h4>
+
+      <div class="row">
+        <div class="col-md-3">
+          <div class="widget-thumb-wrap">
+            <div
+              class="widget-thumb-body text-center"
+              [ngClass]="{ highlight: filterStatus == 'notstarted' }"
+            >
+              <a (click)="FilterByStatus('notstarted')">
+                <span class="widget-thumb-subtitle">Not Started</span>
+                <span class="widget-thumb-body-stat">{{
+                  summaryNotStarted
+                }}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="widget-thumb-wrap">
+            <div
+              class="widget-thumb-body text-center"
+              [ngClass]="{ highlight: filterStatus == 'inprogress' }"
+            >
+              <a (click)="FilterByStatus('inprogress')">
+                <span class="widget-thumb-subtitle">In Progress</span>
+                <span class="widget-thumb-body-stat">{{
+                  summaryInProgress
+                }}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="widget-thumb-wrap">
+            <div
+              class="widget-thumb-body text-center"
+              [ngClass]="{ highlight: filterStatus == 'inreview' }"
+            >
+              <a (click)="FilterByStatus('inreview')">
+                <span class="widget-thumb-subtitle">In Review</span>
+                <span class="widget-thumb-body-stat">{{
+                  summaryInReview
+                }}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="widget-thumb-wrap">
+            <div
+              class="widget-thumb-body text-center"
+              [ngClass]="{ highlight: filterStatus == 'completed' }"
+            >
+              <a (click)="FilterByStatus('completed')">
+                <span class="widget-thumb-subtitle">Completed</span>
+                <span class="widget-thumb-body-stat">{{
+                  summaryCompleted
+                }}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END WIDGET THUMB -->
+  </div>
+</div>
+
+<div class="row mt-20" id="auditReportFinalComponent">
+  <div class="col-md-12">
+    <!-- <div class="wrapper1">
+      <div class="div1"></div>
+    </div> -->
+
+    <!-- <div class="wrapper2">
+      <div class="div2"> -->
+        <table [id]="tableId" class="table table-bordered"></table>
+      <!-- </div>
+    </div> -->
+    <!-- <app-table -->
+    <!-- [tableId]="'final_report_table'" -->
+    <!-- [tableColumns]="tableColumnsReport" -->
+    <!-- [tableApi]="tableApiUrl" -->
+    <!-- [tableFilters]="tableFilters" -->
+    <!-- ></app-table> -->
+  </div>
+
+  <div
+    class="modal fade"
+    id="arfContentModal"
+    tabindex="-1"
+    data-width="760"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-hidden="true"
+          ></button>
+          <h4 class="modal-title" style="font-weight: bold">
+            <i class="fa fa-cogs"></i> &nbsp;<span id="arfcontent-title"></span>
+          </h4>
+        </div>
+        `
+        <form>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-12" id="arfcontent"></div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              <i class="fa fa-close"></i> Close
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+>
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

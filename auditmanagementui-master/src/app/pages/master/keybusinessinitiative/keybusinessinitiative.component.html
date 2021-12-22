@@ -1,0 +1,274 @@
+<div id="kbiComponent">
+  <div *ngIf="!formVisible" class="portlet light">
+    <div class="portlet-title">
+      <div class="caption">
+        <span class="caption-subject bold uppercase"
+          >Key Business Initiative</span
+        >
+      </div>
+
+      <div class="actions">
+        <button [disabled]="isStackHolder"
+          type="button"
+          (click)="addKeybusinessinitiative()"
+          class="btn btn-primary m-r-5"
+          *ngIf="accessRights.isAdd"
+        >
+          <i class="fa fa-plus"></i> New
+        </button>
+
+        <button  
+          type="button"
+          class="btn btn-primary m-r-5"
+          (click)="exportBI()"
+        >
+          <i class="fa fa-file-excel-o"></i> Download Excel
+        </button>
+        <button  
+        type="button"
+        class="btn btn-primary m-r-5"
+        (click)="sampleExportBI()"
+        [disabled]="isStackHolder"
+      >
+        <i class="fa fa-file-excel-o"></i> Sample Excel
+      </button>
+        <input type="file" #fileInput class="hidden" (change)="importExcel()" />
+
+        <button [disabled]="isStackHolder"
+          type="button"
+          class="btn btn-primary"
+          (click)="fileInput.click()"
+          *ngIf="accessRights.isEdit"
+        >
+          <i class="fa fa-file-excel-o"></i> Upload Excel
+        </button>
+      </div>
+    </div>
+
+    <div class="portlet-body">
+      <app-table
+        [tableId]="tableId"
+        [tableColumns]="tableColumns"
+        [tableApi]="'api/keybusinessinitiative'"
+        [tableFilters]="tableFilters"
+      ></app-table>
+    </div>
+  </div>
+
+  <div *ngIf="formVisible">
+    <div class="portlet box blue">
+      <div class="portlet-title">
+        <div class="caption">
+          <i class="fa fa-plus"></i> Key Business Initiative
+        </div>
+        <div class="tools">
+          <a href="javascript:;" class="collapse"> </a>
+        </div>
+      </div>
+      <div class="portlet-body form">
+        <form
+          (ngSubmit)="
+            saveKeybusinessinitiative($event) &&
+              keybusinessinitiativeForm.form.valid
+          "
+          #keybusinessinitiativeForm="ngForm"
+        >
+          <div class="form-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label"
+                    >Select Audit Name
+                    <span class="text-danger">*</span>
+                  </label>
+                  <select
+                    id="auditName"
+                    name="ProcessLocationMappingId"
+                    placeholder="Select Audit Name"
+                    class="form-control"
+                    [(ngModel)]="ProcessLocationMappingId"
+                    #auditName="ngModel"
+                    required
+                    [ngClass]="{
+                      'red-border-class':
+                        auditName.errors && keybusinessinitiativeForm.submitted
+                    }"
+                  >
+                    <option value="">Select Audit Name</option>
+                    <option
+                      *ngFor="let auditName of auditNameOptions"
+                      [value]="auditName.id"
+                    >
+                      {{ auditName.auditName }}
+                    </option>
+                  </select>
+                  <div
+                    *ngIf="
+                      keybusinessinitiativeForm.submitted && auditName.invalid
+                    "
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="auditName.errors.required"
+                    >
+                      Audit Name is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <!-- <div class="col-md-4"> -->
+              <!-- <div class="form-group"> -->
+              <!-- <label class="control-label">Select Business Cycle</label> -->
+              <!-- <select id="businessCycle" name="BusinessCycleID" placeholder="Select Business Cycle" (change)="getProcessL1Opts()" class="form-control" [(ngModel)]="businessCycleId"> -->
+              <!-- <option value="">Select Business Cycle</option> -->
+              <!-- <option *ngFor="let businessCycle of businessCycleOptions" [value]="businessCycle.id" >{{businessCycle.name}}</option> -->
+              <!-- </select> -->
+              <!-- </div> -->
+              <!-- </div> -->
+              <!-- <div class="col-md-4"> -->
+              <!-- <div class="form-group"> -->
+              <!-- <label class="control-label">Select Process L1</label> -->
+              <!-- <select id="processL1Id" (change)="getProcessLevel2Opts()" name="ProcessL1ID" placeholder="Select Process Level 1" class="form-control" [(ngModel)]="processlevel1Id"> -->
+              <!-- <option value="">Select Process Level 1</option> -->
+              <!-- <option *ngFor="let processlevel1 of processlevel1Options" [value]="processlevel1.id" >{{processlevel1.name}}</option> -->
+              <!-- </select> -->
+              <!-- </div> -->
+              <!-- </div> -->
+              <!-- <div class="col-md-4"> -->
+              <!-- <div class="form-group"> -->
+              <!-- <label class="control-label">Process L2 Name</label> -->
+              <!-- <select id="processL2Id" name="ProcessL2ID" placeholder="Select Process Level 2" class="form-control" [(ngModel)]="processlevel2Id"> -->
+              <!-- <option value="">Select Process Level 2</option> -->
+              <!-- <option *ngFor="let processlevel2 of processlevel2Options" [value]="processlevel2.id" >{{processlevel2.name}}</option> -->
+              <!-- </select> -->
+              <!-- </div> -->
+              <!-- </div> -->
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label"
+                    >Business Initiative ID
+                    <span class="text-danger">*</span></label
+                  >
+                  <input
+                    type="text"
+                    id="bI_Id"
+                    name="BusinessInitiativeID"
+                    [(ngModel)]="bI_Id"
+                    placeholder="Enter BI ID"
+                    class="form-control"
+                    #BusinessInitiativeID="ngModel"
+                    required
+                    [ngClass]="{
+                      'red-border-class':
+                        BusinessInitiativeID.errors &&
+                        keybusinessinitiativeForm.submitted
+                    }"
+                  />
+                  <div
+                    *ngIf="
+                      keybusinessinitiativeForm.submitted &&
+                      BusinessInitiativeID.invalid
+                    "
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="BusinessInitiativeID.errors.required"
+                    >
+                      Business Initiative ID is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label"
+                    >Risk Rating <span class="text-danger">*</span></label
+                  >
+                  <select
+                    id="riskRating"
+                    name="RiskRating"
+                    [(ngModel)]="riskRating"
+                    placeholder="Select Risk Rating"
+                    class="form-control"
+                    required
+                    #riskrating="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                        riskrating.errors && keybusinessinitiativeForm.submitted
+                    }"
+                  >
+                    <option value="">Select Risk Rating</option>
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                  </select>
+
+                  <div
+                    *ngIf="
+                      keybusinessinitiativeForm.submitted && riskrating.invalid
+                    "
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="riskrating.errors.required"
+                    >
+                      Risk Rating is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label class="control-label"
+                    >Business Initiative Description</label
+                  >
+                  <input
+                    type="text"
+                    id="biDesc"
+                    name="BusinessIntiativeDescription"
+                    [(ngModel)]="biDesc"
+                    placeholder="Enter BI Description"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-actions">
+            <div class="row">
+              <div class="col-md-12 text-right">
+                <button type="submit" class="btn btn-success">
+                  <i class="fa fa-save"></i> Save
+                </button>
+                <button
+                  type="button"
+                  (click)="cancelAddEdit($event)"
+                  class="btn btn-default"
+                >
+                  <i class="fa fa-close"></i> Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<ngx-spinner
+bdColor="rgba(51,51,51,0.8)"
+size="medium"
+color="#fff"
+type="ball-scale-multiple"
+>
+<p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

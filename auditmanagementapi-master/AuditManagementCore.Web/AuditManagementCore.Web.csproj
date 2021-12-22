@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>9addba7f-f00a-4d93-8e42-c4f51367d350</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspose.Cells" Version="21.4.0" />
+    <PackageReference Include="Aspose.Html" Version="21.3.0" />
+    <PackageReference Include="Aspose.Pdf" Version="21.3.0" />
+    <PackageReference Include="Aspose.Slides.NET" Version="21.3.0" />
+    <PackageReference Include="iTextSharp" Version="5.5.13.2" />
+    <PackageReference Include="LumenWorks.Framework.IO.Core" Version="1.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Office.Interop.PowerPoint" Version="15.0.4420.1017" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+    <PackageReference Include="MicrosoftOfficeCore" Version="15.0.0" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.2" />
+    <PackageReference Include="Open-XML-SDK" Version="2.9.1" />
+    <PackageReference Include="RestSharp" Version="106.12.0" />
+    <PackageReference Include="Spire.Presentation" Version="6.9.5" />
+    <PackageReference Include="Syncfusion.HtmlToPdfConverter.QtWebKit.Net.Core" Version="18.4.0.30" />
+    <PackageReference Include="Syncfusion.Presentation.Net.Core" Version="18.4.0.34" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.7.0" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.12" />
+    <PackageReference Include="Wkhtmltopdf.NetCore" Version="3.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AuditManagementCore.MongoDb\AuditManagementCore.MongoDb.csproj" />
+    <ProjectReference Include="..\AuditManagementCore.Service\AuditManagementCore.Service.csproj" />
+    <ProjectReference Include="..\AuditManagementCore.ViewModels\AuditManagementCore.ViewModels.csproj" />
+    <ProjectReference Include="..\VJHelpers\VJLiabraries.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\*" />
+    <Folder Include="wkhtmltopdf\*" />
+    <Compile Remove="ddd\**" />
+    <Content Remove="ddd\**" />
+    <EmbeddedResource Remove="ddd\**" />
+    <None Remove="ddd\**" />
+    <Folder Include="Uploads\" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,22 @@
+#timelinediv {
+  width: 100%;
+  height: 500px;
+}
+
+.highlight {
+  background-color: lightgreen;
+}
+
+.highlight .widget-thumb-subtitle,
+.highlight .widget-thumb-body-stat {
+  color: #fff;
+}
+.myClass {
+  font-weight: bold;
+}
+
+.red-border-class {
+  border: 1px solid red;
+}
+ 
+ 

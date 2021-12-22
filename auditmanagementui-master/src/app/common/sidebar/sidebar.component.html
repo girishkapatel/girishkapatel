@@ -1,0 +1,119 @@
+<div class="page-sidebar-wrapper abc">
+  <div class="page-sidebar navbar-collapse collapse">
+    <ul
+      class="page-sidebar-menu page-header-fixed"
+      data-keep-expanded="false"
+      data-auto-scroll="true"
+      data-slide-speed="200"
+    >
+      <li class="sidebar-toggler-wrapper hide">
+        <div class="sidebar-toggler">
+          <span></span>
+        </div>
+      </li>
+      <li *ngIf="menuAccess.dashboard" class="nav-item">
+        <a
+          routerLinkActive="active"
+          routerLink="../pages/dashboard"
+          class="nav-link nav-toggle"
+        >
+          <i class="icon-bar-chart"></i>
+          <span class="title">Dashboard</span>
+        </a>
+      </li>
+      <li *ngIf="menuAccess.auditplanningengine" class="nav-item">
+        <a
+          routerLinkActive="active"
+          routerLink="../pages/auditplanningengine"
+          class="nav-link nav-toggle"
+        >
+          <i class="icon-docs"></i>
+          <span class="title">Audit Planning Engine </span>
+        </a>
+      </li>
+
+      <li *ngIf="menuAccess.manageaudits" class="nav-item">
+        <a
+          routerLinkActive="active"
+          routerLink="../pages/manageaudits"
+          class="nav-link nav-toggle"
+        >
+          <i class="icon-layers"></i>
+          <span class="title">Manage Audits</span>
+        </a>
+      </li>
+
+      <li *ngIf="menuAccess.action" class="nav-item">
+        <a
+          routerLinkActive="active"
+          routerLink="../pages/action"
+          class="nav-link nav-toggle"
+        >
+          <i class="icon-list"></i>
+          <span class="title">Auditee Action Plan Status</span>
+        </a>
+      </li>
+
+      <li *ngIf="menuAccess.reports" class="nav-item">
+        <a
+          routerLinkActive="active"
+          routerLink="../pages/reports"
+          class="nav-link nav-toggle"
+        >
+          <i class="icon-book-open"></i>
+          <span class="title">Reports </span>
+        </a>
+      </li>
+      <li *ngIf="menuAccess.knowledgelibrary" class="nav-item">
+        <a
+          routerLinkActive="active"
+          routerLink="../pages/knowledgelibrary"
+          class="nav-link nav-toggle"
+        >
+          <i class="icon-grid"></i>
+          <span class="title">Knowledge Library </span>
+        </a>
+      </li>
+      <li *ngIf="menuAccess.eybenchmarks" class="nav-item" style="display: none;">
+        <a
+          routerLinkActive="active"
+          routerLink="../pages/eybenchmarks"
+          class="nav-link nav-toggle"
+        >
+          <i class="icon-star"></i>
+          <span class="title">EY Benchmarks</span>
+        </a>
+      </li>
+      <li *ngIf="menuAccess.users" class="nav-item">
+        <a
+          routerLinkActive="active"
+          routerLink="../pages/users"
+          class="nav-link nav-toggle"
+        >
+          <i class="icon-user"></i>
+          <span class="title">Users</span>
+        </a>
+      </li>
+      <li *ngIf="menuAccess.roles" class="nav-item">
+        <a
+          routerLinkActive="active"
+          routerLink="../pages/roles"
+          class="nav-link nav-toggle"
+        >
+          <i class="icon-briefcase"></i>
+          <span class="title">Roles</span>
+        </a>
+      </li>
+      <li *ngIf="menuAccess.master" class="nav-item">
+        <a
+          routerLinkActive="active"
+          routerLink="../pages/master"
+          class="nav-link nav-toggle"
+        >
+          <i class="icon-globe"></i>
+          <span class="title">Master</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>

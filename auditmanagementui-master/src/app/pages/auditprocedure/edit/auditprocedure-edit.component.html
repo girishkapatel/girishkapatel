@@ -1,0 +1,471 @@
+<div class="page-content">
+  <div class="page-bar">
+    <ul class="page-breadcrumb">
+      <li>
+        <a href="javascript:void(0)">Home</a>
+        <i class="fa fa-circle"></i>
+      </li>
+      <li>
+        <span>Audit Procedure</span>
+      </li>
+    </ul>
+    <button
+      type="button"
+      class="btn btn-default pull-right"
+      style="margin-top: 4px"
+      (click)="backToAuditProcedureView()"
+    >
+      <i class="fa fa-arrow-left"></i> Back
+    </button>
+  </div>
+  <div class="row pt-30">
+    <div class="col-lg-12 col-md-12">
+      <div class="portlet box yellow">
+        <div class="portlet-title">
+          <div class="caption">
+            <i class="fa fa-plus"></i>Edit Audit Procedure
+          </div>
+          <div class="tools">
+            <a href="javascript:;" class="collapse"> </a>
+          </div>
+        </div>
+        <div class="portlet-body">
+          <!-- BEGIN FORM-->
+          <form action="#" class="horizontal-form">
+            <div class="form-body">
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="control-label">Procedure ID</label>
+                    <input
+                      type="text"
+                      id="prid"
+                      value="PTP.P.01"
+                      placeholder="Procedure ID"
+                      class="form-control"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-8">
+                  <div class="form-group">
+                    <label class="control-label">Procedure Title</label>
+                    <input
+                      type="text"
+                      value="Negative testing of system restriction"
+                      id="ptitle"
+                      placeholder="Procedure Title"
+                      class="form-control"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="control-label">Select Company</label>
+                    <select
+                      id="processl1"
+                      placeholder="Select Company"
+                      class="form-control"
+                    >
+                      <option value="">Select Company</option>
+                      <option value="" selected>Tata Chemical Limited</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="control-label">Select Division</label>
+                    <select
+                      id="processl2"
+                      placeholder="Select Division"
+                      class="form-control"
+                    >
+                      <option value="">Select Division</option>
+                      <option value="" selected>Chemical</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="control-label">Location</label>
+                    <select
+                      id="processl2"
+                      placeholder="Select Location"
+                      class="form-control"
+                    >
+                      <option value="">Select Location</option>
+                      <option value="" selected>Mithapur</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="control-label">Select Business Cycle</label>
+                    <select
+                      id="processl1"
+                      placeholder="Select Business Cycle"
+                      class="form-control"
+                    >
+                      <option value="">Select Business Cycle</option>
+                      <option value="" selected>Procure To Pay</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="control-label">Select Process L1</label>
+                    <select
+                      id="processl2"
+                      placeholder="Select Process L1"
+                      class="form-control"
+                    >
+                      <option value="">Select Process L1</option>
+                      <option value="" selected>Accounts Payable</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="control-label">Select Process L2</label>
+                    <select
+                      id="processl2"
+                      placeholder="Select Process L2"
+                      class="form-control"
+                    >
+                      <option value="">Select Process L2</option>
+                      <option value="" selected>Invoice Processing</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="control-label">Select Risk</label>
+                    <select
+                      id="risk"
+                      placeholder="Select Risk Rating"
+                      class="form-control"
+                    >
+                      <option value="">Select Risk</option>
+                      <option value="" selected>PTP. R.01</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="control-label">Risk ID</label>
+                    <input
+                      type="text"
+                      id="riskid"
+                      value="PTP. R.01"
+                      placeholder="Risk ID"
+                      class="form-control"
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="control-label">Risk Rating</label>
+                    <input
+                      type="text"
+                      id="Rating"
+                      value="High"
+                      placeholder="Risk Rating"
+                      class="form-control"
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label class="control-label">Risk Description</label>
+                    <textarea
+                      id="riskdesc"
+                      placeholder="Risk Description"
+                      class="form-control"
+                      disabled
+                    >
+Duplicate booking of invoices resulting due to lack of system restriction resulting into double payments</textarea
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div *ngIf="!formVisible" class="form-actions top text-right">
+                    <button
+                      type="button"
+                      (click)="addControl()"
+                      class="btn btn-primary"
+                    >
+                      <i class="fa fa-plus"></i> New Audit Steps
+                    </button>
+                  </div>
+                  <div *ngIf="!formVisible" class="mt-20">
+                    <app-table
+                      [tableId]="tableId"
+                      [tableColumns]="tableColumns"
+                      [tableData]="tableData"
+                      [tableFilters]="tableFilters"
+                    ></app-table>
+                  </div>
+                  <div *ngIf="formVisible">
+                    <h4>New Audit Steps</h4>
+                    <hr />
+                    <form>
+                      <div class="form-body">
+                        <div class="row">
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <label class="control-label"
+                                >Select Control</label
+                              >
+                              <select
+                                id="nature"
+                                placeholder="Select Control Nature"
+                                class="form-control"
+                              >
+                                <option value="">Select Control</option>
+                                <option value="">
+                                  System restriction to process duplicate
+                                  payment
+                                </option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <label class="control-label">Control ID</label>
+                              <input
+                                type="text"
+                                id="Controlid"
+                                placeholder="Control ID"
+                                class="form-control"
+                                disabled
+                              />
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <label class="control-label">Control Owner</label>
+                              <input
+                                type="text"
+                                id="Control Owner"
+                                placeholder="Control Owner"
+                                class="form-control"
+                                disabled
+                              />
+                            </div>
+                          </div>
+                          <div class="col-md-12">
+                            <div class="form-group">
+                              <label class="control-label"
+                                >Enter Control Description</label
+                              >
+                              <textarea
+                                id="Controldesc"
+                                placeholder="Control Description"
+                                class="form-control"
+                                disabled
+                              ></textarea>
+                            </div>
+                          </div>
+                          <div class="col-md-12">
+                            <div class="form-group">
+                              <label class="control-label">Audit Step 1</label>
+                              <input
+                                type="text"
+                                value="Perform process walkthrough of invoice processing and perform negative testing of duplicate invoice processing"
+                                id="astep"
+                                placeholder="Audit Step"
+                                class="form-control"
+                              />
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label class="control-label">Data Required</label>
+                              <input
+                                type="text"
+                                id="datareq"
+                                value="Screen shot of duplicate payment"
+                                placeholder="Data Required"
+                                class="form-control"
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label class="control-label">Performed By</label>
+                              <select
+                                id="resource"
+                                placeholder="Select Resource"
+                                class="form-control"
+                              >
+                                <option value="">Select Resource</option>
+                                <option value="">Ashwini Marathe</option>
+                              </select>
+                            </div>
+                          </div>
+
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label class="control-label">Date Period</label>
+                              <div class="input-group">
+                                <input
+                                  type="text"
+                                  id="datereq"
+                                  class="form-control"
+                                  placeholder="dd/mm/yyyy"
+                                  name="datereq"
+                                  [(ngModel)]="datereq"
+                                  ngbDatepicker
+                                  #plannedsdate="ngbDatepicker"
+                                  readonly
+                                />
+                                <div class="input-group-btn">
+                                  <button
+                                    class="btn btn-default calendar"
+                                    (click)="plannedsdate.toggle()"
+                                    type="button"
+                                  >
+                                    <i class="fa fa-calendar"></i>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label class="control-label">Days Required</label>
+                              <input
+                                type="text"
+                                id="datereq"
+                                placeholder="Days Required"
+                                class="form-control"
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-md-8">
+                            <div class="form-group">
+                              <label class="control-label"
+                                >Analytics Reference</label
+                              >
+                              <input
+                                type="text"
+                                id="ref"
+                                placeholder="Analytics Reference"
+                                class="form-control"
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <label class="control-label">Data Source</label>
+                              <select
+                                id="source"
+                                placeholder="Select Data Source"
+                                class="form-control"
+                              >
+                                <option value="">Select Data Source</option>
+                                <option value="">Manual</option>
+                                <option value="">Automated</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- <div class="row">
+                                                    <div class="col-md-6">
+                                                        <h4>Audit Steps</h4>
+                                                    </div>
+                                                    <div class="col-md-6 text-right">
+                                                        <button type="button" (click)="addAuditSteps()" class="btn green"><i class="fa fa-plus"></i> Add Steps</button>
+                                                    </div>
+                                                    
+                                                    <div class="col-md-12 text-center">
+                                                     <hr>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mb-20" style="padding: 25px 10px; border: 1px solid #ededed; margin: 0px;">
+                                                    <div class="col-md-6">
+                                                        <h4>Audit Steps 1</h4>
+                                                       
+                                                    </div>
+                                                    <div class="col-md-6 text-right">
+                                                        <button title="Delete" type="button" class="btn btn-xs red mt-10" ><i class="fa fa-close"></i></button>
+                                                       
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                    <hr>
+                                                    </div>
+                                                    
+                                                </div> -->
+                      </div>
+
+                      <div class="form-actions">
+                        <div class="row">
+                          <div class="col-md-12 text-right">
+                            <button
+                              type="button"
+                              (click)="cancelControlAddEdit($event)"
+                              class="btn btn-success"
+                            >
+                              <i class="fa fa-save"></i> Save
+                            </button>
+                            <button
+                              type="button"
+                              (click)="cancelControlAddEdit($event)"
+                              class="btn btn-default"
+                            >
+                              <i class="fa fa-close"></i> Cancel
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="form-actions text-center mt-30 mb-15"
+              *ngIf="!formVisible"
+            >
+              <button type="button" class="btn btn-success">
+                <i class="fa fa-save"></i> Save
+              </button>
+
+              <button type="button" class="btn btn-success">
+                <i class="fa fa-save"></i> Save Draft
+              </button>
+
+              <button type="button" class="btn btn-danger">
+                <i class="fa fa-trash"></i> Delete
+              </button>
+
+              <button
+                type="button"
+                (click)="backToAuditProcedureView()"
+                class="btn btn-default"
+              >
+                <i class="fa fa-close"></i> Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+</div>

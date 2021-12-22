@@ -1,0 +1,134 @@
+<div id="pl1Component">
+  <div *ngIf="!formVisible" class="form-actions top text-right">
+    <button [disabled]="isStackHolder"
+      type="button"
+      (click)="addProcessLevel1()"
+      class="btn btn-primary"
+      *ngIf="accessRights.isAdd"
+    >
+      <i class="fa fa-plus"></i> New
+    </button>
+  </div>
+
+  <div *ngIf="!formVisible" class="mt-20">
+    <app-table
+      [tableId]="tableId"
+      [tableColumns]="tableColumns"
+      [tableApi]="'api/processl1'"
+      [tableFilters]="tableFilters"
+    ></app-table>
+  </div>
+
+  <div *ngIf="formVisible">
+    <div class="portlet box blue">
+      <div class="portlet-title">
+        <div class="caption"><i class="fa fa-plus"></i> Process L1</div>
+        <div class="tools">
+          <a href="javascript:;" class="collapse"> </a>
+        </div>
+      </div>
+      <div class="portlet-body form">
+        <form
+          (ngSubmit)="saveProcessLevel1($event)"
+          #processlevel1Form="ngForm"
+        >
+          <div class="form-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label"
+                    >Select Business Cycle
+                    <span class="text-danger">*</span></label
+                  >
+                  <select
+                    #businessCycleIds="ngModel"
+                    id="businessCycle"
+                    name="BusinessCycleId"
+                    placeholder="Select Business Cycle"
+                    class="form-control"
+                    [(ngModel)]="businessCycleId"
+                    [ngClass]="{
+                      'red-border-class': businessCycleIds.errors && submitted
+                    }"
+                    required
+                  >
+                    <option value="">Select Business Cycle</option>
+                    <option
+                      *ngFor="let businessCycle of businessCycleOptions"
+                      [value]="businessCycle.id"
+                    >
+                      {{ businessCycle.name }}
+                    </option>
+                  </select>
+                  <div
+                    *ngIf="
+                      processlevel1Form.submitted && businessCycleIds.invalid
+                    "
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger"
+                      *ngIf="businessCycleIds.errors.required"
+                    >
+                      Business Cycle is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label"
+                    >Process Level 1 <span class="text-danger">*</span></label
+                  >
+                  <input
+                    #processlevel1Names="ngModel"
+                    type="text"
+                    id="processlevel1name"
+                    name="Name"
+                    placeholder="Enter Process L1 Name"
+                    [(ngModel)]="processlevel1Name"
+                    class="form-control"
+                    ngModel
+                    [ngClass]="{
+                      'red-border-class': processlevel1Names.errors && submitted
+                    }"
+                    required
+                  />
+                  <div
+                    *ngIf="
+                      processlevel1Form.submitted && processlevel1Names.invalid
+                    "
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger"
+                      *ngIf="processlevel1Names.errors.required"
+                    >
+                      Process Level 1 is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-actions">
+            <div class="row">
+              <div class="col-md-12 text-right">
+                <button type="submit" class="btn btn-success">
+                  <i class="fa fa-save"></i> Save
+                </button>
+                <button
+                  type="button"
+                  (click)="cancelAddEdit($event)"
+                  class="btn btn-default"
+                >
+                  <i class="fa fa-close"></i> Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

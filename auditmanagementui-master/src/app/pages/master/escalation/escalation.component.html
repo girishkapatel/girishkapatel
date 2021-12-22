@@ -1,0 +1,371 @@
+<div id="escalationComponent">
+  <div *ngIf="!formVisible" class="portlet light">
+    <div class="portlet-title">
+      <div class="caption">
+        <span class="caption-subject bold uppercase">Audits Escalations</span>
+      </div>
+
+      <div class="actions">
+        <button [disabled]="isStackHolder"
+          type="button"
+          class="btn btn-primary"
+          (click)="addNewEscalation()"
+          *ngIf="accessRights.isAdd"
+        >
+          <i class="fa fa-plus"></i> New
+        </button>
+      </div>
+    </div>
+
+    <div class="portlet-body">
+      <app-table
+        [tableId]="tableId"
+        [tableColumns]="tableColumns"
+        [tableApi]="'api/escalation'"
+        [tableFilters]="tableFilters"
+      >
+      </app-table>
+    </div>
+  </div>
+
+  <div [ngClass]="{ hide: !formVisible }">
+    <form
+      name="form"
+      (ngSubmit)="saveEscalation($event) && escalationForm.form.valid"
+      #escalationForm="ngForm"
+      novalidate
+    >
+      <div class="form-body">
+        <div class="portlet light">
+          <div class="portlet-title">
+            <div class="caption" *ngIf="!isEdit">
+              <span class="caption-subject bold uppercase">New Escalation</span>
+            </div>
+
+            <div class="caption" *ngIf="isEdit">
+              <span class="caption-subject bold uppercase"
+                >Update Escalation</span
+              >
+            </div>
+          </div>
+
+          <div class="portlet-body">
+            <div class="row">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label class="control-label"
+                    >Module<span class="text-danger">*</span></label
+                  >
+                  <select
+                    class="form-control"
+                    id="module"
+                    name="module"
+                    [(ngModel)]="module"
+                    (change)="selectModule()"
+                    required
+                    #modules="ngModel"
+                    [disabled]="isEdit"
+                    [ngClass]="{
+                      'red-border-class': 
+                        modules.errors && escalationForm.submitted
+                    }"
+                  >
+                    <option value="">Select Module</option>
+                    <option value="Activity">Activity</option>
+                    <option value="Data Tracker">Data Tracker</option>
+                    <option value="Testing Of Controls">
+                      Testing Of Controls
+                    </option>
+                    <option value="Draft Report">Draft Report</option>
+                    <option value="Follow Up">Action Plan Follow Up</option>
+                    <option value="TOR">TOR</option>
+                  </select>
+                  <div
+                    *ngIf="escalationForm.submitted && modules.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="modules.errors.required"
+                    >
+                      Module is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label class="control-label"
+                    >Type<span class="text-danger">*</span></label
+                  >
+                  <select
+                    class="form-control"
+                    id="type"
+                    name="type"
+                    [(ngModel)]="type"
+                    (change)="selectType($event)"
+                    required
+                    #types="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                        types.errors && escalationForm.submitted
+                    }"
+                  >
+                    <option value="Reminder">Reminder</option>
+                    <option value="Escalation">Escalation</option>
+                  </select>
+                  <div
+                    *ngIf="escalationForm.submitted && types.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="types.errors.required"
+                    >
+                      Type is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-2 text-right" style="margin-top: 25px">
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  (click)="addNewEscalationRule()"
+                  [disabled]="isDisabledAddRule"
+                >
+                  <i class="fa fa-plus"></i> New Escalation Rule
+                </button>
+              </div>
+
+              <div class="col-md-12">
+                <table id="tblEscalationRules" class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>Condition (Ex: 1 Day After Due Date)</th>
+                      <th>Interval</th>
+                      <th>Before/After</th>
+                      <th>Counter</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <div class="row">
+          <div class="col-md-12 text-right">
+            <button type="submit" class="btn btn-success">
+              <i class="fa fa-save"></i> Save
+            </button>
+
+            <button
+              type="button"
+              (click)="cancelEscalationEdit($event)"
+              class="btn btn-default"
+            >
+              <i class="fa fa-close"></i> Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="manageEscalationRules"
+  tabindex="-1"
+  data-width="760"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" *ngIf="!isEditRule">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        ></button>
+        <h4 class="modal-title" style="font-weight: bold">
+          <i class="fa fa-plus"></i> &nbsp;New Escalation Rule
+        </h4>
+      </div>
+
+      <div class="modal-header" *ngIf="isEditRule">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        ></button>
+        <h4 class="modal-title" style="font-weight: bold">
+          <i class="fa fa-edit"></i> &nbsp;Update Escalation Rule
+        </h4>
+      </div>
+      <form
+        name="form"
+        (ngSubmit)="
+          saveEscalationRule($event) && escalationRulesForm.form.valid
+        "
+        #escalationRulesForm="ngForm"
+      >
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label"
+                  >Condition (Ex: 1 Day After Due Date)<span class="text-danger"
+                    >*</span
+                  ></label
+                >
+                <input
+                  type="number"
+                  name="ruleCondition"
+                  class="form-control"
+                  id="ruleCondition"
+                  [(ngModel)]="ruleCondition"
+                  required
+                  #ruleConditions="ngModel"
+                  min="1"
+                  step="1"
+                  [ngClass]="{
+                    'red-border-class':
+                      ruleConditions.errors && escalationRulesForm.submitted
+                  }"
+                />
+                <div
+                  *ngIf="
+                    escalationRulesForm.submitted && ruleConditions.invalid
+                  "
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="ruleConditions.errors.required"
+                  >
+                    Condition is required
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <label class="control-label">Interval</label>
+                <select
+                  id="ruleInterval"
+                  name="ruleInterval"
+                  class="form-control"
+                  [(ngModel)]="ruleInterval"
+                >
+                  <option value="1 Day">1 Day</option>
+                  <option value="2 Days">2 Days</option>
+                  <option value="3 Days">3 Days</option>
+                  <option value="4 Days">4 Days</option>
+                  <option value="5 Days">5 Days</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <label class="control-label">Before/After</label>
+                <select
+                  id="ruleBeforeAfter"
+                  name="ruleBeforeAfter"
+                  class="form-control"
+                  [(ngModel)]="ruleBeforeAfter"
+                >
+                  <option value="Before">Before</option>
+                  <option value="sameDay">Same Day</option>
+                  <option value="After">After</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- <div class="col-md-12"> -->
+            <!-- <div class="form-group"> -->
+            <!-- <label class="control-label">Escalated To</label> -->
+            <!-- <ng-multiselect-dropdown -->
+            <!-- [data]="userOpts" -->
+            <!-- [(ngModel)]="ruleEscalatedToIds" -->
+            <!-- [settings]="dropdownSettings" -->
+            <!-- name="ruleEscalatedToIds" -->
+            <!-- (onSelect)="onEscalatedToSelect($event)" -->
+            <!-- (onDeSelect)="onEscalatedToDeselect($event)" -->
+            <!-- > -->
+            <!-- </ng-multiselect-dropdown> -->
+            <!-- </div> -->
+            <!-- </div> -->
+
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="control-label">{{ type }} Counter</label>
+                <select
+                  class="form-control"
+                  id="counter"
+                  name="counter"
+                  [(ngModel)]="counter"
+                  required
+                  #counters="ngModel"
+                  [ngClass]="{
+                    'red-border-class':
+                      counters.errors && escalationRulesForm.submitted
+                  }"
+                >
+                  <option value="">Select Counter</option>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                </select>
+                <div
+                  *ngIf="escalationRulesForm.submitted && counters.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="counters.errors.required"
+                  >
+                    Counter is required
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-success" *ngIf="!isEditRule">
+                <i class="fa fa-save"></i> Save
+              </button>
+
+              <button type="submit" class="btn btn-success" *ngIf="isEditRule">
+                <i class="fa fa-save"></i> Save
+              </button>
+
+              <button
+                type="button"
+                class="btn btn-default"
+                data-dismiss="modal"
+              >
+                <i class="fa fa-close"></i> Close
+              </button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+      </form>
+      <!-- /.modal-dialog -->
+    </div>
+  </div>
+</div>

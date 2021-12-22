@@ -1,0 +1,161 @@
+<div id="CPIComponent">
+  <div class="portlet light">
+    <div class="portlet-title">
+      <div class="caption">
+        <span class="caption-subject bold uppercase">Activity Logs</span>
+      </div>
+
+      <div class="actions"></div>
+    </div>
+
+    <div class="portlet-body">
+      <form
+        (ngSubmit)="saveActivityLog($event) && activityForm.form.valid"
+        #activityForm="ngForm"
+      >
+        <div class="form-body">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label"
+                  >From Date <span class="text-danger">*</span></label
+                >
+
+                <div class="input-group">
+                  <input
+                    type="text"
+                    id="FromDate"
+                    class="form-control"
+                    placeholder="dd/mm/yyyy"
+                    name="FromDate"
+                    [(ngModel)]="FromDate"
+                    ngbDatepicker
+                    #fromDate="ngbDatepicker"
+                    required
+                    readonly
+                    [ngClass]="{
+                      'red-border-class':
+                        fromDate.errors && activityForm.submitted
+                    }"
+                  />
+                  <div class="input-group-btn">
+                    <button
+                      class="btn btn-default calendar"
+                      (click)="fromDate.toggle()"
+                      type="button"
+                    >
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <div
+                  *ngIf="activityForm.submitted && fromDate.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="fromDate.errors.required"
+                  >
+                    From Date is required
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label"
+                  >To date <span class="text-danger">*</span></label
+                >
+
+                <div class="input-group">
+                  <input
+                    type="text"
+                    id="ToDate"
+                    class="form-control"
+                    placeholder="dd/mm/yyyy"
+                    name="ToDate"
+                    [(ngModel)]="ToDate"
+                    ngbDatepicker
+                    #toDate="ngbDatepicker"
+                    required
+                    readonly
+                    [ngClass]="{
+                      'red-border-class':
+                        toDate.errors && activityForm.submitted
+                    }"
+                  />
+                  <div class="input-group-btn">
+                    <button
+                      class="btn btn-default calendar"
+                      (click)="toDate.toggle()"
+                      type="button"
+                    >
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <div
+                  *ngIf="activityForm.submitted && toDate.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="toDate.errors.required"
+                  >
+                    To Date is required
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label class="control-label" style="visibility: hidden"
+                  >Search
+                </label>
+                <div class="input-group">
+                  <span class="input-group-btn">
+                    <button type="submit" class="btn btn-primary">
+                      <i class="fa fa-search"></i>
+                    </button>
+
+                    <button [disabled]="isStackHolder"
+                      type="button"
+                      (click)="deleteActivityLog()"
+                      class="btn btn-danger pull-right"
+                    >
+                      <i class="fa fa-trash"></i> Delete
+                    </button>
+                  </span>
+                </div>
+              </div>
+              <!-- <div class="form-group">
+                <label class="control-label" style="visibility: hidden"
+                  >Delete
+                </label>
+                <div class="input-group">
+                  <span class="input-group-btn">
+                    <button type="submit" class="btn green">
+                      <i class="fa fa-trash"></i>
+                    </button>
+                  </span>
+                </div>
+              </div> -->
+            </div>
+          </div>
+        </div>
+      </form>
+      <table [id]="tableId" class="table table-bordered"></table>
+    </div>
+  </div>
+</div>
+
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+>
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

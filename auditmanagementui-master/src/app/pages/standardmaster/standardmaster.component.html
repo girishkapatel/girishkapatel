@@ -1,0 +1,351 @@
+<div class="page-content">
+  <div class="page-bar">
+    <ul class="page-breadcrumb">
+      <li>
+        <a href="javascript:void(0)">Home</a>
+        <i class="fa fa-circle"></i>
+      </li>
+      <li>
+        <span>Master</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="row mt-30">
+    <div class="col-md-12">
+      <div class="portlet box blue">
+        <div class="portlet-title">
+          <div class="caption"><i class="icon-globe"></i>Master</div>
+
+          <div class="actions">
+            <div class="btn-group">
+              <button
+                class="btn dropdown-toggle"
+                data-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <i class="icon-globe font-dark"></i>&nbsp;
+                <span class="caption-subject font-dark bold uppercase"
+                  >Menu</span
+                >&nbsp;
+                <i class="fa fa-angle-down font-dark"></i>
+              </button>
+
+              <ul
+                class="dropdown-menu pull-right"
+                role="menu"
+                style="overflow-x: auto"
+              >
+                <li role="presentation" *ngIf="standardmaster.countrystatecity">
+                  <a
+                    role="menuitem"
+                    tabindex="-1"
+                    href="javascript:;"
+                    routerLinkActive="active"
+                    routerLink="countrystatecity"
+                  >
+                    Country, State, City
+                  </a>
+                </li>
+
+                <li role="presentation" *ngIf="standardmaster.company">
+                  <a
+                    role="menuitem"
+                    tabindex="-1"
+                    href="javascript:;"
+                    routerLinkActive="active"
+                    routerLink="company"
+                  >
+                    Company
+                  </a>
+                </li>
+                <li role="presentation" *ngIf="standardmaster.processmaster">
+                  <a
+                    role="menuitem"
+                    tabindex="-1"
+                    href="javascript:;"
+                    routerLinkActive="active"
+                    routerLink="processmaster"
+                  >
+                    Process Master
+                  </a>
+                </li>
+                <li role="presentation" *ngIf="standardmaster.location">
+                  <a
+                    role="menuitem"
+                    tabindex="-1"
+                    href="javascript:;"
+                    routerLinkActive="active"
+                    routerLink="location"
+                  >
+                    Location
+                  </a>
+                </li>
+                <li
+                  role="presentation"
+                  *ngIf="standardmaster.processlocationmapping"
+                >
+                  <a
+                    role="menuitem"
+                    tabindex="-1"
+                    href="javascript:;"
+                    routerLinkActive="active"
+                    routerLink="processlocationmapping"
+                  >
+                    Process Location Mapping
+                  </a>
+                </li>
+
+                <li role="presentation" *ngIf="standardmaster.risktype">
+                  <a
+                    role="menuitem"
+                    tabindex="-1"
+                    href="javascript:;"
+                    routerLinkActive="active"
+                    routerLink="risktype"
+                  >
+                    Risk Type
+                  </a>
+                </li>
+
+                <li
+                  role="presentation"
+                  *ngIf="standardmaster.reportconsideration"
+                >
+                  <a
+                    role="menuitem"
+                    tabindex="-1"
+                    href="javascript:;"
+                    routerLinkActive="active"
+                    routerLink="reportconsideration"
+                  >
+                    Report Consideration
+                  </a>
+                </li>
+
+                <li role="presentation" *ngIf="standardmaster.recommendation">
+                  <a
+                    role="menuitem"
+                    tabindex="-1"
+                    href="javascript:;"
+                    routerLinkActive="active"
+                    routerLink="recommendation"
+                  >
+                    Recommendation
+                  </a>
+                </li>
+
+                <li role="presentation" *ngIf="standardmaster.rootcause">
+                  <a
+                    role="menuitem"
+                    tabindex="-1"
+                    href="javascript:;"
+                    routerLinkActive="active"
+                    routerLink="rootcause"
+                  >
+                    Root Cause
+                  </a>
+                </li>
+
+                <li role="presentation" *ngIf="standardmaster.impact">
+                  <a
+                    role="menuitem"
+                    tabindex="-1"
+                    href="javascript:;"
+                    routerLinkActive="active"
+                    routerLink="impact"
+                  >
+                    Impact
+                  </a>
+                </li>
+
+                <li role="presentation" *ngIf="standardmaster.trialbalance">
+                  <a
+                    role="menuitem"
+                    tabindex="-1"
+                    href="javascript:;"
+                    routerLinkActive="active"
+                    routerLink="trialbalance"
+                  >
+                    Trail Balance
+                  </a>
+                </li>
+
+                <li
+                  role="presentation"
+                  *ngIf="standardmaster.observationgrading"
+                >
+                  <a
+                    role="menuitem"
+                    tabindex="-1"
+                    href="javascript:;"
+                    routerLinkActive="active"
+                    routerLink="observationgrading"
+                  >
+                    Observation Grading
+                  </a>
+                </li>
+
+                <li role="presentation" *ngIf="standardmaster.escalation">
+                  <a
+                    role="menuitem"
+                    tabindex="-1"
+                    href="javascript:;"
+                    routerLinkActive="active"
+                    routerLink="escalation"
+                  >
+                    Audits Escalation
+                  </a>
+                </li>
+                <li role="presentation" *ngIf="standardmaster.designation">
+                  <a
+                    role="menuitem"
+                    tabindex="-1"
+                    href="javascript:;"
+                    routerLinkActive="active"
+                    routerLink="designation"
+                  >
+                    Designation
+                  </a>
+                </li>
+
+                <li
+                  role="presentation"
+                  *ngIf="standardmaster.controlperformanceindicator"
+                >
+                  <a
+                    role="menuitem"
+                    tabindex="-1"
+                    href="javascript:;"
+                    routerLinkActive="active"
+                    routerLink="controlperformanceindicator"
+                  >
+                    Control Performance Indicator
+                  </a>
+                </li>
+                <li role="presentation" *ngIf="standardmaster.activitylogs">
+                  <a
+                    role="menuitem"
+                    tabindex="-1"
+                    href="javascript:;"
+                    routerLinkActive="active"
+                    routerLink="activitylogs"
+                  >
+                    Activity Logs
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="portlet-body">
+          <div class="row">
+            <!-- <div class="master-menu portlet light bordered"> -->
+            <!-- <div class="portlet-title tabbable-line"> -->
+            <!-- <div class="caption"> -->
+            <!-- <i class="icon-globe font-dark"></i> -->
+            <!-- <span class="caption-subject font-dark bold uppercase" -->
+            <!-- >Menu</span -->
+            <!-- > -->
+            <!-- </div> -->
+            <!-- <div class="tools"> -->
+            <!-- <a href="" class="expand"> </a> -->
+            <!-- </div> -->
+            <!-- </div> -->
+            <!-- <div class="portlet-body" style="display: none"> -->
+            <!-- <ul class="nav nav-tabs tabs-left"> -->
+            <!-- <li *ngIf="standardmaster.company"> -->
+            <!-- <a routerLinkActive="active" routerLink="company"> -->
+            <!-- Company -->
+            <!-- </a> -->
+            <!-- </li> -->
+            <!-- <li *ngIf="standardmaster.location"> -->
+            <!-- <a routerLinkActive="active" routerLink="location"> -->
+            <!-- Location -->
+            <!-- </a> -->
+            <!-- </li> -->
+            <!-- <li *ngIf="standardmaster.processmaster"> -->
+            <!-- <a routerLinkActive="active" routerLink="processmaster"> -->
+            <!-- Process Master -->
+            <!-- </a> -->
+            <!-- </li> -->
+            <!--  -->
+            <!-- <li *ngIf="standardmaster.processlocationmapping"> -->
+            <!-- <a -->
+            <!-- routerLinkActive="active" -->
+            <!-- routerLink="processlocationmapping" -->
+            <!-- > -->
+            <!-- Process Location Mapping -->
+            <!-- </a> -->
+            <!-- </li> -->
+            <!--  -->
+            <!-- <li *ngIf="standardmaster.risktype"> -->
+            <!-- <a routerLinkActive="active" routerLink="risktype"> -->
+            <!-- Risk Type -->
+            <!-- </a> -->
+            <!-- </li> -->
+            <!--  -->
+            <!-- <li *ngIf="standardmaster.reportconsideration"> -->
+            <!-- <a -->
+            <!-- routerLinkActive="active" -->
+            <!-- routerLink="reportconsideration" -->
+            <!-- > -->
+            <!-- Report Consideration -->
+            <!-- </a> -->
+            <!-- </li> -->
+            <!--  -->
+            <!-- <li *ngIf="standardmaster.recommendation"> -->
+            <!-- <a routerLinkActive="active" routerLink="recommendation"> -->
+            <!-- Recommendation -->
+            <!-- </a> -->
+            <!-- </li> -->
+            <!--  -->
+            <!-- <li *ngIf="standardmaster.rootcause"> -->
+            <!-- <a routerLinkActive="active" routerLink="rootcause"> -->
+            <!-- Root Cause -->
+            <!-- </a> -->
+            <!-- </li> -->
+            <!--  -->
+            <!-- <li *ngIf="standardmaster.impact"> -->
+            <!-- <a routerLinkActive="active" routerLink="impact"> -->
+            <!-- Impact -->
+            <!-- </a> -->
+            <!-- </li> -->
+            <!--  -->
+            <!-- <li *ngIf="standardmaster.trialbalance"> -->
+            <!-- <a routerLinkActive="active" routerLink="trialbalance"> -->
+            <!-- Trail Balance -->
+            <!-- </a> -->
+            <!-- </li> -->
+            <!--  -->
+            <!-- <li *ngIf="standardmaster.observationgrading"> -->
+            <!-- <a -->
+            <!-- routerLinkActive="active" -->
+            <!-- routerLink="observationgrading" -->
+            <!-- > -->
+            <!-- Observation Grading -->
+            <!-- </a> -->
+            <!-- </li> -->
+            <!-- <li *ngIf="standardmaster.escalation"> -->
+            <!-- <a routerLinkActive="active" routerLink="escalation"> -->
+            <!-- Audits Escalation -->
+            <!-- </a> -->
+            <!-- </li> -->
+            <!-- </ul> -->
+            <!-- </div> -->
+            <!-- </div> -->
+
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="tab-content">
+                <div class="tab-pane active">
+                  <router-outlet></router-outlet>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

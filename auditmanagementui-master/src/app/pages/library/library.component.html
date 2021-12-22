@@ -1,0 +1,124 @@
+<div class="page-content">
+  <div class="page-bar">
+    <ul class="page-breadcrumb">
+      <li>
+        <a href="javascript:void(0)">Home</a>
+        <i class="fa fa-circle"></i>
+      </li>
+      <li>
+        <span>Knowledge Library</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="row mt-30">
+    <div class="col-md-12">
+      <div class="portlet box blue">
+        <div class="portlet-title">
+          <div class="caption"><i class="icon-grid"></i>Knowledge Library</div>
+
+          <div class="actions">
+            <div class="btn-group">
+              <button
+                class="btn dropdown-toggle myClass"
+                data-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <i class="icon-globe font-dark"></i>&nbsp;
+                <span class="caption-subject font-dark bold uppercase"
+                  >Menu</span
+                >&nbsp;
+                <i class="fa fa-angle-down font-dark"></i>
+              </button>
+
+              <ul class="dropdown-menu pull-right" role="menu">
+                <li role="presentation" *ngIf="library.processuniverse">
+                  <a
+                    role="menuitem"
+                    tabindex="-1"
+                    href="javascript:;"
+                    routerLinkActive="active"
+                    routerLink="processuniverse"
+                  >
+                    Process Universe
+                  </a>
+                </li>
+
+                <li role="presentation" class="hide">
+                  <a
+                    role="menuitem"
+                    tabindex="-1"
+                    href="javascript:;"
+                    routerLinkActive="active"
+                    routerLink="datarequest"
+                  >
+                    Initial Data Request
+                  </a>
+                </li>
+
+                <li role="presentation" *ngIf="library.racm">
+                  <a
+                    role="menuitem"
+                    tabindex="-1"
+                    href="javascript:;"
+                    routerLinkActive="active"
+                    routerLink="racm"
+                  >
+                    RACM
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="portlet-body">
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="tab-content">
+                <div class="tab-pane active">
+                  <router-outlet></router-outlet>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- <div class="portlet-body"> -->
+        <!-- <div class="row"> -->
+        <!-- <div class="master-menu portlet light bordered"> -->
+        <!-- <div class="portlet-title tabbable-line"> -->
+        <!-- <div class="caption"> -->
+        <!-- <i class="icon-globe font-dark"></i> -->
+        <!-- <span class="caption-subject font-dark bold uppercase" -->
+        <!-- >Menu</span -->
+        <!-- > -->
+        <!-- </div> -->
+        <!-- <div class="tools"> -->
+        <!-- <a href="" class="expand"> </a> -->
+        <!-- </div> -->
+        <!-- </div> -->
+        <!-- <div class="portlet-body" style="display: none"> -->
+        <!-- <ul class="nav nav-tabs tabs-left"> -->
+        <!-- <li *ngIf="library.processuniverse"> -->
+        <!-- <a routerLinkActive="active" routerLink="processuniverse"> -->
+        <!-- Process Universe</a -->
+        <!-- > -->
+        <!-- </li> -->
+        <!-- <li class="hide"> -->
+        <!-- <a routerLinkActive="active" routerLink="datarequest"> -->
+        <!-- Initial Data Request -->
+        <!-- </a> -->
+        <!-- </li> -->
+        <!-- <li *ngIf="library.racm"> -->
+        <!-- <a routerLinkActive="active" routerLink="racm"> RACM </a> -->
+        <!-- </li> -->
+        <!-- </ul> -->
+        <!-- </div> -->
+        <!-- </div> -->
+        <!-- </div> -->
+        <!-- </div> -->
+      </div>
+    </div>
+  </div>
+</div>

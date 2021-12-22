@@ -1,0 +1,27 @@
+.highlight {
+  background-color: lightgreen;
+}
+
+.highlight .widget-thumb-subtitle,
+.highlight .widget-thumb-body-stat {
+  color: #fff;
+}
+.wrapper1,
+.wrapper2 {
+  width: 100%;
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+
+.div1 {
+  width: 2400px !important;
+  height: 30px;
+}
+
+.div2 {
+  width: 2400px !important;
+}
+.pd-top
+{
+  padding-top: 10px;
+}

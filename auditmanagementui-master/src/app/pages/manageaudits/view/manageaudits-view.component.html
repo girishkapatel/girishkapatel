@@ -1,0 +1,337 @@
+<div class="page-content">
+  <div class="page-bar">
+    <ul class="page-breadcrumb">
+      <li>
+        <a href="javascript:void(0)">Home</a>
+        <i class="fa fa-circle"></i>
+      </li>
+      <li>
+        <span>Manage Audits</span>
+      </li>
+    </ul>
+    <div
+    id="dashboard-report-range"
+    class="pull-right tooltips btn btn-fit-height blue"
+    style="margin-top: 4px"
+    data-placement="top"
+    data-original-title="Change dashboard date range"
+  >
+    <i class="icon-calendar"></i>&nbsp;
+    <span class="thin uppercase hidden-xs"></span>&nbsp;
+    <i class="fa fa-angle-down"></i>
+  </div>
+    <button
+      type="button"
+      class="btn btn-primary pull-right hide"
+      style="margin-top: 4px"
+      (click)="addAuditForm()"
+    >
+      <i class="fa fa-plus"></i> New Audit
+    </button>
+  </div>
+
+  <div class="row pt-30">
+    <div class="col-lg-12 col-xs-12 col-sm-12">
+      <form class="horizontal-form hide">
+        <div class="form-body">
+          <div class="row">
+            <div class="col-md-3">
+              <div class="input-group">
+                <span class="input-group-addon">
+                  <i class="fa fa-filter"></i>
+                </span>
+                <select
+                  class="form-control"
+                  id="company"
+                  placeholder="Select Company"
+                >
+                  <option value="">All Companies</option>
+                  <option value="">Tata Chemical Limited</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="input-group">
+                <span class="input-group-addon">
+                  <i class="fa fa-filter"></i>
+                </span>
+                <select
+                  class="form-control"
+                  id="location"
+                  placeholder="Select Location"
+                >
+                  <option value="">All Location</option>
+                  <option value="">Mithapur</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="input-group">
+                <span class="input-group-addon">
+                  <i class="fa fa-filter"></i>
+                </span>
+                <select
+                  class="form-control"
+                  id="audit"
+                  placeholder="Select Audit"
+                >
+                  <option value="">All Audits</option>
+                  <option value="">Procure To Pay</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="input-group">
+                <span class="input-group-addon">
+                  <i class="fa fa-filter"></i>
+                </span>
+                <select
+                  class="form-control"
+                  id="quarters"
+                  placeholder="Select Quarter"
+                >
+                  <option value="">All Quarters</option>
+                  <option value="">Q1</option>
+                  <option value="">Q2</option>
+                  <option value="">Q3</option>
+                  <option value="">Q4</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6">
+      <a
+        class="dashboard-stat dashboard-stat-v2 yellow"
+        (click)="showData('All Audits')"
+      >
+        <div class="visual">
+          <i class="fa fa-shopping-cart"></i>
+        </div>
+        <div class="details">
+          <div class="number">
+            <span data-counter="counterup" data-value="0"
+              ><!-- allAuditCount -->{{ summaryCountAll }}</span
+            >
+          </div>
+          <div class="desc">All</div>
+        </div>
+      </a>
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6">
+      <a
+        class="dashboard-stat dashboard-stat-v2 red"
+        (click)="showData('Audits Overdue')"
+      >
+        <div class="visual">
+          <i class="fa fa-bar-chart-o"></i>
+        </div>
+        <div class="details">
+          <div class="number">
+            <span data-counter="counterup" data-value="0"
+              ><!-- completedAuditCount -->{{ summaryCountOverdue }}</span
+            >
+          </div>
+          <div class="desc">Overdue</div>
+        </div>
+      </a>
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6">
+      <a
+        class="dashboard-stat dashboard-stat-v2 green"
+        (click)="showData('Audits to be Initiated')"
+      >
+        <div class="visual">
+          <i class="fa fa-shopping-cart"></i>
+        </div>
+        <div class="details">
+          <div class="number">
+            <span data-counter="counterup" data-value="0"
+              ><!-- toBeInitiatedAuditCount -->{{ summaryCountPlanned }}</span
+            >
+          </div>
+          <div class="desc">To be Initiated</div>
+        </div>
+      </a>
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6">
+      <a href="javascript:void(0);" (click)="showData('In-Progress Audits')">
+        <div class="dashboard-stat dashboard-stat-v2 blue">
+          <div class="visual">
+            <i class="fa fa-comments"></i>
+          </div>
+          <div class="details">
+            <div class="number">
+              <span data-counter="counterup" data-value="0"
+                ><!-- onGoingAuditCount -->{{ summaryCountInProgress }}</span
+              >
+            </div>
+            <div class="desc">In Progress</div>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6">
+      <a
+        class="dashboard-stat dashboard-stat-v2 green"
+        (click)="showData('Audits Completed')"
+      >
+        <div class="visual">
+          <i class="fa fa-bar-chart-o"></i>
+        </div>
+        <div class="details">
+          <div class="number">
+            <span data-counter="counterup" data-value="0"
+              ><!-- completedAuditCount -->{{ summaryCountCompleted }}</span
+            >
+          </div>
+          <div class="desc">Completed</div>
+        </div>
+      </a>
+    </div>
+
+    <div
+      class="col-lg-2 col-md-2 col-sm-3 col-xs-6"
+      *ngIf="unplannedAuditAccess.access"
+    >
+      <a
+        class="dashboard-stat dashboard-stat-v2 purple"
+        (click)="showData('Unplanned Audits')"
+      >
+        <div class="visual">
+          <i class="fa fa-globe"></i>
+        </div>
+        <div class="details">
+          <div class="number">
+            <span data-counter="counterup" data-value="0">
+              <!-- unplannedAuditCount -->
+              {{ summaryCountUnPlanned }}</span
+            >
+          </div>
+          <div class="desc">Unplanned</div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12 col-xs-12 col-sm-12">
+      <!-- BEGIN PORTLET-->
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption">
+            <i class="icon-bar-chart font-dark"></i>
+            <span class="caption-subject font-dark bold uppercase">{{
+              dataTitle
+            }}</span>
+          </div>
+          <div class="actions">
+            <div class="btn-group btn-group-devided" data-toggle="buttons">
+              <button
+                [disabled]="isStackHolder"
+                type="button"
+                (click)="addUnplannedAudit()"
+                class="btn btn-primary"
+                *ngIf="this.showunplannedbtn && unplannedAuditAccess.isAdd"
+              >
+                <i class="fa fa-plus"></i> New Unplanned Audit
+              </button>
+              <label
+                class="btn btn-primary btn-circle btn-sm active"
+                (click)="showDataView('data')"
+              >
+                <input type="radio" name="options" class="toggle" />Data
+              </label>
+              <!-- <label class="btn red btn-outline btn-circle btn-sm" (click)="showDataView('graph')">
+                                <input type="radio" name="options" class="toggle">Graph
+                            </label> -->
+            </div>
+          </div>
+        </div>
+
+        <div class="portlet-body">
+          <div [ngClass]="{ hide: showGraph }">
+            <table [id]="tableId" class="table table-bordered"></table>
+
+            <!-- <div [ngClass]="{ hide: !showAll }"> -->
+            <!-- <app-table -->
+            <!-- [tableId]="'all_table'" -->
+            <!-- (initComplete)="showAllAuditInit($event)" -->
+            <!-- [tableColumns]="tableColumns" -->
+            <!-- [tableApi]="tableAllApiUrl" -->
+            <!-- [tableFilters]="tableAllFiltersAudit" -->
+            <!-- ></app-table> -->
+            <!-- </div> -->
+            <!-- <div [ngClass]="{ hide: !showOngoing }"> -->
+            <!-- <app-table -->
+            <!-- [tableId]="'ongoing_table'" -->
+            <!-- (initComplete)="showOngoingInit($event)" -->
+            <!-- [tableColumns]="tableColumns" -->
+            <!-- [tableApi]="tableOngoingApiUrl" -->
+            <!-- [tableFilters]="tableFiltersAuditOngoing" -->
+            <!-- ></app-table> -->
+            <!-- </div> -->
+            <!-- <div [ngClass]="{ hide: !showCompleted }"> -->
+            <!-- <app-table -->
+            <!-- [tableId]="'completed_table'" -->
+            <!-- (initComplete)="showCompletedInit($event)" -->
+            <!-- [tableOrdering]="false" -->
+            <!-- [tableColumns]="tableColumns" -->
+            <!-- [tableApi]="tableCompletedApiUrl" -->
+            <!-- [tableFilters]="tableFiltersAuditCompleted" -->
+            <!-- ></app-table> -->
+            <!-- </div> -->
+            <!-- <div [ngClass]="{ hide: !showPlanned }"> -->
+            <!-- <app-table -->
+            <!-- [tableId]="'planned_table'" -->
+            <!-- (initComplete)="showPlannedInit($event)" -->
+            <!-- [tableColumns]="tableColumns" -->
+            <!-- [tableApi]="tableApiUrl" -->
+            <!-- [tableFilters]="tableFiltersAudit" -->
+            <!-- ></app-table> -->
+            <!-- </div> -->
+            <!-- <div [ngClass]="{ hide: !showUnplanned }"> -->
+            <!-- <app-table -->
+            <!-- [tableId]="'unplanned_table'" -->
+            <!-- (initComplete)="showUnplannedInit($event)" -->
+            <!-- [tableOrdering]="false" -->
+            <!-- [tableColumns]="tableColumns" -->
+            <!-- [tableApi]="tableUnplannedApiUrl" -->
+            <!-- [tableFilters]="tableFiltersAuditUnplanned" -->
+            <!-- ></app-table> -->
+            <!-- </div> -->
+          </div>
+          <div [ngClass]="{ hide: !showGraph }">
+            <div [ngClass]="{ hide: !showOngoing }">
+              <app-charts chartId="ongoing"></app-charts>
+            </div>
+            <div [ngClass]="{ hide: !showCompleted }">
+              <app-charts chartId="completed"></app-charts>
+            </div>
+            <div [ngClass]="{ hide: !showPlanned }">
+              <app-charts chartId="planned"></app-charts>
+            </div>
+            <div [ngClass]="{ hide: !showUnplanned }">
+              <app-charts chartId="unplanned"></app-charts>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- END PORTLET-->
+    </div>
+  </div>
+
+  <div class="clearfix"></div>
+</div>
+
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+>
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

@@ -1,0 +1,455 @@
+<div id="activityComponent">
+  <div *ngIf="!formVisible" class="form-actions top form-group">
+    <button type="button" class="btn btn-default" (click)="refreshTable()">
+      <i class="fa fa-eraser"></i> Clear Filters
+    </button>
+
+    <div class="pull-right">
+      <button
+        type="button"
+        [disabled]="isStackHolder"
+        (click)="addActivity()"
+        class="btn btn-primary"
+        *ngIf="accessRights.isAdd"
+      >
+        <i class="fa fa-plus"></i> New
+      </button>
+
+      <button type="button" class="btn btn-primary" (click)="exportActivity()">
+        <i class="fa fa-file-excel-o"></i> Download Excel
+      </button>
+      <button type="button" class="btn btn-primary"  [disabled]="isStackHolder" (click)="exportSampleActivity()">
+        <i class="fa fa-file-excel-o"></i> Sample Excel
+      </button>
+      <input type="file" #fileInput class="hidden" (change)="importExcel()" />
+
+      <button [disabled]="isStackHolder"
+        type="button"
+        class="btn btn-primary"
+        (click)="fileInput.click()"
+        *ngIf="accessRights.isEdit"
+      >
+        <i class="fa fa-file-excel-o"></i> Upload Excel
+      </button>
+
+      <button
+        type="button"
+        (click)="switchActivityView()"
+        class="btn btn-primary hide"
+      >
+        <i class="fa fa-eye"></i> {{ buttonTitle }}
+      </button>
+    </div>
+  </div>
+
+  <div [ngClass]="{ hide: formVisible }" class="row widget-row">
+    <div class="col-md-7">
+      <div
+        class="
+          widget-thumb widget-bg-color-white
+          text-uppercase
+          margin-bottom-20
+          bordered
+        "
+      >
+        <h4 class="widget-thumb-heading" (click)="filterData('all')">
+          Overview ({{
+            summaryDue + summaryCompleted + summaryInProgress + summaryDelayed
+          }})
+        </h4>
+
+        <div class="row">
+          <div class="col-md-3">
+            <div class="widget-thumb-wrap">
+              <div
+                class="widget-thumb-body text-center"
+                [ngClass]="{ highlight: filterOption == 'due' }"
+              >
+                <a (click)="filterData('due')">
+                  <span class="widget-thumb-subtitle">Due</span>
+                  <span class="widget-thumb-body-stat">{{ summaryDue }}</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="widget-thumb-wrap">
+              <div
+                class="widget-thumb-body text-center"
+                [ngClass]="{ highlight: filterOption == 'completed' }"
+              >
+                <a (click)="filterData('completed')">
+                  <span class="widget-thumb-subtitle">Completed</span>
+                  <span class="widget-thumb-body-stat">{{
+                    summaryCompleted
+                  }}</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="widget-thumb-wrap">
+              <div
+                class="widget-thumb-body text-center"
+                [ngClass]="{ highlight: filterOption == 'inprogress' }"
+              >
+                <a (click)="filterData('inprogress')">
+                  <span class="widget-thumb-subtitle">In Progress</span>
+                  <span class="widget-thumb-body-stat">{{
+                    summaryInProgress
+                  }}</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="widget-thumb-wrap">
+              <div
+                class="widget-thumb-body text-center"
+                [ngClass]="{ highlight: filterOption == 'delayed' }"
+              >
+                <a (click)="filterData('delayed')">
+                  <span class="widget-thumb-subtitle">Delayed</span>
+                  <span class="widget-thumb-body-stat">{{
+                    summaryDelayed
+                  }}</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div [ngClass]="{ hide: !timelineview }">
+    <div id="timelinediv"></div>
+  </div>
+
+  <div [ngClass]="{ hide: formVisible || timelineview }" class="mt-20">
+    <table [id]="tableId" class="table table-bordered"></table>
+    <!-- <app-table -->
+    <!-- [tableId]="'activity_table'" -->
+    <!-- [tableOrdering]="false" -->
+    <!-- [tableColumns]="tableColumnsActivity" -->
+    <!-- [tableApi]="tableApiUrl" -->
+    <!-- [tableFilters]="tableFilters" -->
+    <!-- ></app-table> -->
+  </div>
+
+  <div [ngClass]="{ hide: !formVisible }">
+    <div class="portlet box" [ngClass]="{ blue: !isEdit, yellow: isEdit }">
+      <div class="portlet-title">
+        <div class="caption">
+          <i
+            class="fa"
+            [ngClass]="{ 'fa-plus': !isEdit, 'fa-edit': isEdit }"
+          ></i>
+          Activity
+        </div>
+        <div class="tools">
+          <a href="javascript:;" class="collapse"> </a>
+        </div>
+      </div>
+      <div class="portlet-body form">
+        <form
+          (ngSubmit)="saveActivity($event) && activityForm.form.valid"
+          #activityForm="ngForm"
+        >
+          <div class="form-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label"
+                    >Activity Name <span class="text-danger">*</span></label
+                  >
+                  <input
+                    type="text"
+                    id="ActivityName"
+                    placeholder="Enter Activity Name"
+                    class="form-control"
+                    name="ActivityName"
+                    [(ngModel)]="ActivityName"
+                    required
+                    #activityName="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                        activityName.errors && activityForm.submitted
+                    }"
+                  />
+                  <div
+                    *ngIf="activityForm.submitted && activityName.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="activityName.errors.required"
+                    >
+                      Activity Name is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">Status</label>
+                  <select
+                    id="Status"
+                    class="form-control"
+                    name="ActivityStatus"
+                    [(ngModel)]="Status"
+                  >
+                    <option value="inprogress">In Progress</option>
+                    <option value="completed">Completed</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label"
+                    >Planned Timeline Start Date
+                    <span class="text-danger">*</span></label
+                  >
+                  <div class="input-group"  [ngClass]="{
+                    'red-border-class':
+                    startDate.errors && activityForm.submitted
+                  }">
+                    <input
+                      type="text"
+                      id="PlannedStartDate"
+                      class="form-control"
+                      placeholder="dd/mm/yyyy"
+                      name="PlannedStartDate"
+                      [(ngModel)]="PlannedStartDate"
+                      ngbDatepicker
+                      #startDate="ngModel"
+                      #plannedsdate="ngbDatepicker"
+                      required
+                      readonly
+                    />
+                    <div class="input-group-btn">
+                      <button
+                        class="btn btn-default calendar"
+                        (click)="plannedsdate.toggle()"
+                        type="button"
+                      >
+                        <i class="fa fa-calendar"></i>
+                      </button>
+                    </div>
+                    </div>
+                    <div
+                      *ngIf="activityForm.submitted && startDate.invalid"
+                      class="invalid-feedback"
+                    >
+                      <div
+                        class="text-danger myClass"
+                        *ngIf="startDate.errors.required"
+                      >
+                        Planned Timeline Start Date is required
+                      </div>
+                    </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label"
+                    >Planned Timeline End Date
+                    <span class="text-danger">*</span></label
+                  >
+                  <div class="input-group"   [ngClass]="{
+                    'red-border-class':
+                    pendDate.errors && activityForm.submitted
+                  }">
+                    <input
+                      type="text"
+                      id="PlannedEndDate"
+                      class="form-control"
+                      name="PlannedEndDate"
+                      [(ngModel)]="PlannedEndDate"
+                      required
+                      placeholder="dd/mm/yyyy"
+                      #plannededate="ngbDatepicker"
+                      #pendDate="ngModel"
+                      ngbDatepicker
+                      readonly
+                    />
+                    <div class="input-group-btn">
+                      <button
+                        class="btn btn-default calendar"
+                        (click)="plannededate.toggle()"
+                        type="button"
+                      >
+                        <i class="fa fa-calendar"></i>
+                      </button>
+                    </div>
+                    </div>
+                    <div
+                      *ngIf="activityForm.submitted && pendDate.invalid"
+                      class="invalid-feedback"
+                    >
+                      <div
+                        class="text-danger myClass"
+                        *ngIf="pendDate.errors.required"
+                      >
+                        Planned Timeline End Date is required
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label"
+                    >Actual Timeline Start Date
+                    <span class="text-danger">*</span></label
+                  >
+                  <div class="input-group"  [ngClass]="{
+                    'red-border-class':
+                    aStartDate.errors && activityForm.submitted
+                  }">
+                    <input
+                      type="text"
+                      id="ActualStartDate"
+                      class="form-control"
+                      name="ActualStartDate"
+                      [(ngModel)]="ActualStartDate"
+                      required
+                      readonly
+                      placeholder="dd/mm/yyyy"
+                      ngbDatepicker
+                      #Actualsdate="ngbDatepicker"
+                     #aStartDate="ngModel"
+                    />
+                    <div class="input-group-btn">
+                      <button
+                        class="btn btn-default calendar"
+                        (click)="Actualsdate.toggle()"
+                        type="button"
+                      >
+                        <i class="fa fa-calendar"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div
+                    *ngIf="activityForm.submitted && aStartDate.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="aStartDate.errors.required"
+                    >
+                      Actual Timeline Start Date is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label"
+                    >Actual Timeline End Date
+                    <span class="text-danger">*</span></label
+                  >
+                  <div class="input-group"  [ngClass]="{
+                    'red-border-class':
+                    aEndDate.errors && activityForm.submitted
+                  }">
+                    <input
+                      type="text"
+                      id="ActualEndDate"
+                      class="form-control"
+                      name="ActualEndDate"
+                      [(ngModel)]="ActualEndDate"
+                      required
+                      readonly
+                      placeholder="dd/mm/yyyy"
+                      ngbDatepicker
+                      #Actualedate="ngbDatepicker"
+                      #aEndDate="ngModel"
+                     
+                    />
+                    <div class="input-group-btn">
+                      <button
+                        class="btn btn-default calendar"
+                        (click)="Actualedate.toggle()"
+                        type="button"
+                      >
+                        <i class="fa fa-calendar"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div
+                    *ngIf="activityForm.submitted && aEndDate.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="aEndDate.errors.required"
+                    >
+                      Actual Timeline End Date is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">Responsibility</label>
+                  <select
+                    id="PersonResponsibleID"
+                    class="form-control"
+                    name="PersonResponsibleID"
+                    [(ngModel)]="PersonResponsibleID"
+                    placeholder="Select Coordinator"
+                    class="form-control"
+                  >
+                    <option value="" selected>Select Responsibility</option>
+                    <option
+                      *ngFor="let userDetails of userOpts"
+                      [value]="userDetails.user.id"
+                    >
+                      {{ userDetails.user.firstName }}
+                      {{ userDetails.user.lastName }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-actions">
+            <div class="row">
+              <div class="col-md-12 text-right">
+                <button type="submit" class="btn btn-success">
+                  <i class="fa fa-save"></i> Save
+                </button>
+
+                <button
+                  type="button"
+                  (click)="cancelAddEdit($event)"
+                  class="btn btn-default"
+                >
+                  <i class="fa fa-close"></i> Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+>
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

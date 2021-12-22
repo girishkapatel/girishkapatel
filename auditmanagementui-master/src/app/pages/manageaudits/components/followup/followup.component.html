@@ -1,0 +1,602 @@
+<div id="followupComponent">
+  <!-- <div
+    [ngClass]="{ hide: formVisible }"
+    class="form-actions top text-right mt-20"
+  ></div> -->
+
+  <div [ngClass]="{ hide: formVisible }" class="mt-20">
+    <app-table
+      [tableId]="tableId"
+      [tableColumns]="tableColumns"
+      [tableApi]="tableApiUrl"
+      [tableFilters]="tableFilters"
+    ></app-table>
+  </div>
+
+  <div class="row pt-30" [ngClass]="{ hide: !formVisible }">
+    <div class="col-lg-12 col-md-12">
+      <div class="portlet box yellow">
+        <div class="portlet-title">
+          <div class="caption"><i class="fa fa-edit"></i>Edit Action Plans</div>
+
+          <div class="tools">
+            <a href="javascript:;" class="collapse"> </a>
+          </div>
+        </div>
+
+        <div class="portlet-body">
+          <!-- BEGIN FORM-->
+          <form
+            (ngSubmit)="saveFollowup($event) && actionForm.form.valid"
+            #actionForm="ngForm"
+            class="horizontal-form"
+            novalidate
+          >
+            <div class="form-body">
+              <div class="row">
+                <div class="col-md-6 dia-autocomplete">
+                  <div class="form-group">
+                    <label class="control-label">Audit Number</label>
+                    <input
+                      type="text"
+                      [value]="AuditNumber"
+                      placeholder="Enter Audit Number"
+                      class="form-control"
+                      [ngbTypeahead]="search"
+                      (selectItem)="selectedItem($event)"
+                      [inputFormatter]="formatter"
+                      [resultFormatter]="formatter"
+                      required
+                      disabled
+                    />
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="control-label">Root Cause</label>
+                    <input
+                      type="text"
+                      id="RootCause"
+                      name="RootCause"
+                      [(ngModel)]="RootCause"
+                      class="form-control"
+                      disabled
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label class="control-label">Observation Heading</label>
+                    <input
+                      type="text"
+                      name="ObservationHeading"
+                      id="ObservationHeading"
+                      placeholder="Observation Heading"
+                      [(ngModel)]="ObservationHeading"
+                      class="form-control"
+                      disabled
+                    />
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label class="control-label">Detailed Observation</label>
+                    <ckeditor
+                      [(ngModel)]="DetailedObservation"
+                      name="DetailedObservation"
+                      placeholder="Enter Detailed Observation"
+                      [editor]="Editor"
+                      [disabled]="isStackHolder"
+                    ></ckeditor>
+                  </div>
+                </div>
+
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="control-label">Risk Type</label>
+                    <input
+                      type="text"
+                      id="RiskType"
+                      name="RiskType"
+                      [value]="RiskType"
+                      class="form-control"
+                      placeholder="Risk Type"
+                      disabled
+                    />
+                  </div>
+                </div>
+
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="control-label"
+                      >Agreed Timeline
+                      <span class="required" aria-required="true">
+                        *
+                      </span></label
+                    >
+                    <div class="input-group" [ngClass]="{
+                      'red-border-class':
+                      ImplementationEndDates.errors && actionForm.submitted
+                    }">
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Enter Agreed Timeline"
+                        id="ImplementationEndDate"
+                        name="ImplementationEndDate"
+                        [(ngModel)]="ImplementationEndDate"
+                        required
+                        placeholder="dd/mm/yyyy"
+                        ngbDatepicker
+                        readonly
+                        #enddate="ngbDatepicker"
+                        #ImplementationEndDates="ngModel"
+                        [disabled]="isStackHolder"
+                      />
+                      <div class="input-group-btn">
+                        <button
+                          class="btn btn-default calendar"
+                          (click)="enddate.toggle()"
+                          type="button"
+                        >
+                          <i class="fa fa-calendar"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div
+                      *ngIf="actionForm.submitted && ImplementationEndDates.invalid"
+                      class="invalid-feedback"
+                    >
+                      <div
+                        class="text-danger myClass"
+                        *ngIf="ImplementationEndDates.errors.required"
+                      >
+                      Agreed Timeline is required
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="control-label">Status</label>
+                    <select
+                      id="Status"
+                      name="Status"
+                      [(ngModel)]="Status"
+                      placeholder="Select Status"
+                      class="form-control"
+                      [disabled]="isStackHolder"
+                    >
+                      <option value="">Select Status</option>
+                      <option value="inprogress">In Progress</option>
+                      <option value="pending">Pending to be initiated</option>
+                      <option value="completed">Completed</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-12">
+                  <hr />
+                </div>
+
+                <div class="col-md-12">
+                  <div class="form-group text-right">
+                    <button [disabled]="isStackHolder"
+                      type="button"
+                      class="btn btn-primary"
+                      (click)="addNewAP()"
+                      *ngIf="accessRights.isAdd"
+                    >
+                      <i class="fa fa-plus"></i> New Action Plan
+                    </button>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <table id="FAPTable" class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>Management Comments</th>
+                        <th>Action Plan</th>
+                        <th>Implementation Owner</th>
+                        <th>Revised Date</th>
+                        <th>Files</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-actions mt-30 mb-15 text-right">
+              <button type="submit" class="btn btn-success">
+                <i class="fa fa-save"></i> Save
+              </button>
+
+              <button
+                type="button"
+                (click)="handleFormView.hide()"
+                class="btn btn-default"
+              >
+                <i class="fa fa-close"></i> Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="modal fade"
+    id="editFollowup"
+    tabindex="-1"
+    data-width="760"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-hidden="true"
+          ></button>
+          <h4 class="modal-title" style="font-weight: bold">
+            <i class="fa fa-cogs"></i> &nbsp;Update Followup
+          </h4>
+        </div>
+        <form>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label"
+                    >Status
+                    <span class="required" aria-required="true">
+                      *
+                    </span></label
+                  >
+                  <select
+                    class="form-control"
+                    id="Status"
+                    placeholder="Select Status"
+                    name="Status"
+                    [(ngModel)]="Status"
+                  >
+                    <option value="">Select Status</option>
+                    <option value="inprogress">In Progress</option>
+                    <option value="pending">Pending</option>
+                    <option value="completed">Completed</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">Revised Date </label>
+                  <div class="input-group">
+                    <input
+                      type="text"
+                      id="RevisedDate"
+                      class="form-control"
+                      placeholder="Enter Revised Date"
+                      name="RevisedDate"
+                      [(ngModel)]="RevisedDate" 
+                      ngbDatepicker
+                      #RevisedDates="ngbDatepicker"
+                      readonly
+                      [minDate]="CurrentDate"
+                    />
+                    <div class="input-group-btn">
+                      <button
+                        class="btn btn-default calendar"
+                        (click)="RevisedDates.toggle()"
+                        type="button"
+                      >
+                        <i class="fa fa-calendar"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label class="control-label">Enter Comments</label>
+                  <textarea
+                    name="Comments"
+                    [(ngModel)]="Comments"
+                    placeholder="Enter Comments"
+                    class="form-control"
+                    required
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              id="saveFollowup"
+              (click)="saveFollowup()"
+              class="btn btn-success"
+            >
+              <i class="fa fa-save"></i> Save
+            </button>
+
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              <i class="fa fa-close"></i> Close
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="fuContentModal"
+  tabindex="-1"
+  data-width="760"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        ></button>
+        <h4 class="modal-title" style="font-weight: bold">
+          <i class="fa fa-cogs"></i> &nbsp;<span id="fucontent-title"></span>
+        </h4>
+      </div>
+      <form>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12" id="fucontent"></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <i class="fa fa-close"></i> Close
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="manageFollowUpActionPlan"
+  tabindex="-1"
+  data-width="760"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        ></button>
+
+        <h4 class="modal-title" style="font-weight: bold" *ngIf="!isEditAP">
+          <i class="fa fa-plus"></i> &nbsp;New Action Plan
+        </h4>
+
+        <h4 class="modal-title" style="font-weight: bold" *ngIf="isEditAP">
+          <i class="fa fa-edit"></i> &nbsp;Update Action Plan
+        </h4>
+      </div>
+
+      <form
+        name="form"
+        (ngSubmit)="addAP($event) && apForm.form.valid"
+        #apForm="ngForm"
+      >
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="control-label"
+                  >Management Comments <span class="text-danger">*</span></label
+                >
+                <ckeditor
+                  [(ngModel)]="Comments"
+                  name="Comments"
+                  [editor]="Editor"
+                  #managementComments="ngModel"
+                  required
+                  [ngClass]="{
+                    'red-border-class':
+                      managementComments.errors && apForm.submitted
+                  }"
+                ></ckeditor>
+                <div
+                  *ngIf="apForm.submitted && managementComments.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="managementComments.errors.required"
+                  >
+                    Management Comments is required
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="control-label"
+                  >Action Plan <span class="text-danger">*</span></label
+                >
+                <ckeditor
+                  [(ngModel)]="ActionPlan"
+                  name="ActionPlan"
+                  [editor]="Editor"
+                  #actionPlan="ngModel"
+                  [disabled]="isStackHolder"
+                  required
+                  [ngClass]="{
+                    'red-border-class': actionPlan.errors && apForm.submitted
+                  }"
+                ></ckeditor>
+                <div
+                  *ngIf="apForm.submitted && actionPlan.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="actionPlan.errors.required"
+                  >
+                    Action Plan is required
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label">Implementation Owner</label>
+                <ng-multiselect-dropdown
+                [placeholder]="'Select Implementation Owner'"
+                [data]="shOpts"
+                [(ngModel)]="selectedImplementationOwnerId"
+                [settings]="OwnerdropdownSettings"
+                name="ImplementationOwnerId"
+              >
+              </ng-multiselect-dropdown>
+                <!-- <select [disabled]="isStackHolder"
+                  id="ImplementationOwnerId"
+                  name="ImplementationOwnerId"
+                  [(ngModel)]="ImplementationOwnerId"
+                  placeholder="Select Implementation Owner"
+                  class="form-control"
+                >
+                  <option value="">Select Implementation Owner</option>
+                  <option *ngFor="let user of shOpts" [value]="user.id">
+                    {{ user.firstName }} {{ user.lastName }}
+                  </option>
+                </select> -->
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label"
+                  >Revised Date
+                  <span class="required" aria-required="true"> * </span></label
+                >
+                <div class="input-group"                     [ngClass]="{
+                  'red-border-class': rDate.errors && apForm.submitted
+                }">
+                  <input [disabled]="isStackHolder"
+                    type="text"
+                    placeholder="Enter Revised Date"
+                    id="RevisedDate"
+                    name="RevisedDate"
+                    [(ngModel)]="RevisedDate"
+                    placeholder="dd/mm/yyyy"
+                    ngbDatepicker
+                    readonly
+                    #revisedated="ngbDatepicker"
+                    class="form-control"
+                    #rDate="ngModel"
+                    required
+                    [minDate]="CurrentDate"
+                  />
+                  <div class="input-group-btn">
+                    <button
+                      class="btn btn-default calendar"
+                      (click)="revisedated.toggle()"
+                      type="button"
+                    >
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </div>
+                </div>
+                <div
+                  *ngIf="apForm.submitted && rDate.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="rDate.errors.required"
+                  >
+                    Revised Date is required
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <hr />
+            </div>
+
+            <div class="col-md-12 form-group">
+              <input
+                type="file"
+                #fileInputAP
+                class="hidden"
+                (change)="uploadAPFile()"
+              />
+              <button
+                type="button"
+                class="btn btn-primary pull-right"
+                (click)="fileInputAP.click()"
+              >
+                <i class="fa fa-upload"></i> Upload File
+              </button>
+            </div>
+
+            <div class="col-md-12">
+              <table id="uploadedAPFiles" class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>File</th>
+                    <th>Uploaded Date</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">
+            <i class="fa fa-save"></i> Save
+          </button>
+
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <i class="fa fa-close"></i> Close
+          </button>
+        </div>
+      </form>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>

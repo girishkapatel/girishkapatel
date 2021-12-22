@@ -1,0 +1,351 @@
+<div class="page-content">
+  <div class="page-bar">
+    <ul class="page-breadcrumb">
+      <li>
+        <a href="javascript:void(0)">Home</a>
+        <i class="fa fa-circle"></i>
+      </li>
+      <li>
+        <span>Work Programs</span>
+      </li>
+    </ul>
+    <button
+      type="button"
+      class="btn btn-default pull-right"
+      style="margin-top: 4px"
+      (click)="backToWorkprogramsView()"
+    >
+      <i class="fa fa-arrow-left"></i> Back
+    </button>
+  </div>
+  <div class="row pt-30">
+    <div class="col-lg-12 col-md-12">
+      <div class="portlet box blue">
+        <div class="portlet-title">
+          <div class="caption"><i class="fa fa-plus"></i>New Work Program</div>
+          <div class="tools">
+            <a href="javascript:;" class="collapse"> </a>
+          </div>
+        </div>
+        <div class="portlet-body">
+          <!-- BEGIN FORM-->
+          <form action="#" class="horizontal-form">
+            <div class="form-body">
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="control-label">Select Company</label>
+                    <select
+                      id="processl1"
+                      placeholder="Select Company"
+                      class="form-control"
+                    >
+                      <option value="">Select Company</option>
+                      <option value="">Tata Chemical Limited</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="control-label">Select Division</label>
+                    <select
+                      id="processl2"
+                      placeholder="Select Division"
+                      class="form-control"
+                    >
+                      <option value="">Select Division</option>
+                      <option value="">Chemical</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="control-label">Location</label>
+                    <select
+                      id="processl2"
+                      placeholder="Select Location"
+                      class="form-control"
+                    >
+                      <option value="">Select Location</option>
+                      <option value="">Mithapur</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="control-label">Select Business Cycle</label>
+                    <select
+                      id="processl1"
+                      placeholder="Select Business Cycle"
+                      class="form-control"
+                    >
+                      <option value="">Select Business Cycle</option>
+                      <option value="">Procure To Pay</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="control-label">Select Process L1</label>
+                    <select
+                      id="processl2"
+                      placeholder="Select Process L1"
+                      class="form-control"
+                    >
+                      <option value="">Select Process L1</option>
+                      <option value="">Accounts Payable</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="control-label">Select Process L2</label>
+                    <select
+                      id="processl2"
+                      placeholder="Select Process L2"
+                      class="form-control"
+                    >
+                      <option value="">Select Process L2</option>
+                      <option value="">Invoice Processing</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="control-label">Risk Title</label>
+                    <input
+                      type="text"
+                      id="risktitle"
+                      placeholder="Enter Risk title"
+                      class="form-control"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="control-label">Risk ID</label>
+                    <input
+                      type="text"
+                      id="riskid"
+                      placeholder="Enter Risk ID"
+                      class="form-control"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="control-label">Risk Rating</label>
+                    <select
+                      id="riskrating"
+                      placeholder="Select Risk Rating"
+                      class="form-control"
+                    >
+                      <option value="">Select Risk Rating</option>
+                      <option value="">High</option>
+                      <option value="">Medium</option>
+                      <option value="">Low</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label class="control-label">Enter Risk Description</label>
+                    <textarea
+                      id="riskdesc"
+                      placeholder="Enter Risk Description"
+                      class="form-control"
+                    >
+                    </textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div *ngIf="!formVisible" class="form-actions top text-right">
+                    <button
+                      type="button"
+                      (click)="addControl()"
+                      class="btn btn-primary"
+                    >
+                      <i class="fa fa-plus"></i> New Control
+                    </button>
+                  </div>
+                  <div *ngIf="!formVisible" class="mt-20">
+                    <app-table
+                      [tableId]="tableId"
+                      [tableColumns]="tableColumns"
+                      [tableData]="tableData"
+                      [tableFilters]="tableFilters"
+                    ></app-table>
+                  </div>
+                  <div *ngIf="formVisible">
+                    <h4>New Control</h4>
+                    <hr />
+                    <form>
+                      <div class="form-body">
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label class="control-label">Control Title</label>
+                              <input
+                                type="text"
+                                id="controltitle"
+                                placeholder="Enter Control title"
+                                class="form-control"
+                              />
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label class="control-label">Control ID</label>
+                              <input
+                                type="text"
+                                id="Controlid"
+                                placeholder="Enter Control ID"
+                                class="form-control"
+                              />
+                            </div>
+                          </div>
+                          <div class="col-md-12">
+                            <div class="form-group">
+                              <label class="control-label"
+                                >Enter Control Description</label
+                              >
+                              <textarea
+                                id="Controldesc"
+                                placeholder="Enter Control Description"
+                                class="form-control"
+                              ></textarea>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label class="control-label"
+                                >Control Nature</label
+                              >
+                              <select
+                                id="nature"
+                                placeholder="Select Control Nature"
+                                class="form-control"
+                              >
+                                <option value="">Select Control Nature</option>
+                                <option value="">Automated</option>
+                                <option value="">Manual</option>
+                                <option value="">IT Dependent</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label class="control-label">Control Owner</label>
+                              <select
+                                id="owner"
+                                placeholder="Select Control Owner"
+                                class="form-control"
+                              >
+                                <option value="">Select Control Owner</option>
+                                <option value="">Control Owner 1</option>
+                                <option value="">Control Owner 2</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label class="control-label"
+                                >Control Frequency</label
+                              >
+                              <select
+                                id="frequency"
+                                placeholder="Select Control Frequency"
+                                class="form-control"
+                              >
+                                <option value="">
+                                  Select Control Frequency
+                                </option>
+                                <option value="">Event Driven</option>
+                                <option value="">Annual</option>
+                                <option value="">Semi Annual</option>
+                                <option value="">Quarterly</option>
+                                <option value="">Monthly</option>
+                                <option value="">Weekly</option>
+                                <option value="">Daily</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label class="control-label">Control Type</label>
+                              <select
+                                id="controltype"
+                                placeholder="Select Control Type"
+                                class="form-control"
+                              >
+                                <option value="">Select Control Type</option>
+                                <option value="">Financial</option>
+                                <option value="">Operational</option>
+                                <option value="">Financial Reporting</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-actions">
+                        <div class="row">
+                          <div class="col-md-12 text-right">
+                            <button
+                              type="button"
+                              (click)="cancelControlAddEdit($event)"
+                              class="btn btn-primary"
+                            >
+                              <i class="fa fa-plus"></i> New
+                            </button>
+                            <button
+                              type="button"
+                              (click)="cancelControlAddEdit($event)"
+                              class="btn btn-default"
+                            >
+                              <i class="fa fa-close"></i> Cancel
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-actions text-center mt-30 mb-15">
+              <button type="button" class="btn btn-success">
+                <i class="fa fa-save"></i> Save
+              </button>
+
+              <button type="button" class="btn btn-success">
+                <i class="fa fa-save"></i> Save Draft
+              </button>
+
+              <button
+                type="button"
+                (click)="backToAuditForm()"
+                class="btn btn-default"
+              >
+                <i class="fa fa-close"></i> Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="clearfix"></div>
+</div>

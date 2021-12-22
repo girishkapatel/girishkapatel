@@ -1,0 +1,301 @@
+<div id="plmComponent">
+  <div *ngIf="!formVisible" class="portlet light">
+    <div class="portlet-title">
+      <div class="caption">
+        <span class="caption-subject bold uppercase"
+          >Process Location Mapping</span
+        >
+      </div>
+
+      <div class="actions">
+        <button [disabled]="isStackHolder"
+          type="button"
+          (click)="addPlmap()"
+          class="btn btn-primary"
+          *ngIf="accessRights.isAdd"
+        >
+          <i class="fa fa-plus"></i> New
+        </button>
+      </div>
+    </div>
+
+    <div class="portlet-body">
+      <table [id]="tableId" class="table table-bordered"></table>
+    </div>
+  </div>
+
+  <div *ngIf="formVisible">
+    <div class="portlet box blue">
+      <div class="portlet-title">
+        <div class="caption">
+          <i class="fa fa-plus"></i> Process Location Mapping
+        </div>
+        <div class="tools">
+          <a href="javascript:;" class="collapse"> </a>
+        </div>
+      </div>
+      <div class="portlet-body form">
+        <form
+          (ngSubmit)="savePlmap($event) && plmapForm.form.valid"
+          #plmapForm="ngForm"
+        >
+          <div class="form-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label class="control-label">Auditable Unit</label>
+                  <div class="radio">
+                    <label class="radio-inline">
+                      <input
+                        type="radio"
+                        name="radioAuditableUnit"
+                        id="isAll"
+                        [checked]="isAll"
+                        (change)="showHideControls($event)"
+                        value="All"
+                      />
+                      All
+                    </label>
+
+                    <label class="radio-inline">
+                      <input
+                        type="radio"
+                        name="radioAuditableUnit"
+                        id="isBusinessCycle"
+                        [checked]="isBusinessCycle"
+                        (change)="showHideControls($event)"
+                        value="BC"
+                      />
+                      Business Cycle
+                    </label>
+
+                    <label class="radio-inline">
+                      <input
+                        type="radio"
+                        name="radioAuditableUnit"
+                        id="isProcessL1"
+                        [checked]="isProcessL1"
+                        (change)="showHideControls($event)"
+                        value="PL1"
+                      />
+                      Process L1
+                    </label>
+
+                    <label class="radio-inline">
+                      <input
+                        type="radio"
+                        name="radioAuditableUnit"
+                        id="isProcessL2"
+                        [checked]="isProcessL2"
+                        (change)="showHideControls($event)"
+                        value="PL2"
+                      />
+                      Process L2
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label"
+                    >Audit Name<span class="required" aria-required="true">
+                      *
+                    </span></label
+                  >
+                  <input
+                    type="text"
+                    id="AuditName"
+                    [(ngModel)]="AuditName"
+                    placeholder="Enter audit name"
+                    class="form-control"
+                    name="AuditName"
+                    #auditnames="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                        auditnames.errors && plmapForm.submitted
+                    }"
+                    required
+                  />
+                  <div
+                    *ngIf="plmapForm.submitted && auditnames.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="auditnames.errors.required"
+                    >
+                      Audit Name is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-12 clearfix"></div>
+
+              <div
+                class="col-md-6"
+                [ngClass]="{ hide: !isBusinessCycle && !isAll }"
+              >
+                <div class="form-group">
+                  <label class="control-label">Select Business Cycle</label>
+                  <!-- <select
+                    id="businessCycle"
+                    name="BusinessCycleID"
+                    placeholder="Select Business Cycle"
+                    (change)="getProcessLevel1Opts()"
+                    class="form-control multiselect"
+                    [(ngModel)]="businessCycleId" name="bc"
+                  >
+                    <option value="">
+                      Select Business Cycle<span
+                        class="required"
+                        aria-required="true"
+                      >
+                        *
+                      </span>
+                    </option>
+                    <option
+                      *ngFor="let businessCycle of businessCycleOptions"
+                      [value]="businessCycle.id"
+                    >
+                      {{ businessCycle.name }}
+                    </option>
+                  </select> -->
+                  <ng-multiselect-dropdown
+                    [placeholder]="'Select Business Cycle'"
+                    [data]="businessCycleOptions"
+                    [(ngModel)]="selectedBusinessCycle"
+                    [settings]="dropdownSettings"
+                    (onSelect)="getProcessLevel1Opts($event.id)"
+                    (onDeSelect)="onBCDeSelect($event)"
+                    (onSelectAll)="onSelectAll($event)"
+                    (onDeSelectAll)="onBCDeSelectAll($event)"
+                    name="businessCycles"
+                  >
+                  </ng-multiselect-dropdown>
+                </div>
+              </div>
+              <div
+                class="col-md-6"
+                [ngClass]="{ hide: !isProcessL1 && !isAll }"
+              >
+                <div class="form-group">
+                  <label class="control-label">Select Process L1</label>
+                  <!-- <select
+                    id="processL1Id"
+                    name="ProcessL1ID"
+                    placeholder="Select Process Level 1"
+                    (change)="getProcessLevel2Opts()"
+                    class="form-control"
+                    [(ngModel)]="processlevel1Id" name="pl1"
+                  >
+                    <option value="">Select Process Level 1</option>
+                    <option
+                      *ngFor="let processlevel1 of processlevel1Options"
+                      [value]="processlevel1.id"
+                    >
+                      {{ processlevel1.name }}
+                    </option>
+                  </select> -->
+                  <ng-multiselect-dropdown
+                    name="processL1s"
+                    [placeholder]="'Select Process L1'"
+                    [(ngModel)]="selectedProcessL1"
+                    [data]="processlevel1Options"
+                    [settings]="dropdownSettings"
+                    (onSelect)="getProcessLevel2Opts($event.id)"
+                    (onDeSelect)="onProcessL1DeSelect($event)"
+                    (onSelectAll)="onSelectAll($event)"
+                  >
+                  </ng-multiselect-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div
+                class="col-md-6"
+                [ngClass]="{ hide: !isProcessL2 && !isAll }"
+              >
+                <div class="form-group">
+                  <label class="control-label">Select Process L2</label>
+                  <!-- <select
+                    id="processL2Id"
+                    name="ProcessL2ID"
+                    placeholder="Select Process Level 2"
+                    class="form-control"
+                    [(ngModel)]="processlevel2Id" name="pl2"
+                  >
+                    <option value="">Select Process Level 2</option>
+                    <option
+                      *ngFor="let processlevel2 of processlevel2Options"
+                      [value]="processlevel2.id"
+                    >
+                      {{ processlevel2.name }}
+                    </option>
+                  </select> -->
+                  <ng-multiselect-dropdown
+                    name="processL2s"
+                    [placeholder]="'Select Process Level 2'"
+                    [data]="processlevel2Options"
+                    [(ngModel)]="selectedProcessL2"
+                    [settings]="dropdownSettings"
+                    (onSelect)="setProcessLevel2Id($event)"
+                    (onSelectAll)="onSelectAll($event)"
+                  >
+                  </ng-multiselect-dropdown>
+                </div>
+              </div>
+              <!-- <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Select Process Model<span class="required" aria-required="true"> * </span></label>
+                                    <select id="model" placeholder="Select Process Model" name="ProcessModel" class="form-control" [(ngModel)]="processModel" name="pm">
+                                        <option value="">Select Process Model</option>
+                                        <option value="centralized">Centralized</option>
+                                        <option value="decentralised">Decentralised</option>
+                                    </select>
+                                </div>
+                            </div> -->
+            </div>
+
+            <div class="row mt-20">
+              <div class="col-md-12">
+                <app-table
+                  [tableId]="'tableLoc'"
+                  [tableColumns]="tableColumnsLoc"
+                  [tableFilters]="tableFilters"
+                  [tableApi]="'api/location'"
+                ></app-table>
+              </div>
+            </div>
+          </div>
+          <div class="form-actions">
+            <div class="row">
+              <div class="col-md-12 text-right">
+                <button type="submit" class="btn btn-success">
+                  <i class="fa fa-save"></i> Save
+                </button>
+                <button
+                  type="button"
+                  (click)="cancelAddEdit($event)"
+                  class="btn btn-default"
+                >
+                  <i class="fa fa-close"></i> Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<ngx-spinner
+bdColor="rgba(51,51,51,0.8)"
+size="medium"
+color="#fff"
+type="ball-scale-multiple"
+>
+<p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

@@ -1,0 +1,1354 @@
+<div id="racmComponent">
+  <div [ngClass]="{ hide: formVisible }" class="form-actions top form-group">
+    <button type="button" (click)="refreshTable()" class="btn btn-default">
+      <i class="fa fa-eraser"></i> Clear Filters
+    </button>
+
+    <div class="pull-right">
+      <button
+        [disabled]="isStackHolder"
+        type="button"
+        (click)="addRACM()"
+        class="btn btn-primary"
+        *ngIf="accessRights.isAdd"
+      >
+        <i class="fa fa-plus"></i> New
+      </button>
+
+      <button
+        [disabled]="isStackHolder"
+        type="button"
+        class="btn btn-primary"
+        (click)="handleLibraryDialog.show()"
+        *ngIf="accessRights.isAdd"
+      >
+        <i class="fa fa-download"></i> Import From Library
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-primary m-r-5"
+        (click)="exportRACM()"
+      >
+        <i class="fa fa-file-excel-o"></i> Download Excel
+      </button>
+      <button
+      type="button"
+      class="btn btn-primary m-r-5"
+      (click)="sampleExportRACM()"
+      [disabled]="isStackHolder"
+    >
+      <i class="fa fa-file-excel-o"></i> Sample Excel
+    </button>
+      <input type="file" #fileInput class="hidden" (change)="importRACM()" />
+
+      <button
+        [disabled]="isStackHolder"
+        type="button"
+        class="btn btn-primary"
+        (click)="fileInput.click()"
+        *ngIf="accessRights.isEdit"
+      >
+        <i class="fa fa-file-excel-o"></i> Upload Excel
+      </button>
+    </div>
+  </div>
+
+  <div [ngClass]="{ hide: formVisible }" class="row widget-row">
+    <div class="col-md-5">
+      <!-- BEGIN WIDGET THUMB -->
+      <div
+        class="
+          widget-thumb widget-bg-color-white
+          text-uppercase
+          margin-bottom-20
+          bordered
+        "
+      >
+        <h4 class="widget-thumb-heading" (click)="ShowFilterData('All')">
+          Risk in Scope ({{ RACMCNTTotal }})
+        </h4>
+
+        <div class="row">
+          <div class="col-md-3">
+            <div class="widget-thumb-wrap bg-marun-main">
+              <div
+                class="widget-thumb-body text-center"
+                [ngClass]="{ highlight: filterOption == 'Critical' }"
+              >
+                <a (click)="ShowFilterData('Critical')">
+                  <span class="widget-thumb-subtitle">Critical</span>
+                  <span class="widget-thumb-body-stat">{{ RACMCNTCritical }}</span>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="widget-thumb-wrap bg-red-main">
+              <div
+                class="widget-thumb-body text-center"
+                [ngClass]="{ highlight: filterOption == 'High' }"
+              >
+                <a (click)="ShowFilterData('High')">
+                  <span class="widget-thumb-subtitle">High</span>
+                  <span class="widget-thumb-body-stat">{{ RACMCNTHigh }}</span>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="widget-thumb-wrap bg-yellow-main">
+              <div
+                class="widget-thumb-body text-center"
+                [ngClass]="{ highlight: filterOption == 'Medium' }"
+              >
+                <a (click)="ShowFilterData('Medium')">
+                  <span class="widget-thumb-subtitle">Medium</span>
+                  <span class="widget-thumb-body-stat">{{
+                    RACMCNTMedium
+                  }}</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="widget-thumb-wrap bg-green-main">
+              <div
+                class="widget-thumb-body text-center"
+                [ngClass]="{ highlight: filterOption == 'Low' }"
+              >
+                <a (click)="ShowFilterData('Low')">
+                  <span class="widget-thumb-subtitle">Low</span>
+                  <span class="widget-thumb-body-stat">{{ RACMCNTLow }}</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- END WIDGET THUMB -->
+    </div>
+
+    <div class="col-md-5">
+      <!-- BEGIN WIDGET THUMB -->
+      <div
+        class="
+          widget-thumb widget-bg-color-white
+          text-uppercase
+          margin-bottom-20
+          bordered
+        "
+      >
+        <h4 class="widget-thumb-heading" (click)="ShowFilterData('All')">
+          Control Nature in Scope ({{
+            RACMCNTAutomated + RACMCNTManual + RACMCNTITDependent
+          }})
+        </h4>
+
+        <div class="row">
+          <div class="col-md-4">
+            <div class="widget-thumb-wrap">
+              <div
+                class="widget-thumb-body text-center"
+                [ngClass]="{ highlight: filterControlNature == 'Automated' }"
+              >
+                <a (click)="FilterByControlNature('Automated')">
+                  <span class="widget-thumb-subtitle">Automated</span>
+                  <span class="widget-thumb-body-stat">{{
+                    RACMCNTAutomated
+                  }}</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="widget-thumb-wrap">
+              <div
+                class="widget-thumb-body text-center"
+                [ngClass]="{ highlight: filterControlNature == 'Manual' }"
+              >
+                <a (click)="FilterByControlNature('Manual')">
+                  <span class="widget-thumb-subtitle">Manual</span>
+                  <span class="widget-thumb-body-stat">{{
+                    RACMCNTManual
+                  }}</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="widget-thumb-wrap">
+              <div
+                class="widget-thumb-body text-center"
+                [ngClass]="{ highlight: filterControlNature == 'IT Dependent' }"
+              >
+                <a (click)="FilterByControlNature('IT Dependent')">
+                  <span class="widget-thumb-subtitle">IT Dependent</span>
+                  <span class="widget-thumb-body-stat">{{
+                    RACMCNTITDependent
+                  }}</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- END WIDGET THUMB -->
+    </div>
+
+    <div class="col-md-2">
+      <!-- BEGIN WIDGET THUMB -->
+      <div
+        class="
+          widget-thumb widget-bg-color-white
+          text-uppercase
+          margin-bottom-20
+          bordered
+        "
+      >
+        <h4 class="widget-thumb-heading">Total Risk & Control</h4>
+        <h5>
+          <span class="widget-thumb-subtitle">Audit</span>
+          <span class="widget-thumb-body-stat">({{ RACMProcedurecount }})</span>
+        </h5>
+        <h5>
+          <span class="widget-thumb-subtitle">Library</span>
+          <span class="widget-thumb-body-stat">({{ RACMLibrarycount }})</span>
+        </h5>
+        <!-- <h5><span class="widget-thumb-heading">Audit(5)</span></h5>
+        <h5><span class="widget-thumb-heading">Library(5)</span></h5> -->
+      </div>
+      <!-- END WIDGET THUMB -->
+    </div>
+  </div>
+
+  <div [ngClass]="{ hide: formVisible }" class="mt-20">
+    <table [id]="tableId" class="table table-bordered"></table>
+    <!-- <app-table -->
+    <!-- [tableId]="tableId" -->
+    <!-- [tableColumns]="tableColumns" -->
+    <!-- [tableApi]="tableApiUrl" -->
+    <!-- [tableFilters]="tableFilters" -->
+    <!-- ></app-table> -->
+  </div>
+
+  <div [ngClass]="{ hide: !formVisible }">
+    <div class="portlet box" [ngClass]="{ blue: !isEdit, yellow: isEdit }">
+      <div class="portlet-title">
+        <div class="caption">
+          <i
+            class="fa"
+            [ngClass]="{ 'fa-plus': !isEdit, 'fa-edit': isEdit }"
+          ></i>
+          RACM
+        </div>
+        <div class="tools">
+          <a href="javascript:;" class="collapse"> </a>
+        </div>
+      </div>
+      <div class="portlet-body form">
+        <form
+          name="form"
+          (ngSubmit)="saveRACM($event) && racmForm.form.valid"
+          #racmForm="ngForm"
+          novalidate
+        >
+          <div class="form-body">
+            <div class="row mt-20">
+              <div class="col-md-12" [ngClass]="{ hide: isEdit }">
+                <div class="form-group">
+                  <label class="control-label">Knowledge Library RACM <span class="required" aria-required="true"> * </span></label>
+                  <select
+                    class="form-control"
+                    id="SelectedRACMId"
+                    name="SelectedRACMId"
+                    (change)="getRACMById()"
+                    [(ngModel)]="SelectedRACMId"
+                    required
+                    #SelectedRACMIds="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                      SelectedRACMIds.errors && racmForm.submitted
+                    }"
+                  >
+                    <option value="">Select</option>
+                    <option
+                      *ngFor="let knowledgeLibrary of knowledgeLibraryOptions"
+                      [value]="knowledgeLibrary.id"
+                    >
+                      {{ knowledgeLibrary.risk.riskId }} -
+                      {{ knowledgeLibrary.risk.title }}
+                    </option>
+                  </select>
+                  <div
+                  *ngIf="racmForm.submitted && SelectedRACMIds.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="SelectedRACMIds.errors.required"
+                  >
+                  Knowledge Library RACM is required
+                  </div>
+                </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label">Select Business Cycle <span class="required" aria-required="true"> * </span></label>
+                  <select
+                    id="BusinessCycleId"
+                    name="BusinessCycleId"
+                    placeholder="Select Business Cycle"
+                    (change)="getProcessLevel1Opts()"
+                    class="form-control"
+                    [(ngModel)]="BusinessCycleId"
+                    required
+                    #BusinessCycleIds="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                      BusinessCycleIds.errors && racmForm.submitted
+                    }"
+                  >
+                    <option value="">Select Business Cycle</option>
+                    <option
+                      *ngFor="let businessCycle of businessCycleOptions"
+                      [value]="businessCycle.id"
+                    >
+                      {{ businessCycle.name }}
+                    </option>
+                  </select>
+                  <div
+                  *ngIf="racmForm.submitted && BusinessCycleIds.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="BusinessCycleIds.errors.required"
+                  >
+                  Business Cycle is required
+                  </div>
+                </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label">Select Process L1 <span class="required" aria-required="true"> * </span></label>
+                  <select
+                    id="ProcessL1Id"
+                    name="ProcessL1Id"
+                    placeholder="Select Process Level 1"
+                    (change)="getProcessLevel2Opts()"
+                    class="form-control"
+                    [(ngModel)]="ProcessL1Id"
+                    required
+                    #ProcessL1Ids="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                      ProcessL1Ids.errors && racmForm.submitted
+                    }"
+                  >
+                    <option value="">Select Process Level 1</option>
+                    <option
+                      *ngFor="let processlevel1 of processlevel1Options"
+                      [value]="processlevel1.id"
+                    >
+                      {{ processlevel1.name }}
+                    </option>
+                  </select>
+                  <div
+                  *ngIf="racmForm.submitted && ProcessL1Ids.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="ProcessL1Ids.errors.required"
+                  >
+                  Process L1 is required
+                  </div>
+                </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label">Process L2 Name <span class="required" aria-required="true"> * </span></label>
+                  <select
+                    id="ProcessL2Id"
+                    name="ProcessL2Id"
+                    placeholder="Select Process Level 2"
+                    class="form-control"
+                    [(ngModel)]="ProcessL2Id"
+                    required
+                    #ProcessL2Ids="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                      ProcessL2Ids.errors && racmForm.submitted
+                    }"
+                  >
+                    <option value="">Select Process Level 2</option>
+                    <option
+                      *ngFor="let processlevel2 of processlevel2Options"
+                      [value]="processlevel2.id"
+                    >
+                      {{ processlevel2.name }}
+                    </option>
+                  </select>
+                  <div
+                    *ngIf="racmForm.submitted && ProcessL2Ids.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="ProcessL2Ids.errors.required"
+                    >
+                    Process L2 is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label"
+                    >RACM Number
+                    <span class="required" aria-required="true"> * </span>
+                  </label>
+                  <select
+                  id="RACMnumber"
+                  name="RACMnumber"
+                  placeholder="Select RACM Number"
+                  (change)="getProcessLevel1Opts()"
+                  class="form-control"
+                  [(ngModel)]="SelectedRACMnumber"
+                  [disabled]="isEdit"
+                  required
+                  #RACMnumbers="ngModel"
+                  [ngClass]="{
+                    'red-border-class':
+                    RACMnumbers.errors && racmForm.submitted
+                  }"
+                >
+                <option value="">Select RACM Number</option>
+                  <option
+                    *ngFor="let racmNumber of racmNumberOptions"
+                    [value]="racmNumber"
+                  >
+                    {{ racmNumber}}
+                  </option>
+                </select>
+                <div
+                *ngIf="racmForm.submitted && RACMnumbers.invalid"
+                class="invalid-feedback"
+              >
+                <div
+                  class="text-danger myClass"
+                  *ngIf="RACMnumbers.errors.required"
+                >
+                RACM Number is required
+                </div>
+              </div>
+                  <!-- <input
+                    type="text"
+                    id="RACMnumber"
+                    name="RACMnumber"
+                    [(ngModel)]="RACMnumber"
+                    placeholder="Enter RACM Number"
+                    class="form-control"  
+                    #RACMnumbers="ngModel"
+                    disabled
+                    required
+                    [ngClass]="{
+                      'red-border-class':
+                        RACMnumbers.errors && racmForm.submitted
+                    }"
+                  />
+                  <div
+                    *ngIf="racmForm.submitted && RACMnumbers.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="RACMnumbers.errors.required"
+                    >
+                      RACM Number is required
+                    </div>
+                  </div> -->
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label">Risk ID <span class="required" aria-required="true"> * </span></label>
+                  <!-- <input
+                    type="text"
+                    id="RiskId"
+                    name="RiskId"
+                    [(ngModel)]="RiskId"
+                    placeholder="Enter Risk ID"
+                    class="form-control"
+                    required
+                    #RiskIds="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                      RiskIds.errors && racmForm.submitted
+                    }"
+                  /> -->
+                  <select
+                  id="RiskId"
+                  name="RiskId"
+                  placeholder="Select RiskId"
+                  (change)="getRiskData()"
+                  class="form-control"
+                  [(ngModel)]="SelectedRiskId"
+                  [disabled]="isEdit"
+                  required
+                  #RiskIds="ngModel"
+                  [ngClass]="{
+                    'red-border-class':
+                    RiskIds.errors && racmForm.submitted
+                  }"
+                >
+                <option value="">Select RiskId</option>
+                  <option
+                    *ngFor="let riskId of riskIdOptions"
+                    [value]="riskId"
+                  >
+                    {{ riskId}}
+                  </option>
+                </select>
+                  <div
+                    *ngIf="racmForm.submitted && RiskIds.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="RiskIds.errors.required"
+                    >
+                    Risk Id is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label">Risk Rating <span class="required" aria-required="true"> * </span></label>
+                  <select
+                    id="RiskRating"
+                    name="RiskRating"
+                    [(ngModel)]="RiskRating"
+                    placeholder="Select Rating"
+                    class="form-control"
+                    required
+                    #RiskRatings="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                      RiskRatings.errors && racmForm.submitted
+                    }"
+                  >
+                    <option value="">Select Risk Rating</option>
+                    <option value="Critical">Critical</option>
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                  </select>
+                  <div
+                    *ngIf="racmForm.submitted && RiskRatings.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="RiskRatings.errors.required"
+                    >
+                    Risk Rating is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="row"> -->
+            <!-- <div class="col-md-12"> -->
+            <!-- <div class="form-group"> -->
+            <!-- <label class="control-label">Risk Title</label> -->
+            <!-- <input -->
+            <!-- type="text" -->
+            <!-- id="RiskTitle" -->
+            <!-- name="RiskTitle" -->
+            <!-- [(ngModel)]="RiskTitle" -->
+            <!-- placeholder="Enter Risk Title" -->
+            <!-- class="form-control" -->
+            <!-- required -->
+            <!-- /> -->
+            <!-- </div> -->
+            <!-- </div> -->
+            <!-- </div> -->
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label class="control-label">Risk Description <span class="required" aria-required="true"> * </span></label>
+                  <textarea
+                    id="RiskDesc"
+                    name="RiskDesc"
+                    [(ngModel)]="RiskDesc"
+                    placeholder="Enter Risk Description"
+                    class="form-control"
+                    required
+                    #RiskDescs="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                      RiskDescs.errors && racmForm.submitted
+                    }"
+                  ></textarea>
+                  <div
+                    *ngIf="racmForm.submitted && RiskDescs.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="RiskDescs.errors.required"
+                    >
+                    Risk Description is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label"
+                    >Control ID
+                    <span class="required" aria-required="true"> * </span>
+                  </label>
+                  <!-- <input
+                    #ControlId="ngModel"
+                    type="text"
+                    id="ControlId"
+                    name="ControlId"
+                    [(ngModel)]="ControlIdText"
+                    placeholder="Enter Control ID"
+                    class="form-control"
+                    required
+                    [ngClass]="{
+                      'red-border-class': ControlId.errors && racmForm.submitted
+                    }"
+                  /> -->
+                  <select
+                  id="ControlId"
+                  name="ControlId"
+                  placeholder="Select ControlId"
+                  (change)="getControlData()"
+                  class="form-control"
+                  [(ngModel)]="SelectedControlId"
+                  required
+                  [disabled]="isEdit"
+                  #ControlIds="ngModel"
+                  [ngClass]="{
+                    'red-border-class':
+                    ControlIds.errors && racmForm.submitted
+                  }"
+                >
+                <option value="">Select Control Id</option>
+                  <option
+                    *ngFor="let controlId of controlIdOptions"
+                    [value]="controlId"
+                  >
+                    {{ controlId}}
+                  </option>
+                </select>
+                  <div
+                    *ngIf="racmForm.submitted && ControlIds.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="ControlIds.errors.required"
+                    >
+                      Control Id is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">Control Type <span class="required" aria-required="true"> * </span></label>
+                  <select
+                    id="ControlType"
+                    name="ControlType"
+                    [(ngModel)]="ControlType"
+                    placeholder="Select Control Type"
+                    class="form-control"
+                    required
+                    #controltypes="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                        controltypes.errors && racmForm.submitted
+                    }"
+                  >
+                    <option value="">Select Control Type</option>
+                    <option value="Financial">Financial</option>
+                    <option value="Operational">Operational</option>
+                    <option value="Financial Reporting">
+                      Financial Reporting
+                    </option>
+                  </select>
+                  <div
+                    *ngIf="racmForm.submitted && controltypes.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="controltypes.errors.required"
+                    >
+                      Control Type is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="row"> -->
+            <!-- <div class="col-md-12"> -->
+            <!-- <div class="form-group"> -->
+            <!-- <label class="control-label">Control Title</label> -->
+            <!-- <input -->
+            <!-- type="text" -->
+            <!-- id="ControlTitle" -->
+            <!-- name="ControlTitle" -->
+            <!-- [(ngModel)]="ControlTitle" -->
+            <!-- placeholder="Enter Control Title" -->
+            <!-- class="form-control" -->
+            <!-- required -->
+            <!-- /> -->
+            <!-- </div> -->
+            <!-- </div> -->
+            <!-- </div> -->
+
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label">Control Nature <span class="required" aria-required="true"> * </span></label>
+                  <select
+                    id="ControlNature"
+                    name="ControlNature"
+                    [(ngModel)]="ControlNature"
+                    placeholder="Select Control Nature"
+                    class="form-control"
+                    required
+                    #ControlNatures="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                      ControlNatures.errors && racmForm.submitted
+                    }"
+                  >
+                    <option value="">Select Control Nature</option>
+                    <option value="Automated">Automated</option>
+                    <option value="Manual">Manual</option>
+                    <option value="IT Dependent">IT Dependent</option>
+                  </select>
+                  <div
+                  *ngIf="racmForm.submitted && ControlNatures.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="ControlNatures.errors.required"
+                  >
+                    Control Nature is required
+                  </div>
+                </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label">Control Frequency <span class="required" aria-required="true"> * </span></label>
+                  <select
+                    id="ControlFrequency"
+                    name="ControlFrequency"
+                    [(ngModel)]="ControlFrequency"
+                    placeholder="Select Control Frequency"
+                    class="form-control"
+                    required
+                    #ControlFrequencys="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                      ControlFrequencys.errors && racmForm.submitted
+                    }"
+                  >
+                    <option value="">Select Control Type</option>
+                    <option value="Event Driven">Event Driven</option>
+                    <option value="Annual">Annual</option>
+                    <option value="Semi Annual">Semi Annual</option>
+                    <option value="Quarterly">Quarterly</option>
+                    <option value="Monthly">Monthly</option>
+                    <option value="Weekly">Weekly</option>
+                    <option value="Daily">Daily</option>
+                  </select>
+                  <div
+                  *ngIf="racmForm.submitted && ControlFrequencys.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="ControlFrequencys.errors.required"
+                  >
+                  Control Frequency is required
+                  </div>
+                </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label"
+                    >Control Owner
+                    <span class="required" aria-required="true"> * </span>
+                  </label>
+                  <ng-multiselect-dropdown 
+                  [placeholder]="'Select Control Owner'"
+                  [data]="shOpts"
+                  [(ngModel)]="selectedImplementationOwnerId"
+                  [settings]="OwnerdropdownSettings"
+                  name="ImplementationOwnerId"
+                  #ProcessOwner="ngModel"
+                  [ngClass]="{
+                    'red-border-class':
+                      ControlOwners.errors && racmForm.submitted
+                  }"
+                  #ControlOwners="ngModel"
+                  required
+                >
+                </ng-multiselect-dropdown>
+                  <!-- <select
+                    #ControlOwners="ngModel"
+                    id="ControlOwner"
+                    name="ControlOwner"
+                    [(ngModel)]="ControlOwner"
+                    placeholder="Select Coordinator"
+                    class="form-control"
+                    [ngClass]="{
+                      'red-border-class':
+                        ControlOwners.errors && racmForm.submitted
+                    }"
+                    required
+                  >
+                    <option value="">Select Control Owner</option>
+                    <option *ngFor="let user of shOpts" [value]="user.id">
+                      {{ user.firstName }} {{ user.lastName }}
+                    </option>
+                  </select> -->
+                  <div
+                    *ngIf="racmForm.submitted && ControlOwners.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="ControlOwners.errors.required"
+                    >
+                      Control Owner is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label class="control-label">Control Description <span class="required" aria-required="true"> * </span></label>
+                  <textarea
+                    id="ControlDescription"
+                    name="ControlDescription"
+                    [(ngModel)]="ControlDescription"
+                    placeholder="Enter Control Description"
+                    class="form-control"
+                    required
+                    #ControlDescriptions="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                      ControlDescriptions.errors && racmForm.submitted
+                    }"
+                  ></textarea>
+                  <div
+                  *ngIf="racmForm.submitted && ControlDescriptions.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="ControlDescriptions.errors.required"
+                  >
+                  Control Description is required
+                  </div>
+                </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label">Audit Area <span class="required" aria-required="true"> * </span></label>
+                  <select
+                    id="AuditArea"
+                    name="AuditArea"
+                    [(ngModel)]="AuditArea"
+                    placeholder="Select Audit Area"
+                    class="form-control"
+                    required
+                    #AuditAreas="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                      AuditAreas.errors && racmForm.submitted
+                    }"
+                  >
+                    <option value="">Select Audit Area</option>
+                    <option
+                      *ngFor="let auditArea of lstAuditArea"
+                      [value]="auditArea.areas.trim()"
+                    >
+                      {{ auditArea.areas.trim() }}
+                    </option>
+                  </select>
+                  <div
+                  *ngIf="racmForm.submitted && AuditAreas.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="AuditAreas.errors.required"
+                  >
+                  Audit Areas is required
+                  </div>
+                </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group text-right">
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    (click)="addNewAuditProcedure()"
+                  >
+                    <i class="fa fa-plus"></i> New Procedure
+                  </button>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <table id="auditProceduresTable" class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>Procedure ID</th>
+                      <th>Procedure Title</th>
+                      <th>Procedure Description</th>
+                      <th>Responsibility</th>
+                      <th>Reviewer</th>
+                      <th>Start Date</th>
+                      <th>End Date</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="form-actions">
+            <div class="row">
+              <div class="col-md-12 text-right">
+                <button type="submit" class="btn btn-success">
+                  <i class="fa fa-save"></i> Save
+                </button>
+                <button
+                  type="button"
+                  (click)="cancelAddEdit($event)"
+                  class="btn btn-default"
+                >
+                  <i class="fa fa-close"></i> Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="modal fade"
+    id="manageProcedure"
+    tabindex="-1"
+    data-width="760"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-hidden="true"
+          ></button>
+          <h4 class="modal-title" style="font-weight: bold">
+            <i class="fa fa-plus"></i> &nbsp;New Procedure
+          </h4>
+        </div>
+        <form
+          name="form"
+          (ngSubmit)="addAuditProcedure($event) && racmForm.form.valid"
+          #apForm="ngForm"
+          novalidate
+        >
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label class="control-label">Procedure ID <span class="required" aria-required="true"> * </span></label>
+                  <input
+                    type="text"
+                    id="ProcedureId"
+                    name="ProcedureId"
+                    [(ngModel)]="ProcedureId"
+                    placeholder="Procedure ID"
+                    class="form-control"
+                    readonly
+                    required
+                    #ProcedureIds="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                      ProcedureIds.errors && apForm.submitted
+                    }"
+                  />
+                  
+				       <div
+               *ngIf="apForm.submitted && ProcedureIds.invalid"
+               class="invalid-feedback"
+             >
+               <div
+                 class="text-danger myClass"
+                 *ngIf="ProcedureIds.errors.required"
+               >
+               Procedure Id is required
+               </div>
+             </div>
+                </div>
+              </div>
+              <div class="col-md-7">
+                <div class="form-group">
+                  <label class="control-label">Procedure Title <span class="required" aria-required="true"> * </span></label>
+                  <input
+                    type="text"
+                    id="ProcedureTitle"
+                    name="ProcedureTitle"
+                    [(ngModel)]="ProcedureTitle"
+                    placeholder="Enter Procedure Title"
+                    class="form-control"
+                    required
+                    #ProcedureTitles="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                      ProcedureTitles.errors && apForm.submitted
+                    }"
+                  />
+                  
+				       <div
+               *ngIf="apForm.submitted && ProcedureTitles.invalid"
+               class="invalid-feedback"
+             >
+               <div
+                 class="text-danger myClass"
+                 *ngIf="ProcedureTitles.errors.required"
+               >
+               Procedure Title is required
+               </div>
+             </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label class="control-label">Procedure Description <span class="required" aria-required="true"> * </span></label>
+                  <ckeditor
+                    [(ngModel)]="ProcedureDesc"
+                    name="ProcedureDesc"
+                    placeholder="Enter Procedure Description"
+                    [editor]="Editor"
+                    required
+                    #ProcedureDescs="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                      ProcedureDescs.errors && apForm.submitted
+                    }"
+                  ></ckeditor>
+                  <div
+                  *ngIf="apForm.submitted && ProcedureDescs.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="ProcedureDescs.errors.required"
+                  >
+                  Procedure Description is required
+                  </div>
+                </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label"
+                    >Start Date
+                    <span class="required" aria-required="true"> * </span>
+                  </label>
+
+                  <div
+                    class="input-group"
+                    [ngClass]="{
+                      'red-border-class':
+                        procedureStartDates.errors && apForm.submitted
+                    }"
+                  >
+                    <input
+                      type="text"
+                      id="ProcedureStartDate"
+                      class="form-control"
+                      placeholder="dd/mm/yyyy"
+                      name="ProcedureStartDate"
+                      [(ngModel)]="ProcedureStartDate"
+                      ngbDatepicker
+                      #procStartDate="ngbDatepicker"
+                      #procedureStartDates="ngModel"
+                      required
+                      readonly
+                    />
+                    <div class="input-group-btn">
+                      <button
+                        class="btn btn-default calendar"
+                        (click)="procStartDate.toggle()"
+                        type="button"
+                      >
+                        <i class="fa fa-calendar"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div
+                    *ngIf="apForm.submitted && procedureStartDates.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="procedureStartDates.errors.required"
+                    >
+                      Procedure StartDate is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label"
+                    >End Date
+                    <span class="required" aria-required="true"> * </span>
+                  </label>
+
+                  <div
+                    class="input-group"
+                    [ngClass]="{
+                      'red-border-class':
+                        procedureEndDates.errors && apForm.submitted
+                    }"
+                  >
+                    <input
+                      type="text"
+                      id="ProcedureEndDate"
+                      class="form-control"
+                      placeholder="dd/mm/yyyy"
+                      name="ProcedureEndDate"
+                      [(ngModel)]="ProcedureEndDate"
+                      ngbDatepicker
+                      #procEndDate="ngbDatepicker"
+                      #procedureEndDates="ngModel"
+                      required
+                      readonly
+                    />
+                    <div class="input-group-btn">
+                      <button
+                        class="btn btn-default calendar"
+                        (click)="procEndDate.toggle()"
+                        type="button"
+                      >
+                        <i class="fa fa-calendar"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div
+                    *ngIf="apForm.submitted && procedureEndDates.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="procedureEndDates.errors.required"
+                    >
+                      Audit End Date is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">Select Responsibility <span class="required" aria-required="true"> * </span></label>
+                  <select
+                    id="Responsibility"
+                    placeholder="Select Responsibility"
+                    name="Responsibility"
+                    class="form-control"
+                    [(ngModel)]="Responsibility"
+                    required
+                    #Responsibilitys="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                      Responsibilitys.errors && apForm.submitted
+                    }"
+                  >
+                    <option value="">Select Responsibility</option>
+                    <option
+                      *ngFor="let userDetails of userOpts; let i = index"
+                      [attr.data-index]="i"
+                      [value]="userDetails.user.id"
+                    >
+                      {{ userDetails.user.firstName }}
+                      {{ userDetails.user.lastName }}
+                    </option>
+                  </select>
+                  <div
+                  *ngIf="apForm.submitted && Responsibilitys.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="Responsibilitys.errors.required"
+                  >
+                  Responsibility is required
+                  </div>
+                </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">Select Reviewer <span class="required" aria-required="true"> * </span></label>
+                  <select
+                    id="Reviewer"
+                    placeholder="Select Reviewer"
+                    name="Reviewer"
+                    class="form-control"
+                    [(ngModel)]="Reviewer"
+                    required
+                    #Reviewers="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                      Reviewers.errors && apForm.submitted
+                    }"
+                  >
+                    <option value="">Select Reviewer</option>
+                    <option
+                      *ngFor="
+                        let approverDetails of approverOpts;
+                        let i = index
+                      "
+                      [attr.data-index]="i"
+                      [value]="approverDetails.user.id"
+                    >
+                      {{ approverDetails.user.firstName }}
+                      {{ approverDetails.user.lastName }}
+                    </option>
+                  </select>
+                  <div
+                  *ngIf="apForm.submitted && Reviewers.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="Reviewers.errors.required"
+                  >
+                  Reviewer is required
+                  </div>
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-success">
+              <i class="fa fa-save"></i> Save
+            </button>
+
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              <i class="fa fa-close"></i> Close
+            </button>
+          </div>
+        </form>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="racmLibModal"
+  tabindex="-1"
+  data-width="760"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        ></button>
+
+        <h4 class="modal-title" style="font-weight: bold">
+          <i class="fa fa-book"></i> &nbsp;RACM Library
+        </h4>
+      </div>
+
+      <form>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12">
+              <table [id]="tablelibId" class="table table-bordered"></table>
+              <app-table
+                [tableId]="''"
+                [tableColumns]="tableColumnsRAMLib"
+                [tableApi]="tableApiUrlRAMLib"
+                [tableFilters]="tableFiltersRAMLib"
+              ></app-table>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            type="button"
+            id="saveEybmFromLibrary"
+            (click)="saveRACMFromLibrary()"
+            class="btn btn-primary"
+          >
+            <i class="fa fa-download"></i> Import
+          </button>
+
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <i class="fa fa-close"></i> Close
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,1321 @@
+<div *ngIf="!formVisible">
+<div  class="form-actions top form-group">
+  <button type="button" class="btn btn-default" (click)="refreshTable()">
+    <i class="fa fa-eraser"></i> Clear Filters
+  </button>
+</div>
+<div  class="form-actions form-group pull-right"> 
+    <button
+      [disabled]="isStackHolder"
+      type="button"
+      (click)="addDn()"
+      class="btn btn-primary"
+      *ngIf="accessRights.isAdd"
+    >
+      <i class="fa fa-plus"></i> New
+    </button>
+
+    <button
+      type="button"
+      class="btn btn-primary"
+      [disabled]="isStackHolder"
+      (click)="sendMultipleEmail()"
+    >
+      <i class="fa fa-send"></i> Send Email
+    </button>
+
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="exportToExcel()"
+    >
+      <i class="fa fa-file-excel-o"></i> Export to Excel
+    </button>
+
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="exportToPDF()"
+    >
+      <i class="fa fa-file-pdf-o"></i> Export to PDF
+    </button>
+
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="exportToPPT()"
+    >
+      <i class="fa fa-file-pdf-o"></i> Export to PPT
+    </button>
+    <button
+    type="button"
+    class="btn btn-primary"
+    (click)="sampleExportToExcel()"
+    [disabled]="isStackHolder"
+  >
+    <i class="fa fa-file-excel-o"></i> Sample Excel
+  </button>
+    <input type="file" #fileInput class="hidden" (change)="importExcel()" />
+    <button
+      [disabled]="isStackHolder"
+      type="button"
+      class="btn btn-primary"
+      (click)="fileInput.click()"
+      *ngIf="accessRights.isEdit"
+    >
+      <i class="fa fa-file-excel-o"></i> Upload Excel
+    </button>
+</div>
+</div>
+<div [ngClass]="{ hide: formVisible }" class="row widget-row">
+  <div class="col-md-5">
+    <!-- BEGIN WIDGET THUMB -->
+    <div
+      class="
+        widget-thumb widget-bg-color-white
+        text-uppercase
+        margin-bottom-20
+        bordered
+      "
+    >
+      <h4 class="widget-thumb-heading">
+        Discussion Note - Grading ({{ summaryGradingTotal }})
+      </h4>
+
+      <div class="row">
+        <div class="col-md-3">
+          <div class="widget-thumb-wrap">
+            <div
+              class="widget-thumb-body text-center"
+              [ngClass]="{ highlight: filterGrading == 'Critical' }"
+            >
+              <a (click)="FilterByGrading('Critical')">
+                <span class="widget-thumb-subtitle">Critical</span>
+                <span class="widget-thumb-body-stat">{{
+                  summaryCriticalGrade
+                }}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="widget-thumb-wrap">
+            <div
+              class="widget-thumb-body text-center"
+              [ngClass]="{ highlight: filterGrading == 'High' }"
+            >
+              <a (click)="FilterByGrading('High')">
+                <span class="widget-thumb-subtitle">High</span>
+                <span class="widget-thumb-body-stat">{{
+                  summaryHighGrade
+                }}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="widget-thumb-wrap">
+            <div
+              class="widget-thumb-body text-center"
+              [ngClass]="{ highlight: filterGrading == 'Medium' }"
+            >
+              <a (click)="FilterByGrading('Medium')">
+                <span class="widget-thumb-subtitle">Medium</span>
+                <span class="widget-thumb-body-stat">{{
+                  summaryMediumGrade
+                }}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="widget-thumb-wrap">
+            <div
+              class="widget-thumb-body text-center"
+              [ngClass]="{ highlight: filterGrading == 'Low' }"
+            >
+              <a (click)="FilterByGrading('Low')">
+                <span class="widget-thumb-subtitle">Low</span>
+                <span class="widget-thumb-body-stat">{{
+                  summaryLowGrade
+                }}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END WIDGET THUMB -->
+  </div>
+
+  <div class="col-md-7">
+    <!-- BEGIN WIDGET THUMB -->
+    <div
+      class="
+        widget-thumb widget-bg-color-white
+        text-uppercase
+        margin-bottom-20
+        bordered
+      "
+    >
+      <h4 class="widget-thumb-heading">
+        Discussion Note in Scope ({{ summaryStatusTotal }})
+      </h4>
+
+      <div class="row">
+        <div class="col-md-3">
+          <div class="widget-thumb-wrap">
+            <div
+              class="widget-thumb-body text-center"
+              [ngClass]="{ highlight: filterStatus == 'notstarted' }"
+            >
+              <a (click)="FilterByStatus('notstarted')">
+                <span class="widget-thumb-subtitle">Not Started</span>
+                <span class="widget-thumb-body-stat">{{
+                  summaryNotStarted
+                }}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="widget-thumb-wrap">
+            <div
+              class="widget-thumb-body text-center"
+              [ngClass]="{ highlight: filterStatus == 'inprogress' }"
+            >
+              <a (click)="FilterByStatus('inprogress')">
+                <span class="widget-thumb-subtitle">In Progress</span>
+                <span class="widget-thumb-body-stat">{{
+                  summaryInProgress
+                }}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="widget-thumb-wrap">
+            <div
+              class="widget-thumb-body text-center"
+              [ngClass]="{ highlight: filterStatus == 'inreview' }"
+            >
+              <a (click)="FilterByStatus('inreview')">
+                <span class="widget-thumb-subtitle">In Review</span>
+                <span class="widget-thumb-body-stat">{{
+                  summaryInReview
+                }}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="widget-thumb-wrap">
+            <div
+              class="widget-thumb-body text-center"
+              [ngClass]="{ highlight: filterStatus == 'completed' }"
+            >
+              <a (click)="FilterByStatus('completed')">
+                <span class="widget-thumb-subtitle">Completed</span>
+                <span class="widget-thumb-body-stat">{{
+                  summaryCompleted
+                }}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END WIDGET THUMB -->
+  </div>
+</div>
+
+<div
+  [ngClass]="{ hide: formVisible }"
+  class="row mt-20"
+  id="discussionNoteComponent"
+>
+  <div class="col-md-12">
+    <!-- <div class="wrapper1">
+      <div class="div1"></div>
+    </div> -->
+<!-- 
+    <div class="wrapper2">
+      <div class="div2"> -->
+        <input
+          type="file"
+          #fileInputMainDN
+          class="hidden"
+          (change)="uploadTableFile();"
+        />
+
+        <table [id]="tableId" class="table table-bordered"></table>
+        <!-- <app-table -->
+        <!-- [tableId]="'dn_table'" -->
+        <!-- [tableColumns]="tableColumnsDn" -->
+        <!-- [tableApi]="tableApiUrl" -->
+        <!-- [tableFilters]="tableFilters" -->
+        <!-- [tableDownload]="true" -->
+        <!-- ></app-table> -->
+      <!-- </div>
+    </div> -->
+  </div>
+  <!-- <div class="col-md-12" style="overflow-y: auto">
+      <app-table
+        [tableId]="'dn_tableGrading'"
+        [tableColumns]="tableColumnsDn"
+        [tableApi]="tableApiUrlGrading"
+        [tableFilters]="tableFiltersGraging"
+        [tableDownload]="true"
+      ></app-table>
+    </div> -->
+</div>
+
+<div [ngClass]="{ hide: !formVisible }">
+  <div class="portlet box" [ngClass]="{ blue: !isEdit, yellow: isEdit }">
+    <div class="portlet-title">
+      <div class="caption">
+        <i class="fa" [ngClass]="{ 'fa-plus': !isEdit, 'fa-edit': isEdit }"></i>
+        Discussion Note
+      </div>
+      <div class="tools">
+        <a href="javascript:;" class="collapse"> </a>
+      </div>
+    </div>
+    <div class="portlet-body form">
+      <form
+        (ngSubmit)="confirmSaveDN($event) && dnForm.form.valid"
+        #dnForm="ngForm"
+        name="form"
+        class="horizontal-form"
+        novalidate
+      >
+        <div class="form-body">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label"
+                  >RACM Number<span class="required" aria-required="true">
+                    *
+                  </span></label
+                >
+                <select
+                  [disabled]="isStackHolder"
+                  #RACMNumber="ngModel"
+                  id="RACMNumber"
+                  name="RACMNumber"
+                  placeholder="Select RACM Number"
+                  class="form-control"
+                  [(ngModel)]="RACMNumberText"
+                  [ngClass]="{
+                    'red-border-class': RACMNumber.errors && dnForm.submitted
+                  }"
+                  required
+                >
+                  <option value="">Select RACM Number</option>
+                  <option
+                    *ngFor="let racm of RACMOpts"
+                    [value]="racm.racMnumber"
+                  >
+                    {{ racm.racMnumber }}
+                  </option>
+                </select>
+                <div
+                  *ngIf="dnForm.submitted && RACMNumber.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="RACMNumber.errors.required"
+                  >
+                    RACM Number is required
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label"
+                  >Discussion No
+                  <span class="required" aria-required="true"> * </span></label
+                >
+                <input
+                  [readonly]="isStackHolder"
+                  #DiscussionNumbers="ngModel"
+                  type="number"
+                  id="DiscussionNumber"
+                  name="DiscussionNumber"
+                  [(ngModel)]="DiscussionNumber"
+                  class="form-control"
+                  placeholder="Discussion No"
+                  [ngClass]="{
+                    'red-border-class':
+                      DiscussionNumbers.errors && dnForm.submitted
+                  }"
+                  required
+                />
+                <div
+                  *ngIf="dnForm.submitted && DiscussionNumbers.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="DiscussionNumbers.errors.required"
+                  >
+                    Discussion Number is required
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="control-label"
+                  >Discussion Heading<span
+                    class="required"
+                    aria-required="true"
+                  >
+                    *
+                  </span></label
+                >
+                <textarea
+                  [readonly]="isStackHolder"
+                  #ObservationHeadings="ngModel"
+                  id="ObservationHeading"
+                  name="ObservationHeading"
+                  [(ngModel)]="ObservationHeading"
+                  class="form-control"
+                  placeholder="Enter Discussion Heading"
+                  required
+                ></textarea>
+                <!-- [config]="{ -->
+                <!-- table: { -->
+                <!-- contentToolbar: [ -->
+                <!-- 'tableColumn', -->
+                <!-- 'tableRow', -->
+                <!-- 'mergeTableCells', -->
+                <!-- 'tableCellProperties', -->
+                <!-- 'tableProperties' -->
+                <!-- ] -->
+                <!-- } -->
+                <!-- }" -->
+                <!-- <ckeditor -->
+                <!-- #ObservationHeadings="ngModel" -->
+                <!-- [(ngModel)]="ObservationHeading" -->
+                <!-- name="ObservationHeading" -->
+                <!-- placeholder="Enter Discussion Heading" -->
+                <!-- [editor]="Editor" -->
+                <!-- required -->
+                <!-- ></ckeditor> -->
+                <div
+                  *ngIf="dnForm.submitted && ObservationHeadings.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="ObservationHeadings.errors.required"
+                  >
+                    Discussion Heading is required
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="control-label">Background</label>
+                <!-- <textarea -->
+                <!-- type="text" -->
+                <!-- id="FieldBackground" -->
+                <!-- name="FieldBackground" -->
+                <!-- [(ngModel)]="FieldBackground" -->
+                <!-- class="form-control" -->
+                <!-- placeholder="Enter field background" -->
+                <!-- ></textarea> -->
+                <ckeditor
+                  [disabled]="isStackHolder"
+                  [(ngModel)]="FieldBackground"
+                  name="FieldBackground"
+                  placeholder="Enter field background"
+                  [editor]="Editor"
+                ></ckeditor>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="control-label"
+                  >Detailed Observation
+                  <span class="required" aria-required="true"> * </span></label
+                >
+                <!-- <textarea -->
+                <!-- id="DetailedObservation" -->
+                <!-- name="DetailedObservation" -->
+                <!-- [(ngModel)]="DetailedObservation" -->
+                <!-- class="form-control" -->
+                <!-- placeholder="Enter Detailed Observation" -->
+                <!-- ></textarea> -->
+                <ckeditor
+                  [disabled]="isStackHolder"
+                  #DetailedObservations="ngModel"
+                  [(ngModel)]="DetailedObservation"
+                  name="DetailedObservation"
+                  placeholder="Enter Detailed Observation"
+                  [editor]="Editor"
+                  required
+                ></ckeditor>
+                <div
+                  *ngIf="dnForm.submitted && DetailedObservations.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="DetailedObservations.errors.required"
+                  >
+                    Detailed Observation is required
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="control-label">Recommendation</label>
+                <ckeditor
+                  [disabled]="isStackHolder"
+                  [(ngModel)]="Recommendation"
+                  name="Recommendation"
+                  placeholder="Enter Recommendation"
+                  [editor]="Editor"
+                ></ckeditor>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="control-label"
+                  >Root Cause
+                  <span class="required" aria-required="true"> * </span></label
+                >
+                <!-- <textarea -->
+                <!-- id="RootCause" -->
+                <!-- name="RootCause" -->
+                <!-- [(ngModel)]="RootCause" -->
+                <!-- class="form-control" -->
+                <!-- placeholder="Enter Root Cause" -->
+                <!-- ></textarea> -->
+                <ckeditor
+                  [disabled]="isStackHolder"
+                  #RootCauses="ngModel"
+                  [(ngModel)]="RootCause"
+                  name="RootCause"
+                  placeholder="Enter Root Cause"
+                  [editor]="Editor"
+                  required
+                ></ckeditor>
+                <div
+                  *ngIf="dnForm.submitted && RootCauses.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="RootCauses.errors.required"
+                  >
+                    Root Cause is required
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="control-label"
+                  >Risks / Business Impact
+                  <span class="required" aria-required="true"> * </span></label
+                >
+                <!-- <textarea -->
+                <!-- id="Risks" -->
+                <!-- name="Risks" -->
+                <!-- [(ngModel)]="Risks" -->
+                <!-- class="form-control" -->
+                <!-- placeholder="Enter Risks/ Implications" -->
+                <!-- ></textarea> -->
+
+                <ckeditor
+                  [disabled]="isStackHolder"
+                  #Risk="ngModel"
+                  [(ngModel)]="Risks"
+                  name="Risks"
+                  placeholder="Enter Risks / Business Impact"
+                  [editor]="Editor"
+                  required
+                ></ckeditor>
+                <div
+                  *ngIf="dnForm.submitted && Risk.invalid"
+                  class="invalid-feedback"
+                >
+                  <div class="text-danger myClass" *ngIf="Risk.errors.required">
+                    Risks is required
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="col-md-12"> -->
+            <!-- <div class="form-group"> -->
+            <!-- <label class="control-label" -->
+            <!-- >Financial Impact -->
+            <!-- <span class="required" aria-required="true"> * </span></label -->
+            <!-- > -->
+            <!-- <ckeditor -->
+            <!-- #FinancialImpacts="ngModel" -->
+            <!-- [(ngModel)]="FinancialImpact" -->
+            <!-- name="FinancialImpact" -->
+            <!-- placeholder="Enter Financial Impact" -->
+            <!-- [editor]="Editor" -->
+            <!-- required -->
+            <!-- ></ckeditor> -->
+            <!-- <div -->
+            <!-- *ngIf="dnForm.submitted && FinancialImpacts.invalid" -->
+            <!-- class="invalid-feedback" -->
+            <!-- > -->
+            <!-- <div -->
+            <!-- class="text-danger myClass" -->
+            <!-- *ngIf="FinancialImpacts.errors.required" -->
+            <!-- > -->
+            <!-- Financial Impact is required -->
+            <!-- </div> -->
+            <!-- </div> -->
+            <!-- </div> -->
+            <!-- </div> -->
+
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="control-label"
+                  >Risk Type
+                  <span class="required" aria-required="true"> * </span></label
+                >
+                <ng-multiselect-dropdown
+                  [placeholder]="'Select Risk Type'"
+                  [data]="riskTypeOptions"
+                  [(ngModel)]="selectedRiskTypeIds"
+                  [settings]="dropdownSettings"
+                  name="RiskTypeIds" 
+                  [ngClass]="{
+                    'red-border-class': RiskTypeIds.errors && dnForm.submitted
+                  }"
+                  #RiskTypeIds="ngModel"
+                  required
+                >
+                </ng-multiselect-dropdown>
+                <!-- <select
+                  [disabled]="isStackHolder"
+                  #RiskTypeIds="ngModel"
+                  id="RiskTypeId"
+                  name="RiskTypeId"
+                  [(ngModel)]="RiskTypeId"
+                  placeholder="Select Risk Type"
+                  class="form-control"
+                  [ngClass]="{
+                    'red-border-class': RiskTypeIds.errors && dnForm.submitted
+                  }"
+                  required
+                >
+                  <option value="">Select Risk Type</option>
+                  <option
+                    *ngFor="let riskType of riskTypeOptions"
+                    [value]="riskType.id"
+                  >
+                    {{ riskType.name }}
+                  </option>
+                </select> -->
+
+                <div
+                  *ngIf="dnForm.submitted && RiskTypeIds.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="RiskTypeIds.errors.required"
+                  >
+                    Risk Type is required
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label"
+                  >Select Responsibility
+                  <span class="required" aria-required="true"> *</span>
+                </label>
+                <select
+                  [disabled]="isStackHolder"
+                  #PersonResponsibleIDs="ngModel"
+                  id="PersonResponsibleID"
+                  placeholder="Select Responsibility"
+                  name="PersonResponsibleID"
+                  class="form-control"
+                  [(ngModel)]="PersonResponsibleID"
+                  [ngClass]="{
+                    'red-border-class':
+                      PersonResponsibleIDs.errors && dnForm.submitted
+                  }"
+                  required
+                >
+                  <option value="">Select Responsibility</option>
+                  <option
+                    *ngFor="let userDetails of userOpts; let i = index"
+                    [attr.data-index]="i"
+                    [value]="userDetails.user.id"
+                  >
+                    {{ userDetails.user.firstName }}
+                    {{ userDetails.user.lastName }}
+                  </option>
+                </select>
+
+                <div
+                  *ngIf="dnForm.submitted && PersonResponsibleIDs.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="PersonResponsibleIDs.errors.required"
+                  >
+                    Person ResponsibleID is required
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label"
+                  >Select Reviewer
+                  <span class="required" aria-required="true"> *</span>
+                </label>
+                <select
+                  [disabled]="isStackHolder"
+                  #ReviewerIdS="ngModel"
+                  id="ReviewerId"
+                  placeholder="Select Reviewer"
+                  name="ReviewerId"
+                  class="form-control"
+                  [(ngModel)]="ReviewerId"
+                  [ngClass]="{
+                    'red-border-class': ReviewerIdS.errors && dnForm.submitted
+                  }"
+                  required
+                >
+                  <option value="">Select Reviewer</option>
+                  <option
+                    *ngFor="let approver of approverOpts; let i = index"
+                    [attr.data-index]="i"
+                    [value]="approver.user.id"
+                  >
+                    {{ approver.user.firstName }} {{ approver.user.lastName }}
+                  </option>
+                </select>
+
+                <div
+                  *ngIf="dnForm.submitted && ReviewerIdS.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="ReviewerIdS.errors.required"
+                  >
+                    Person ResponsibleID is required
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label"
+                  >Observation Grading
+                  <span class="required" aria-required="true"> * </span></label
+                >
+                <select
+                  [disabled]="isStackHolder"
+                  #ObservationGradings="ngModel"
+                  id="ObservationGrading"
+                  name="ObservationGrading"
+                  [(ngModel)]="ObservationGrading"
+                  class="form-control"
+                  [ngClass]="{
+                    'red-border-class':
+                      ObservationGradings.errors && dnForm.submitted
+                  }"
+                  required
+                >
+                  <!-- <option value="4">Repeat</option> -->
+                  <option value="3">Critical</option>
+                  <option value="2">High</option>
+                  <option value="1">Medium</option>
+                  <option value="0">Low</option>
+                </select>
+
+                <div
+                  *ngIf="dnForm.submitted && ObservationGradings.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="ObservationGradings.errors.required"
+                  >
+                    Observation Grading is required
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label"
+                  >Checkbox for flagging issue to be considered in report
+                </label>
+                <select
+                  [disabled]="isStackHolder"
+                  id="FlagIssueForReport"
+                  name="FlagIssueForReport"
+                  [(ngModel)]="FlagIssueForReport"
+                  class="form-control"
+                >
+                  <option value="no">No</option>
+                  <option value="yes">Yes</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <label class="control-label">Management Comments</label>
+              <div class="form-group">
+                <ckeditor
+                  [(ngModel)]="ManagementComments"
+                  name="ManagementComments"
+                  placeholder="Enter management comments"
+                  [editor]="Editor"
+                ></ckeditor>
+              </div>
+            </div>
+          </div>
+
+          <!-- <div class="row">
+            <div class="col-md-2 mt-20">
+              <div class="form-group">
+                <input
+                  [disabled]="isStackHolder"
+                  type="checkbox"
+                  name="isRepeat"
+                  [checked]="isRepeat"
+                  [(ngModel)]="isRepeat"
+                />&nbsp;
+                <label for="isRepeat" class="control-label">Repeat</label>
+              </div>
+            </div>
+            <div class="col-md-3 mt-20">
+              <div class="form-group">
+                <input
+                  [disabled]="isStackHolder"
+                  type="checkbox"
+                  id="isSystemImprovement"
+                  name="isSystemImprovement"
+                  [(ngModel)]="isSystemImprovement"
+                />&nbsp;
+                <label for="isSystemImprovement" class="control-label"
+                  >System Improvement</label
+                >
+              </div>
+            </div>
+
+            <div class="col-md-2 mt-20">
+              <div class="form-group">
+                <input
+                  [disabled]="isStackHolder"
+                  type="checkbox"
+                  id="isRedFlag"
+                  name="isRedFlag"
+                  [(ngModel)]="isRedFlag"
+                />&nbsp;
+                <label for="isRedFlag" class="control-label">Red Flag</label>
+              </div>
+            </div>
+
+            <div class="col-md-3 mt-20">
+              <div class="form-group">
+                <input
+                  [disabled]="isStackHolder"
+                  type="checkbox"
+                  id="isLeadingPractices"
+                  name="isLeadingPractices"
+                  [(ngModel)]="isLeadingPractices"
+                />&nbsp;
+                <label for="isLeadingPractices" class="control-label"
+                  >Leading Practices</label
+                >
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label"
+                  >Potential Saving (INR)<span class="required" aria-required="true">
+                    *
+                  </span></label
+                >
+                <input
+                  [disabled]="isStackHolder"
+                  #PotentialSavings="ngModel"
+                  type="number"
+                  class="form-control"
+                  placeholder="Enter Potential Saving"
+                  id="PotentialSaving"
+                  name="PotentialSaving"
+                  [(ngModel)]="PotentialSaving"
+                  [ngClass]="{
+                    'red-border-class':
+                      PotentialSavings.errors && dnForm.submitted
+                  }"
+                  required
+                />
+
+                <div
+                  *ngIf="PotentialSavings.invalid && dnForm.submitted"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="PotentialSavings.errors.required"
+                  >
+                    Potential Saving is required
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label"
+                  >Realised Saving (INR)<span class="required" aria-required="true">
+                    *
+                  </span></label
+                >
+                <input
+                  [disabled]="isStackHolder"
+                  #RealisedSavings="ngModel"
+                  type="number"
+                  class="form-control"
+                  placeholder="Enter Realised Saving"
+                  id="RealisedSaving"
+                  name="RealisedSaving"
+                  [(ngModel)]="RealisedSaving"
+                  [ngClass]="{
+                    'red-border-class':
+                      RealisedSavings.errors && dnForm.submitted
+                  }"
+                  required
+                />
+                <div
+                  *ngIf="dnForm.submitted && RealisedSavings.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="RealisedSavings.errors.required"
+                  >
+                    Realised Saving is required
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label"
+                  >Leakage (INR)<span class="required" aria-required="true">
+                    *
+                  </span></label
+                >
+                <input
+                  [disabled]="isStackHolder"
+                  #Leakages="ngModel"
+                  type="number"
+                  class="form-control"
+                  placeholder="Enter Leakage"
+                  id="Leakage"
+                  name="Leakage"
+                  [(ngModel)]="Leakage"
+                  [ngClass]="{
+                    'red-border-class': Leakages.errors && dnForm.submitted
+                  }"
+                  required
+                />
+                <div
+                  *ngIf="dnForm.submitted && Leakage.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="Leakage.errors.required"
+                  >
+                    Leakage is required
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label"> Impact </label>
+                <ng-multiselect-dropdown
+                  [disabled]="isStackHolder"
+                  [placeholder]="'Select Impact'"
+                  [data]="impactOptions"
+                  [(ngModel)]="selectedImpacts"
+                  [settings]="dropdownSettings"
+                  name="Impacts"
+                >
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label">Recommendation</label> 
+                <ng-multiselect-dropdown
+                  [disabled]="isStackHolder"
+                  [placeholder]="'Select Recommendation'"
+                  [data]="recommendationOptions"
+                  [(ngModel)]="selectedRecommendations"
+                  [settings]="dropdownSettings"
+                  name="Recommendations"
+                >
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label">Root Cause </label>
+                <ng-multiselect-dropdown
+                  [disabled]="isStackHolder"
+                  [placeholder]="'Select Root Cause'"
+                  [data]="rootCauseOptions"
+                  [(ngModel)]="selectedRootCauses"
+                  [settings]="dropdownSettings"
+                  name="RootCauses"
+                >
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+          </div> -->
+          <hr />
+
+          <div class="row">
+            <div class="col-md-12 form-group">
+              <input
+                type="file"
+                #fileInputDN
+                class="hidden"
+                (change)="uploadDNFile()"
+              />
+              <button
+                type="button"
+                class="btn btn-primary pull-right"
+                (click)="fileInputDN.click()"
+              >
+                <i class="fa fa-upload"></i> Upload File
+              </button>
+            </div>
+
+            <div class="col-md-12">
+              <table id="uploadedDNFiles" class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>File</th>
+                    <th>Uploaded Date</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions right">
+          <button type="submit" class="btn btn-success">
+            <i class="fa fa-save"></i> Save
+          </button>
+
+          <button
+            type="button"
+            (click)="history.show()"
+            class="btn btn-primary pull-left"
+          >
+            <i class="fa fa-history"></i> History
+          </button>
+          <!-- <button -->
+          <!-- type="button" -->
+          <!-- *ngIf="!isApprover && isEdit" -->
+          <!-- (click)="updateStatus('inreview')" -->
+          <!-- class="btn blue" -->
+          <!-- > -->
+          <!-- <i class="fa fa-user"></i> Send For Approval -->
+          <!-- </button> -->
+
+          <button
+            [disabled]="isStackHolder"
+            type="button"
+            *ngIf="isApprover && isEdit"
+            (click)="updateStatus('completed')"
+            class="btn btn-success"
+          >
+            <i class="fa fa-check"></i> Approve
+          </button>
+
+          <button
+            [disabled]="isStackHolder"
+            type="button"
+            (click)="handleRejectModal('show')"
+            *ngIf="isApprover && isEdit"
+            class="btn btn-danger"
+          >
+            <i class="fa fa-ban"></i> Reject
+          </button>
+
+          <button
+            [disabled]="isStackHolder"
+            type="button"
+            *ngIf="isCompleted && isEdit"
+            (click)="saveToDraftReport($event)"
+            class="btn btn-success"
+          >
+            <i class="fa fa-upload"></i> Save to Draft Report
+          </button>
+
+          <button
+            type="button"
+            (click)="cancelAddEdit($event)"
+            class="btn btn-default"
+          >
+            <i class="fa fa-close"></i> Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="rejectDNModal"
+  tabindex="-1"
+  data-width="760"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        ></button>
+        <h4 class="modal-title" style="font-weight: bold">
+          <i class="fa fa-cogs"></i> &nbsp;Reject Testing of Control
+        </h4>
+      </div>
+      <form>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="control-label">Enter Justification</label>
+                <!-- <textarea -->
+                <!-- name="Justification" -->
+                <!-- [(ngModel)]="Justification" -->
+                <!-- placeholder="Enter Justification" -->
+                <!-- class="form-control" -->
+                <!-- required -->
+                <!-- ></textarea> -->
+                <ckeditor
+                  [(ngModel)]="Justification"
+                  name="Justification"
+                  placeholder="Enter Justification"
+                  [editor]="Editor"
+                ></ckeditor>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            id="rejectDN"
+            (click)="rejectDN()"
+            class="btn btn-success"
+          >
+            <i class="fa fa-save"></i> Save
+          </button>
+
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <i class="btn btn-default"></i> Close
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="dnContentModal"
+  tabindex="-1"
+  data-width="760"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        ></button>
+        <h4 class="modal-title" style="font-weight: bold">
+          <i class="fa fa-cogs"></i> &nbsp;<span id="dncontent-title"></span>
+        </h4>
+      </div>
+      <form>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12" id="dncontent"></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <i class="fa fa-close"></i> Close
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="sendDNMultipleMailModal"
+  tabindex="-1"
+  data-width="760"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header bg-warning">
+        <h4 class="modal-title" style="font-weight: bold">
+          <i class="fa fa-send"></i> &nbsp;Sending mail in progress...
+        </h4>
+      </div>
+
+      <div class="modal-body bg-warning">
+        <p>Please wait while we sending mail(s) to all selected records.</p>
+        <p>{{ dnMailSent }} mail(s) sent out of {{ dnMailTotal }}.</p>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
+<div
+  class="modal fade"
+  id="ConfimSendDNForApprovalModal"
+  tabindex="-1"
+  data-width="760"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        ></button>
+
+        <h4 class="modal-title" style="font-weight: bold">
+          <i class="fa fa-exclamation"></i> &nbsp;Confirm
+        </h4>
+      </div>
+
+      <div class="modal-body">Do you want to save?</div>
+
+      <div class="modal-footer">
+        <button
+          [disabled]="isStackHolder"
+          type="button"
+          *ngIf="!isApprover && isEdit"
+          (click)="saveSendDn()"
+          class="btn btn-success"
+        >
+          <i class="fa fa-send"></i> Yes
+        </button>
+
+        <button type="button" class="btn btn-success" (click)="saveDn()">
+          <i class="fa fa-save"></i> Save As Draft
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div
+  class="modal fade"
+  id="HistoryModal"
+  tabindex="-1"
+  data-width="1200"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        ></button>
+
+        <h4 class="modal-title" style="font-weight: bold">Histroy</h4>
+      </div>
+
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <table [id]="tableIdHistory" class="table table-bordered"></table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+>
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

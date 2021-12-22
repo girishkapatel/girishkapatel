@@ -1,0 +1,1086 @@
+<div class="page-content">
+  <div class="page-bar">
+    <ul class="page-breadcrumb">
+      <li>
+        <a href="javascript:void(0)">Home</a>
+        <i class="fa fa-circle"></i>
+      </li>
+      <li>
+        <span>Manage Audits</span>
+      </li>
+    </ul>
+    <button
+      type="button"
+      class="btn btn-default pull-right"
+      style="margin-top: 4px"
+      (click)="backToAuditForm()"
+    >
+      <i class="fa fa-arrow-left"></i> Back to Audit View
+    </button>
+  </div>
+
+  <div class="row pt-30">
+    <div class="col-lg-12 col-md-12">
+      <div class="portlet box blue">
+        <div class="portlet-title">
+          <div class="caption">
+            <i class="fa fa-plus"></i> Add Unplanned Audit
+          </div>
+          <div class="tools">
+            <a href="javascript:;" class="collapse"> </a>
+          </div>
+        </div>
+        <div class="portlet-body">
+          <form
+            (ngSubmit)="saveAuditSchedule($event) && auditPlanForm.form.valid"
+            #auditPlanForm="ngForm"
+          >
+            <div class="form-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="control-label">Audit Name <span class="required" aria-required="true">
+                      *
+                    </span></label>
+                    <input
+                      id="auditName"
+                      placeholder="Audit Name"
+                      class="form-control"
+                      [(ngModel)]="auditName"
+                      name="AuditName"
+                      #auditNames="ngModel"
+                      [ngClass]="{
+                        'red-border-class':
+                          auditNames.errors && auditPlanForm.submitted
+                      }"
+                      required
+                    />
+                    <div
+                      *ngIf="auditPlanForm.submitted && auditNames.invalid"
+                      class="invalid-feedback"
+                    >
+                      <div
+                        class="text-danger myClass"
+                        *ngIf="auditNames.errors.required"
+                      >
+                        Audit Name is required
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="control-label"
+                      >Location
+                      <span class="required" aria-required="true">
+                        *
+                      </span></label
+                    >
+                    <select
+                      id="locations"
+                      class="form-control"
+                      (change)="locationChange($event)" 
+                      [value]="locationId"
+                      #locationname 
+                      [ngClass]="{
+                        'red-border-class':
+                        locationname.errors && auditPlanForm.submitted
+                      }"
+                      required
+                    >
+                      <option value="">Select Location</option>
+                      <option
+                        *ngFor="let location of locationOptions; let i = index"
+                        [attr.data-index]="i"
+                        [value]="location.id"
+                      >
+                        {{ location.profitCenterCode }}
+                      </option>
+                    </select>
+                    <div
+                    *ngIf="auditPlanForm.submitted && locationname.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="locationname.errors.required"
+                    >
+                      Location is required
+                    </div>
+                  </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="control-label"
+                      >Audit Number
+                      <span class="required" aria-required="true"> * </span>
+                    </label>
+                    <input
+                      #auditNumbers="ngModel"
+                      id="auditNumber"
+                      placeholder="Audit Number"
+                      class="form-control"
+                      name="AuditNumber"
+                      [(ngModel)]="auditNumber"
+                      [ngClass]="{
+                        'red-border-class':
+                        auditNumbers.errors && auditPlanForm.submitted
+                      }"
+                      required
+                    />
+                    <div *ngIf="auditNumbers.invalid" class="invalid-feedback">
+                      <div
+                        class="text-danger myClass"
+                        *ngIf="
+                          auditNumbers.errors.required &&
+                          auditPlanForm.submitted
+                        "
+                      >
+                        AuditNumber is required
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="control-label"
+                      >Quarter
+                      <span class="required" aria-required="true"> * </span>
+                    </label>
+                    <select
+                      #quarters="ngModel"
+                      class="form-control"
+                      id="quarter"
+                      placeholder="Select Quarter"
+                      name="quarter"
+                      [(ngModel)]="quarter"
+                      [ngClass]="{
+                        'red-border-class':
+                        quarters.errors && auditPlanForm.submitted
+                      }"
+                      required
+                    >
+                      <option value="">Select Quarter</option>
+                      <option value="Q1">Q1</option>
+                      <option value="Q2">Q2</option>
+                      <option value="Q3">Q3</option>
+                      <option value="Q4">Q4</option>
+                    </select>
+
+                    <div *ngIf="quarters.invalid" class="invalid-feedback">
+                      <div
+                        class="text-danger myClass"
+                        *ngIf="
+                          quarters.errors.required && auditPlanForm.submitted
+                        "
+                      >
+                        Quarters is required
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="control-label"
+                      >Audit Start Date
+                      <span class="required" aria-required="true"> * </span>
+                    </label>
+
+                    <div
+                      class="input-group"
+                      [ngClass]="{
+                        'red-border-class':
+                          overallAuditStartDates.errors &&
+                          auditPlanForm.submitted
+                      }"
+                    >
+                      <input
+                        type="text"
+                        id="overallAuditStartDate"
+                        name="overallAuditStartDate"
+                        [(ngModel)]="overallAuditStartDate"
+                        class="form-control"
+                        placeholder="dd/mm/yyyy"
+                        ngbDatepicker
+                        #oAuditStartDate="ngbDatepicker"
+                        required
+                        readonly
+                        #overallAuditStartDates="ngModel"
+                      />
+                      <div class="input-group-btn">
+                        <button
+                          class="btn btn-default calendar"
+                          (click)="oAuditStartDate.toggle()"
+                          type="button"
+                        >
+                          <i class="fa fa-calendar"></i>
+                        </button>
+                      </div>
+                    </div>
+
+                    <div
+                      *ngIf="overallAuditStartDates.invalid"
+                      class="invalid-feedback"
+                    >
+                      <div
+                        class="text-danger myClass"
+                        *ngIf="
+                          overallAuditStartDates.errors.required &&
+                          auditPlanForm.submitted
+                        "
+                      >
+                        OverallAudit StartDate is required
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="control-label"
+                      >Audit End Date
+                      <span class="required" aria-required="true"> * </span>
+                    </label>
+
+                    <div
+                      class="input-group"
+                      [ngClass]="{
+                        'red-border-class':
+                          overallAuditEndDates.errors && auditPlanForm.submitted
+                      }"
+                    >
+                      <input
+                        type="text"
+                        id="overallAuditEndDate"
+                        class="form-control"
+                        placeholder="dd/mm/yyyy"
+                        name="overallAuditEndDate"
+                        [(ngModel)]="overallAuditEndDate"
+                        ngbDatepicker
+                        #oAuditEndDate="ngbDatepicker"
+                        required
+                        readonly
+                        #overallAuditEndDates="ngModel"
+                      />
+                      <div class="input-group-btn">
+                        <button
+                          class="btn btn-default calendar"
+                          (click)="oAuditEndDate.toggle()"
+                          type="button"
+                        >
+                          <i class="fa fa-calendar"></i>
+                        </button>
+                      </div>
+                    </div>
+
+                    <div
+                      *ngIf="overallAuditEndDates.invalid"
+                      class="invalid-feedback"
+                    >
+                      <div
+                        class="text-danger myClass"
+                        *ngIf="
+                          overallAuditEndDates.errors.required &&
+                          auditPlanForm.submitted
+                        "
+                      >
+                        OverallAudit EndDate is required
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--/row-->
+              <div class="tabbable-custom mt-30">
+                <ul class="nav nav-tabs">
+                  <li class="active">
+                    <a href="#approvers" data-toggle="tab"> Approvers </a>
+                  </li>
+                  <li>
+                    <a href="#resources" data-toggle="tab"> Resources </a>
+                  </li>
+                  <li>
+                    <a href="#auditees" data-toggle="tab"> Aduitees </a>
+                  </li>
+                  <li>
+                    <a href="#uploadfiles" data-toggle="tab">
+                      Upload File(s)
+                    </a>
+                  </li>
+                </ul>
+                <div class="tab-content">
+                  <div class="tab-pane active" id="approvers">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group text-right">
+                          <button
+                            type="button"
+                            class="btn btn-primary"
+                            (click)="addNewAprrover()"
+                          >
+                            <i class="fa fa-plus"></i> New Approver
+                          </button>
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <table
+                          id="selectedApprovers"
+                          class="table table-bordered"
+                        >
+                          <thead>
+                            <tr>
+                              <th>Name</th>
+                              <th>Responsibility</th>
+                              <th>Designation</th>
+                              <th>Experience</th>
+                              <th>Qualification</th>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                          <tbody></tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="tab-pane" id="resources">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group text-right">
+                          <button
+                            type="button"
+                            class="btn btn-primary"
+                            (click)="addNewResource()"
+                          >
+                            <i class="fa fa-plus"></i> New Resource
+                          </button>
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <table
+                          id="selectedResources"
+                          class="table table-bordered"
+                        >
+                          <thead>
+                            <tr>
+                              <th>Name</th>
+                              <th>Designation</th>
+                              <th>Experience</th>
+                              <th>Qualification</th>
+                              <th>Man Days</th>
+                              <th>Start Date</th>
+                              <th>End Date</th>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                          <tbody></tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="tab-pane" id="auditees">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group text-right">
+                          <button
+                            type="button"
+                            class="btn btn-primary"
+                            (click)="addNewAuditee()"
+                          >
+                            <i class="fa fa-plus"></i> New Auditee
+                          </button>
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <table
+                          id="selectedAuditees"
+                          class="table table-bordered"
+                        >
+                          <thead>
+                            <tr>
+                              <th>Name</th>
+                              <th>Email</th>
+                              <th>Experience</th>
+                              <th>Qualification</th>
+                              <th>Designation</th>
+                              <th>Report To</th>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                          <tbody></tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="tab-pane" id="uploadfiles">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group text-right">
+                          <input
+                            type="file"
+                            #fileInput
+                            class="hidden"
+                            (change)="uploadFile()"
+                          />
+                          <button
+                            type="button"
+                            class="btn btn-primary"
+                            (click)="fileInput.click()"
+                          >
+                            <i class="fa fa-upload"></i> Upload File
+                          </button>
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <table id="uploadedFiles" class="table table-bordered">
+                          <thead>
+                            <tr>
+                              <th>File</th>
+                              <th>Uploaded Date</th>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                          <tbody></tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-actions">
+              <div class="row">
+                <div class="col-md-12 text-right">
+                  <button type="submit" class="btn btn-success">
+                    <i class="fa fa-save"></i> Save
+                  </button>
+
+                  <button
+                    type="button"
+                    (click)="backToAuditForm()"
+                    class="btn btn-default"
+                  >
+                    <i class="fa fa-close"></i> Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="manageResource"
+  tabindex="-1"
+  data-width="760"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" *ngIf="!isEditResource">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        ></button>
+        <h4 class="modal-title" style="font-weight: bold">
+          <i class="fa fa-plus"></i> &nbsp;New Resource
+        </h4>
+      </div>
+      <div class="modal-header" *ngIf="isEditResource">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        ></button>
+        <h4 class="modal-title" style="font-weight: bold">
+          <i class="fa fa-edit"></i> &nbsp;Update Resource
+        </h4>
+      </div>
+      <form
+        (ngSubmit)="addResource($event) && resourceForm.form.valid"
+        #resourceForm="ngForm"
+      >
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label"
+                  >Select Resource
+                  <span class="required" aria-required="true"> * </span></label
+                >
+                <select
+                  id="resource"
+                  (change)="resourceChange($event)"
+                  placeholder="Add Resource"
+                  class="form-control"
+                  [(ngModel)]="resource"
+                  name="resource"
+                  required
+                  #resourceName="ngModel"
+                  [ngClass]="{
+                    'red-border-class':
+                      resourceName.errors && resourceForm.submitted
+                  }"
+                >
+                  <option value="">Select Resource</option>
+                  <option
+                    *ngFor="let user of userOpts; let i = index"
+                    [attr.data-index]="i"
+                    [value]="user.id"
+                  >
+                    {{ user.firstName }} {{ user.lastName }}
+                  </option>
+                </select>
+                <div
+                  *ngIf="resourceForm.submitted && resourceName.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="resourceName.errors.required"
+                  >
+                    Resource is required
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label"
+                  >No of Man days
+                  <span class="required" aria-required="true"> * </span></label
+                >
+                <input
+                  type="number"
+                  id="manDaysRequired"
+                  class="form-control"
+                  placeholder="No of Man days"
+                  name="manDaysRequired"
+                  [(ngModel)]="manDaysRequired"
+                  [ngClass]="{
+                    'red-border-class': mandays.errors && resourceForm.submitted
+                  }"
+                  #mandays="ngModel"
+                  required
+                />
+                <div
+                  *ngIf="resourceForm.submitted && mandays.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="mandays.errors.required"
+                  >
+                    No of Man days is required
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label"
+                  >Audit Start Date
+                  <span class="required" aria-required="true"> * </span></label
+                >
+                <div
+                  class="input-group"
+                  [ngClass]="{
+                    'red-border-class':
+                      startDate.errors && resourceForm.submitted
+                  }"
+                >
+                  <input
+                    type="text"
+                    id="auditStartDate"
+                    class="form-control"
+                    placeholder="Enter Start Date"
+                    name="auditStartDate"
+                    [(ngModel)]="auditStartDate"
+                    placeholder="dd/mm/yyyy"
+                    readonly
+                    ngbDatepicker
+                    #auditSDate="ngbDatepicker"
+                    #startDate="ngModel"
+                    required
+                  />
+                  <div class="input-group-btn">
+                    <button
+                      class="btn btn-default calendar"
+                      (click)="auditSDate.toggle()"
+                      type="button"
+                    >
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </div>
+                </div>
+                <div
+                  *ngIf="resourceForm.submitted && startDate.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="startDate.errors.required"
+                  >
+                    Audit Start Date is required
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label"
+                  >Audit End Date
+                  <span class="required" aria-required="true"> * </span></label
+                >
+                <div
+                  class="input-group"
+                  [ngClass]="{
+                    'red-border-class': endDate.errors && resourceForm.submitted
+                  }"
+                >
+                  <input
+                    type="text"
+                    id="auditEndDate"
+                    class="form-control"
+                    placeholder="Enter End Date"
+                    name="auditEndDate"
+                    [(ngModel)]="auditEndDate"
+                    placeholder="dd/mm/yyyy"
+                    ngbDatepicker
+                    readonly
+                    #auditEDate="ngbDatepicker"
+                    #endDate="ngModel"
+                    required
+                  />
+                  <div class="input-group-btn">
+                    <button
+                      class="btn btn-default calendar"
+                      (click)="auditEDate.toggle()"
+                      type="button"
+                    >
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </div>
+                </div>
+                <div
+                  *ngIf="resourceForm.submitted && endDate.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="endDate.errors.required"
+                  >
+                    Audit End Date is required
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label">Designation</label>
+                <input
+                  type="text"
+                  id="designation"
+                  class="form-control"
+                  placeholder="Designation"
+                  name="designation"
+                  [(ngModel)]="designation"
+                  disabled
+                />
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label">Qualification</label>
+                <input
+                  type="text"
+                  id="qualification"
+                  class="form-control"
+                  placeholder="Qualification"
+                  name="qualification"
+                  [(ngModel)]="qualification"
+                  disabled
+                />
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label">Experience</label>
+                <input
+                  type="text"
+                  id="experience"
+                  class="form-control"
+                  placeholder="Experience"
+                  name="experience"
+                  [(ngModel)]="experience"
+                  disabled
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">
+            <i class="fa fa-save"></i> Save
+          </button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <i class="fa fa-close"></i> Close
+          </button>
+        </div>
+      </form>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<div
+  class="modal fade"
+  id="manageApprover"
+  tabindex="-1"
+  data-width="760"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" *ngIf="!isEditApprover">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        ></button>
+        <h4 class="modal-title" style="font-weight: bold">
+          <i class="fa fa-plus"></i> &nbsp;New Approver
+        </h4>
+      </div>
+      <div class="modal-header" *ngIf="isEditApprover">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        ></button>
+        <h4 class="modal-title" style="font-weight: bold">
+          <i class="fa fa-edit"></i> &nbsp;Update Approver
+        </h4>
+      </div>
+      <form
+        name="form"
+        (ngSubmit)="addApprover($event) && ApproverForm.form.valid"
+        #ApproverForm="ngForm"
+      >
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label"
+                  >Select Approver <span class="text-danger">*</span></label
+                >
+                <select
+                  name="approver"
+                  id="approver"
+                  (change)="approverChange($event)"
+                  placeholder="Select"
+                  class="form-control"
+                  [(ngModel)]="approver"
+                  required
+                  #approvers="ngModel"
+                  [ngClass]="{
+                    'red-border-class':
+                      approvers.errors && ApproverForm.submitted
+                  }"
+                >
+                  <option value="">Select</option>
+                  <option
+                    *ngFor="let user of userOpts; let i = index"
+                    [attr.data-index]="i"
+                    [value]="user.id"
+                  >
+                    {{ user.firstName }} {{ user.lastName }}
+                  </option>
+                </select>
+                <div
+                  *ngIf="ApproverForm.submitted && approvers.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="approvers.errors.required"
+                  >
+                    Approver is required
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label">Designation</label>
+                <input
+                  type="text"
+                  id="appDesignation"
+                  class="form-control"
+                  placeholder="Designation"
+                  name="appDesignation"
+                  [(ngModel)]="appDesignation"
+                  disabled
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label">Qualification</label>
+                <input
+                  type="text"
+                  id="appQualification"
+                  class="form-control"
+                  placeholder="Qualification"
+                  name="appQualification"
+                  [(ngModel)]="appQualification"
+                  disabled
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label">Experience</label>
+                <input
+                  type="text"
+                  id="appExperience"
+                  class="form-control"
+                  placeholder="Experience"
+                  name="appExperience"
+                  [(ngModel)]="appExperience"
+                  disabled
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label">Responsibility</label>
+                <input
+                  type="text"
+                  id="appResponsibility"
+                  class="form-control"
+                  placeholder="Responsibility"
+                  name="appResponsibility"
+                  [(ngModel)]="appResponsibility"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">
+            <i class="fa fa-save"></i> Save
+          </button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <i class="fa fa-close"></i> Close
+          </button>
+        </div>
+      </form>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
+<div
+  class="modal fade"
+  id="manageAuditee"
+  tabindex="-1"
+  data-width="760"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" *ngIf="!isEditApprover">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        ></button>
+        <h4 class="modal-title" style="font-weight: bold">
+          <i class="fa fa-plus"></i> &nbsp;New Auditee
+        </h4>
+      </div>
+      <div class="modal-header" *ngIf="isEditApprover">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        ></button>
+        <h4 class="modal-title" style="font-weight: bold">
+          <i class="fa fa-edit"></i> &nbsp;Update Auditee
+        </h4>
+      </div>
+      <form
+        name="form"
+        (ngSubmit)="addAuditee($event) && AuditeeForm.form.valid"
+        #AuditeeForm="ngForm"
+      >
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label"
+                  >Select Auditee <span class="text-danger">*</span></label
+                >
+                <select
+                  name="auditee"
+                  id="auditee"
+                  (change)="auditeeChange($event)"
+                  placeholder="Select"
+                  class="form-control"
+                  [(ngModel)]="auditee"
+                  required
+                  #auditees="ngModel"
+                  [ngClass]="{
+                    'red-border-class': auditees.errors && AuditeeForm.submitted
+                  }"
+                >
+                  <option value="">Select</option>
+                  <option
+                    *ngFor="let option of stackHolderOptions; let i = index"
+                    [attr.data-index]="i"
+                    [value]="option.id"
+                  >
+                    {{ option.firstName }} {{ option.lastName }}
+                  </option>
+                </select>
+                <div
+                  *ngIf="AuditeeForm.submitted && auditees.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="auditees.errors.required"
+                  >
+                    Auditee Name is required
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label"
+                  >Report To <span class="text-danger">*</span></label
+                >
+                <select
+                  name="auditeeReportTo"
+                  id="auditeeReportTo"
+                  (change)="reportToChange($event)"
+                  placeholder="Select"
+                  class="form-control"
+                  [(ngModel)]="auditeeReportTo"
+                  required
+                  #auditeereport="ngModel"
+                  [ngClass]="{
+                    'red-border-class':
+                      auditeereport.errors && AuditeeForm.submitted
+                  }"
+                >
+                  <option value="">Select</option>
+                  <option
+                    *ngFor="let user of userOpts; let i = index"
+                    [attr.data-index]="i"
+                    [value]="user.id"
+                  >
+                    {{ user.firstName }} {{ user.lastName }}
+                  </option>
+                </select>
+                <div
+                  *ngIf="AuditeeForm.submitted && auditeereport.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="auditeereport.errors.required"
+                  >
+                    Report To is required
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label">Email</label>
+                <input
+                  type="text"
+                  id="auditeeEmailId"
+                  class="form-control"
+                  placeholder="Email"
+                  name="auditeeEmailId"
+                  [(ngModel)]="auditeeEmailId"
+                  disabled
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label">Qualification</label>
+                <input
+                  type="text"
+                  id="auditeeQualification"
+                  class="form-control"
+                  placeholder="Qualification"
+                  name="auditeeQualification"
+                  [(ngModel)]="auditeeQualification"
+                  disabled
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label">Designation</label>
+                <input
+                  type="text"
+                  id="auditeeDesignation"
+                  class="form-control"
+                  placeholder="Designation"
+                  name="auditeeDesignation"
+                  [(ngModel)]="auditeeDesignation"
+                  disabled
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label">Experience</label>
+                <input
+                  type="text"
+                  id="auditeeExperience"
+                  class="form-control"
+                  placeholder="Experience"
+                  name="auditeeExperience"
+                  [(ngModel)]="auditeeExperience"
+                  disabled
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">
+            <i class="fa fa-save"></i> Save
+          </button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <i class="fa fa-close"></i> Close
+          </button>
+        </div>
+      </form>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>

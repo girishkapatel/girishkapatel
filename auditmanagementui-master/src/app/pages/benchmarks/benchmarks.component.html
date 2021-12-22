@@ -1,0 +1,231 @@
+<div class="page-content" id="benchmarkComponent">
+  <div class="page-bar">
+    <ul class="page-breadcrumb">
+      <li>
+        <a href="javascript:void(0)">Home</a>
+        <i class="fa fa-circle"></i>
+      </li>
+      <li>
+        <span>EY Benchmarks</span>
+      </li>
+    </ul>
+
+    <button
+      [ngClass]="{ hide: !formVisible }"
+      type="button"
+      class="btn btn-default pull-right"
+      (click)="cancelAddEdit()"
+    >
+      <i class="fa fa-arrow-left"></i> Back
+    </button>
+  </div>
+
+  <div class="row pt-30 mb-30">
+    <div class="col-md-12">
+      <div *ngIf="!formVisible" class="form-actions top text-right">
+        <button
+          type="button"
+          (click)="addBenchmarks()"
+          class="btn btn-primary"
+          *ngIf="accessRights.isAdd"
+        >
+          <i class="fa fa-plus"></i> New
+        </button>
+      </div>
+
+      <div [ngClass]="{ hide: formVisible }" class="mt-20">
+        <app-table
+          [tableId]="tableId"
+          [tableColumns]="tableColumns"
+          [tableApi]="'api/eybenchmark/GetAll'"
+          [tableFilters]="tableFilters"
+        ></app-table>
+      </div>
+
+      <div [ngClass]="{ hide: !formVisible }">
+        <div class="portlet box" [ngClass]="{ blue: !isEdit, yellow: isEdit }">
+          <div class="portlet-title">
+            <div class="caption">
+              <i
+                class="fa"
+                [ngClass]="{ 'fa-plus': !isEdit, 'fa-edit': isEdit }"
+              ></i>
+              EY Benchmark
+            </div>
+            <div class="tools">
+              <a href="javascript:;" class="collapse"> </a>
+            </div>
+          </div>
+          <div class="portlet-body form">
+            <form
+              (ngSubmit)="saveBenchmarks($event) && benchmarksForm.form.valid"
+              #benchmarksForm="ngForm"
+            >
+              <div class="form-body">
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label class="control-label">Select Business Cycle</label>
+                      <select
+                        id="businessCycle"
+                        name="BusinessCycleId"
+                        placeholder="Select Business Cycle"
+                        (change)="getProcessLevel1Opts()"
+                        class="form-control"
+                        [(ngModel)]="businessCycleId"
+                      >
+                        <option value="">Select Business Cycle</option>
+                        <option
+                          *ngFor="let businessCycle of businessCycleOptions"
+                          [value]="businessCycle.id"
+                        >
+                          {{ businessCycle.name }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label class="control-label">Select Process L1</label>
+                      <select
+                        id="ProcessL1Id"
+                        name="ProcessL1Id"
+                        placeholder="Select Process Level 1"
+                        (change)="getProcessLevel2Opts()"
+                        class="form-control"
+                        [(ngModel)]="processlevel1Id"
+                      >
+                        <option value="">Select Process Level 1</option>
+                        <option
+                          *ngFor="let processlevel1 of processlevel1Options"
+                          [value]="processlevel1.id"
+                        >
+                          {{ processlevel1.name }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label class="control-label"
+                        >Select Process L2 Name</label
+                      >
+                      <select
+                        id="ProcessL2Id"
+                        name="ProcessL2Id"
+                        placeholder="Select Process Level 2"
+                        class="form-control"
+                        [(ngModel)]="processlevel2Id"
+                      >
+                        <option value="">Select Process Level 2</option>
+                        <option
+                          *ngFor="let processlevel2 of processlevel2Options"
+                          [value]="processlevel2.id"
+                        >
+                          {{ processlevel2.name }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label class="control-label">EY Benchmark</label>
+                      <input
+                        type="text"
+                        id="eybm"
+                        name="Name"
+                        placeholder="Enter EY Benchmark"
+                        class="form-control"
+                        required
+                        [(ngModel)]="eybm"
+                        #eyname="ngModel"
+                        [ngClass]="{
+                          'red-border-class':
+                            eyname.errors && benchmarksForm.submitted
+                        }"
+                      />
+                      <div
+                        *ngIf="benchmarksForm.submitted && eyname.invalid"
+                        class="invalid-feedback"
+                      >
+                        <div
+                          class="text-danger myClass"
+                          *ngIf="eyname.errors.required"
+                        >
+                          EY Benchmark is required
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label class="control-label">Bottom Performance</label>
+                      <input
+                        type="text"
+                        id="bp"
+                        name="BottomPerformance"
+                        placeholder="Enter Bottom performance"
+                        class="form-control"
+                        required
+                        [(ngModel)]="bottomPerformance"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label class="control-label">Median</label>
+                      <input
+                        type="text"
+                        id="median"
+                        placeholder="Enter Median"
+                        name="Median"
+                        class="form-control"
+                        required
+                        [(ngModel)]="median"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label class="control-label">Top Performance</label>
+                      <input
+                        type="text"
+                        id="tp"
+                        [(ngModel)]="topPerformance"
+                        name="TopPerformance"
+                        placeholder="Enter Top Performance"
+                        class="form-control"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-actions">
+                <div class="row">
+                  <div class="col-md-12 text-right">
+                    <button type="submit" class="btn btn-success">
+                      <i class="fa fa-save"></i> Save
+                    </button>
+                    <button
+                      type="button"
+                      (click)="cancelAddEdit($event)"
+                      class="btn btn-default"
+                    >
+                      <i class="fa fa-close"></i> Cancel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+</div>

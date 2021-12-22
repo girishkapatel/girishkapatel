@@ -1,0 +1,130 @@
+<div id="risktypeComponent">
+  <div class="portlet light">
+    <div class="portlet-title">
+      <div class="caption">
+        <span class="caption-subject bold uppercase">Risk Type</span>
+      </div>
+
+      <div class="actions">
+        <button [disabled]="isStackHolder"
+          type="button"
+          (click)="addRiskType()"
+          class="btn btn-primary"
+          *ngIf="accessRights.isAdd"
+        >
+          <i class="fa fa-plus"></i> New
+        </button>
+      </div>
+    </div>
+
+    <div class="portlet-body">
+      <app-table
+        [tableId]="riskType_table"
+        [tableColumns]="tableColumns"
+        [tableScroll]="true"
+        [tableApi]="'api/risktype'"
+        [tableFilters]="tableFilters"
+      ></app-table>
+    </div>
+  </div>
+</div>
+
+<form name="form" #riskTypeForm="ngForm" novalidate>
+  <div
+    class="modal fade"
+    id="manageRiskTypeModal"
+    tabindex="-1"
+    data-width="760"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header" *ngIf="!isEdit">
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-hidden="true"
+          ></button>
+          <h4 class="modal-title" style="font-weight: bold">
+            <i class="fa fa-plus"></i> &nbsp;New Risk Type
+          </h4>
+        </div>
+        <div class="modal-header" *ngIf="isEdit">
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-hidden="true"
+          ></button>
+          <h4 class="modal-title" style="font-weight: bold">
+            <i class="fa fa-edit"></i> &nbsp;Update Risk Type
+          </h4>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="control-label"
+              >Risk Type Name<span class="text-danger">*</span></label
+            >
+            <input
+              #riskTypeNames="ngModel"
+              type="text"
+              id="riskTypeName"
+              name="riskTypeName"
+              [(ngModel)]="riskTypeName"
+              placeholder="Enter risk type name"
+              class="form-control"
+              required
+              [ngClass]="{
+                'red-border-class': riskTypeNames.errors && submitted
+              }"
+            />
+            <div
+              *ngIf="submitted && riskTypeNames.errors"
+              class="invalid-feedback"
+            >
+              <div
+                class="text-danger"
+                *ngIf="submitted && riskTypeNames.errors"
+              >
+                Risk Type is required
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-success"
+            (click)="saveRiskType()"
+            *ngIf="!isEdit"
+          >
+            <i class="fa fa-save"></i> Save
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-success"
+            (click)="saveRiskType()"
+            *ngIf="isEdit"
+          >
+            <i class="fa fa-save"></i> Save
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-default"
+            data-dismiss="modal"
+            (click)="cancelAddEdit($event)"
+          >
+            <i class="fa fa-close"></i> Close
+          </button>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+</form>

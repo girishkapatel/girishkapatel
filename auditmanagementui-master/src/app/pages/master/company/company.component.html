@@ -1,0 +1,447 @@
+<div id="companyComponent">
+  <div [ngClass]="{ hide: formVisible }" class="portlet light">
+    <div class="portlet-title">
+      <div class="caption">
+        <span class="caption-subject bold uppercase">Company</span>
+      </div>
+
+      <div class="actions">
+        <button [disabled]="isStackHolder"
+          type="button"
+          (click)="addCompany()"
+          class="btn btn-primary"
+          *ngIf="accessRights.isAdd"
+        >
+          <i class="fa fa-plus"></i> New
+        </button>
+      </div>
+    </div>
+
+    <div class="portlet-body">
+      <app-table
+        [tableId]="tableId"
+        [tableColumns]="tableColumns"
+        [tableApi]="'api/company'"
+        [tableFilters]="tableFilters"
+      ></app-table>
+    </div>
+  </div>
+
+  <div [ngClass]="{ hide: !formVisible }">
+    <div class="portlet box blue">
+      <div class="portlet-title">
+        <div class="caption"><i class="fa fa-plus"></i> Company</div>
+
+        <div class="tools">
+          <a href="javascript:;" class="collapse"> </a>
+        </div>
+      </div>
+
+      <div class="portlet-body form">
+        <form
+          (ngSubmit)="saveCompany($event) && companyForm.form.valid"
+          #companyForm="ngForm"
+        >
+          <div class="form-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label class="control-label"
+                    >Company Name <span class="text-danger">*</span></label
+                  >
+                  <input
+                    type="text"
+                    id="companyName"
+                    name="Name"
+                    [(ngModel)]="companyName"
+                    placeholder="Enter Company Name"
+                    class="form-control"
+                    required
+                    #companyNames="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                        companyNames.errors && companyForm.submitted
+                    }"
+                  />
+                  <div
+                    *ngIf="companyForm.submitted && companyNames.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="companyNames.errors.required"
+                    >
+                      Company Name is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">
+                    Country <span class="text-danger">*</span></label
+                  >
+                  <select
+                    id="country"
+                    (change)="getStateOptions()"
+                    placeholder="Select Country"
+                    class="form-control"
+                    name="CountryId"
+                    [(ngModel)]="countryId"
+                    required
+                    #countrys="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                        countrys.errors && companyForm.submitted
+                    }"
+                  >
+                    <option value="">Select Country</option>
+                    <option
+                      *ngFor="let ccountry of countryOpts"
+                      [value]="ccountry.id"
+                    >
+                      {{ ccountry.name }}
+                    </option>
+                  </select>
+                  <div
+                    *ngIf="companyForm.submitted && countrys.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="countrys.errors.required"
+                    >
+                      Country is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label"
+                    >State <span class="text-danger">*</span></label
+                  >
+                  <select
+                    id="state"
+                    (change)="getCityOptions()"
+                    placeholder="Select State"
+                    class="form-control"
+                    name="StateId"
+                    [(ngModel)]="stateId"
+                    required
+                    #states="ngModel"
+                    [ngClass]="{
+                      'red-border-class': states.errors && companyForm.submitted
+                    }"
+                  >
+                    <option value="">Select State</option>
+                    <option
+                      *ngFor="let cstate of stateOpts"
+                      [value]="cstate.id"
+                    >
+                      {{ cstate.name }}
+                    </option>
+                  </select>
+                  <div
+                    *ngIf="companyForm.submitted && states.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="states.errors.required"
+                    >
+                      State is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label"
+                    >City <span class="text-danger">*</span></label
+                  >
+                  <select
+                    id="cityId"
+                    placeholder="Select City"
+                    class="form-control"
+                    name="CityId"
+                    [(ngModel)]="cityId"
+                    required
+                    #citys="ngModel"
+                    [ngClass]="{
+                      'red-border-class': citys.errors && companyForm.submitted
+                    }"
+                  >
+                    <option value="">Select City</option>
+                    <option *ngFor="let ccity of cityOpts" [value]="ccity.id">
+                      {{ ccity.name }}
+                    </option>
+                  </select>
+                  <div
+                    *ngIf="companyForm.submitted && citys.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="citys.errors.required"
+                    >
+                      City is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label"
+                    >PAN <span class="text-danger">*</span></label
+                  >
+                  <input
+                    type="text"
+                    id="panNo"
+                    placeholder="Enter PAN"
+                    class="form-control"
+                    required
+                    #PANs="ngModel"
+                    [ngClass]="{
+                      'red-border-class': PANs.errors && companyForm.submitted
+                    }"
+                    name="PanNo"
+                    [(ngModel)]="panNo"
+                  />
+                  <div
+                    *ngIf="companyForm.submitted && PANs.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="PANs.errors.required"
+                    >
+                      PAN is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label"
+                    >GST No<span class="text-danger">*</span></label
+                  >
+                  <input
+                    type="text"
+                    id="gstNo"
+                    placeholder="Enter GST No"
+                    class="form-control"
+                    name="GSTNo"
+                    [(ngModel)]="gstNo"
+                    required
+                    #GSTNos="ngModel"
+                    [ngClass]="{
+                      'red-border-class': GSTNos.errors && companyForm.submitted
+                    }"
+                  />
+                  <div
+                    *ngIf="companyForm.submitted && GSTNos.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="GSTNos.errors.required"
+                    >
+                      GSTNo is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group text-right">
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    (click)="addNewAprrover()"
+                  >
+                    <i class="fa fa-plus"></i> New Approver
+                  </button>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <table id="selectedApprovers" class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Responsibility</th>
+                      <th>Designation</th>
+                      <th>Experience</th>
+                      <th>Qualification</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="form-actions">
+            <div class="row">
+              <div class="col-md-12 text-right">
+                <button type="submit" class="btn btn-success">
+                  <i class="fa fa-save"></i> Save
+                </button>
+                <button
+                  type="button"
+                  (click)="cancelAddEdit($event)"
+                  class="btn btn-default"
+                >
+                  <i class="fa fa-close"></i> Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="manageApprover"
+  tabindex="-1"
+  data-width="760"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" *ngIf="!isEditApprover">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        ></button>
+        <h4 class="modal-title" style="font-weight: bold">
+          <i class="fa fa-plus"></i> &nbsp;New Approver
+        </h4>
+      </div>
+      <div class="modal-header" *ngIf="isEditApprover">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        ></button>
+        <h4 class="modal-title" style="font-weight: bold">
+          <i class="fa fa-edit"></i> &nbsp;Update Approver
+        </h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">Select Approver</label>
+              <select
+                id="approver"
+                (change)="approverChange($event)"
+                placeholder="Select"
+                class="form-control"
+                [(ngModel)]="approver"
+              >
+                <option value="">Select</option>
+                <option
+                  *ngFor="let user of userOpts; let i = index"
+                  [attr.data-index]="i"
+                  [value]="user.id"
+                >
+                  {{ user.firstName }} {{ user.lastName }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">Designation</label>
+              <input
+                type="text"
+                id="appDesignation"
+                class="form-control"
+                placeholder="Designation"
+                name="appDesignation"
+                [(ngModel)]="appDesignation"
+                disabled
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">Qualification</label>
+              <input
+                type="text"
+                id="appQualification"
+                class="form-control"
+                placeholder="Qualification"
+                name="appQualification"
+                [(ngModel)]="appQualification"
+                disabled
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">Experience</label>
+              <input
+                type="text"
+                id="appExperience"
+                class="form-control"
+                placeholder="Experience"
+                name="appExperience"
+                [(ngModel)]="appExperience"
+                disabled
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">Responsibility</label>
+              <input
+                type="text"
+                id="appResponsibility"
+                class="form-control"
+                placeholder="Responsibility"
+                name="appResponsibility"
+                [(ngModel)]="appResponsibility"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-success"
+          (click)="addApprover()"
+          *ngIf="!isEditApprover"
+          data-dismiss="modal"
+        >
+          <i class="fa fa-save"></i> Save
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-success"
+          (click)="saveApprover()"
+          *ngIf="isEditApprover"
+          data-dismiss="modal"
+        >
+          <i class="fa fa-save"></i> Save
+        </button>
+
+        <button type="button" class="btn btn-default" data-dismiss="modal">
+          <i class="fa fa-close"></i> Close
+        </button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>

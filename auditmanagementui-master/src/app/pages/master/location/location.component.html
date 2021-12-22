@@ -1,0 +1,425 @@
+<div id="locationComponent">
+  <div *ngIf="!formVisible" class="portlet light">
+    <div class="portlet-title">
+      <div class="caption">
+        <span class="caption-subject bold uppercase">Location</span>
+      </div>
+
+      <div class="actions">
+        <button [disabled]="isStackHolder"
+          type="button"
+          (click)="addLocation()"
+          class="btn btn-primary m-r-5"
+          *ngIf="accessRights.isAdd"
+        >
+          <i class="fa fa-plus"></i> New
+        </button>
+
+        <button 
+          type="button"
+          class="btn btn-primary m-r-5"
+          (click)="exportLocation()"
+        >
+          <i class="fa fa-file-excel-o"></i> Download Excel
+        </button>
+        <button 
+        type="button"
+        class="btn btn-primary m-r-5"
+        (click)="sampleExportLocation()"
+        [disabled]="isStackHolder"
+      >
+        <i class="fa fa-file-excel-o"></i> Sample Excel
+      </button>
+        <input type="file" #fileInput class="hidden" (change)="importExcel()" />
+
+        <button [disabled]="isStackHolder"
+          type="button"
+          class="btn btn-primary"
+          (click)="fileInput.click()"
+          *ngIf="accessRights.isEdit"
+        >
+          <i class="fa fa-file-excel-o"></i> Upload Excel
+        </button>
+      </div>
+    </div>
+
+    <div class="portlet-body">
+      <app-table
+        [tableId]="tableId"
+        [tableColumns]="tableColumns"
+        [tableScroll]="true"
+        [tableApi]="'api/location'"
+        [tableFilters]="tableFilters"
+      ></app-table>
+    </div>
+  </div>
+
+  <div *ngIf="formVisible">
+    <div class="portlet box blue">
+      <div class="portlet-title">
+        <div class="caption"><i class="fa fa-plus"></i> Location</div>
+        <div class="tools">
+          <a href="javascript:;" class="collapse"> </a>
+        </div>
+      </div>
+      <div class="portlet-body form">
+        <form
+          (ngSubmit)="saveLocation($event) && locationForm.form.valid"
+          #locationForm="ngForm"
+        >
+          <div class="form-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">Sector</label>
+                  <select
+                    id="sector"
+                    placeholder="Select Sector"
+                    class="form-control"
+                    name="Sector"
+                    [(ngModel)]="sectorId"
+                  >
+                    <option value="">Select Sector</option>
+                    <option
+                      *ngFor="let sector of sectorOpts"
+                      [value]="sector.id"
+                    >
+                      {{ sector.name }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">Division ID</label>
+                  <input
+                    type="text"
+                    id="division"
+                    name="Division"
+                    [(ngModel)]="division"
+                    placeholder="Enter Division ID"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label class="control-label">Division Description</label>
+                  <input
+                    type="text"
+                    id="divisionDesc"
+                    name="DivisionDescription"
+                    [(ngModel)]="divisionDesc"
+                    placeholder="Enter Division Description"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <!-- <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Country ID</label>
+                                    <input type="text" id="cid" placeholder="Enter Country ID" class="form-control"  required> 
+                                </div>
+                            </div> -->
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label"
+                    >Select Country<span class="text-danger">*</span></label
+                  >
+                  <select
+                    id="country"
+                    (change)="getStateOptions($event)"
+                    placeholder="Select Country"
+                    class="form-control"
+                    name="CountryId"
+                    [(ngModel)]="countryId"
+                    required
+                    #countrys="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                        countrys.errors && locationForm.submitted
+                    }"
+                  >
+                    <option value="">Select Country</option>
+                    <option
+                      *ngFor="let ccountry of countryOpts"
+                      [value]="ccountry.id"
+                    >
+                      {{ ccountry.name }}
+                    </option>
+                  </select>
+                  <div
+                    *ngIf="locationForm.submitted && countrys.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="countrys.errors.required"
+                    >
+                      Country is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label"
+                    >State<span class="text-danger">*</span></label
+                  >
+                  <select
+                    id="state"
+                    (change)="getCityOptions($event)"
+                    placeholder="Select State"
+                    class="form-control"
+                    name="StateId"
+                    [(ngModel)]="stateId"
+                    required
+                    #states="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                        states.errors && locationForm.submitted
+                    }"
+                  >
+                    <option value="">Select State</option>
+                    <option
+                      *ngFor="let cstate of stateOpts"
+                      [value]="cstate.id"
+                    >
+                      {{ cstate.name }}
+                    </option>
+                  </select>
+                  <div
+                    *ngIf="locationForm.submitted && states.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="states.errors.required"
+                    >
+                      State is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label"
+                    >City <span class="text-danger">*</span></label
+                  >
+                  <select
+                    id="cityId"
+                    (change)="getCompanyOptions($event)"
+                    placeholder="Select City"
+                    class="form-control"
+                    name="CityId"
+                    [(ngModel)]="cityId"
+                    required
+                    #citys="ngModel"
+                    [ngClass]="{
+                      'red-border-class': citys.errors && locationForm.submitted
+                    }"
+                  >
+                    <option value="">Select City</option>
+                    <option *ngFor="let ccity of cityOpts" [value]="ccity.id">
+                      {{ ccity.name }}
+                    </option>
+                  </select>
+                  <div
+                    *ngIf="locationForm.submitted && citys.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="citys.errors.required"
+                    >
+                      City is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label"
+                    >Select Company <span class="text-danger">*</span></label
+                  >
+                  <select
+                    id="companyId"
+                    placeholder="Select Company"
+                    class="form-control"
+                    name="CompanyId"
+                    [(ngModel)]="companyId"
+                    required
+                    #companys="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                        companys.errors && locationForm.submitted
+                    }"
+                  >
+                    <option value="">Select Company</option>
+                    <option *ngFor="let comp of companyOpts" [value]="comp.id">
+                      {{ comp.name }}
+                    </option>
+                  </select>
+                  <div
+                    *ngIf="locationForm.submitted && companys.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="companys.errors.required"
+                    >
+                      Company is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label"
+                    >Profit Center Code<span class="text-danger">*</span></label
+                  >
+                  <input
+                    type="text"
+                    id="pcc"
+                    name="ProfitCenterCode"
+                    [(ngModel)]="pcc"
+                    placeholder="Profit Center Code"
+                    class="form-control"
+                    required
+                    #profitcentercodes="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                        profitcentercodes.errors && locationForm.submitted
+                    }"
+                  />
+                  <div
+                    *ngIf="locationForm.submitted && profitcentercodes.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="profitcentercodes.errors.required"
+                    >
+                      Profit Center Code is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">Location ID</label>
+                  <input
+                    type="text"
+                    id="lid"
+                    id="pcc"
+                    name="LocationId"
+                    [(ngModel)]="location"
+                    placeholder="Location ID"
+                    class="form-control"
+                    required
+                    #locationIds="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                        locationIds.errors && locationForm.submitted
+                    }"
+                  />
+                  <div
+                    *ngIf="locationForm.submitted && locationIds.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="locationIds.errors.required"
+                    >
+                      Location ID is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">Risk Index</label>
+                  <select
+                    id="riskIndex"
+                    name="RiskIndex"
+                    [(ngModel)]="riskIndex"
+                    placeholder="Select Risk Index"
+                    class="form-control"
+                  >
+                    <option value="">Select Risk Index</option>
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label class="control-label">Location Description</label>
+                  <input
+                    type="text"
+                    id="ldesc"
+                    name="LocationDescription"
+                    [(ngModel)]="locationDesc"
+                    placeholder="Location Description"
+                    class="form-control"
+                    required
+                    #locationDescs="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                        locationDescs.errors && locationForm.submitted
+                    }"
+                  />
+                  <div
+                    *ngIf="locationForm.submitted && locationDescs.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="locationDescs.errors.required"
+                    >
+                      Location Description is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-actions">
+            <div class="row">
+              <div class="col-md-12 text-right">
+                <button type="submit" class="btn btn-success">
+                  <i class="fa fa-save"></i> Save
+                </button>
+                <button
+                  type="button"
+                  (click)="cancelAddEdit($event)"
+                  class="btn btn-default"
+                >
+                  <i class="fa fa-close"></i> Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<ngx-spinner
+bdColor="rgba(51,51,51,0.8)"
+size="medium"
+color="#fff"
+type="ball-scale-multiple"
+>
+<p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

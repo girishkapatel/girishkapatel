@@ -1,0 +1,106 @@
+<div class="user-login-5">
+  <div class="row bs-reset">
+    <div class="col-md-6 login-container login-container-left bs-reset">
+      <div class="login-content">
+        <img class="login-logo login-6" [src]="'./assets/appstyles/img/eylogo.gif'" />
+        <h1 class="mt-5 text-center">Digital Internal Audit</h1>
+
+        <form class="login-form" (ngSubmit)="userLogin($event)" #loginform="ngForm" *ngIf="loginFormshow">
+          <div *ngIf="showMessage" class="alert login-msg-box {{ msgClass }}">
+            <button class="close" data-close="alert"></button>
+            <span>{{ msgText }} </span>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <input class="mb-15 form-control form-control-solid placeholder-no-fix form-group" type="text"
+                autocomplete="off" placeholder="Username" name="EmailId" [(ngModel)]="emailid"  required />
+            </div>
+            <div class="col-xs-12">
+              <input class="form-control form-control-solid placeholder-no-fix form-group" type="password"
+                autocomplete="off" placeholder="Password" name="Password" ngModel required />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 text-right">
+              <div class="forgot-password">
+                <a (click)="showforgotPassword()" id="forget-password" class="forget-password">Forgot Password?</a>
+              </div>
+              <button class="btn yellow_ey" type="submit">Sign In</button>
+            </div>
+          </div>
+        </form>
+        <!-- BEGIN FORGOT PASSWORD FORM -->
+        <form class="login-form" (ngSubmit)="forgotPassword($event)" #forgotPasswordform="ngForm" novalidate 
+          *ngIf="forgotFormshow">
+          <div *ngIf="showMessage" class="alert login-msg-box {{ msgClass }}">
+            <button class="close" data-close="alert"></button>
+            <span>{{ msgText }} </span>
+          </div>
+          <h3>Forgot Password ?</h3>
+           <div class="row">
+            <div class="col-xs-12">
+              <input type="text" name="email" placeholder="Enter your e-mail address to reset your password." class="form-control form-control-solid placeholder-no-fix form-group" [(ngModel)]="emailid" #email="ngModel"  [ngClass]="{ 'red-border-class': forgotPasswordform.submitted && email.invalid }" required email>
+            <div *ngIf="forgotPasswordform.submitted && email.invalid" class="invalid-feedback">
+                <div *ngIf="email.errors.required" class="text-danger">Email is required</div>
+                <div *ngIf="email.errors.email" class="text-danger">Email must be a valid email address</div>
+            </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 text-right">
+              <button type="button" id="back-btn" class="btn back-btn" (click)="back()">
+                Back
+              </button>&nbsp;
+              <button type="submit" class="btn yellow_ey">
+                Send
+              </button>
+            </div>
+          </div>
+        </form>
+        <!-- END FORGOT PASSWORD FORM -->
+
+
+
+        <!-- BEGIN RESET PASSWORD FORM -->
+<!-- 
+        <form class="login-form"  (ngSubmit)="resetPassword($event)" #resetPasswordForm="ngForm" [mustMatch]="['password', 'confirmPassword']"  *ngIf="resetFormshow" novalidate>
+          <div class="row">
+            <div class="col-xs-12">
+              <input type="password" name="password" placeholder="Password" class="mb-15 form-control form-control-solid placeholder-no-fix form-group" [(ngModel)]="reset_password" #password="ngModel" [ngClass]="{ 'red-border-class': resetPasswordForm.submitted && password.invalid }" required minlength="6">
+              <div *ngIf="resetPasswordForm.submitted && password.invalid" class="invalid-feedback">
+                  <div *ngIf="password.errors.required" class="text-danger">Password is required</div>
+                  <div *ngIf="password.errors.minlength" class="text-danger">Password must be at least 6 characters</div>
+              </div>
+            </div>
+            <div class="col-xs-12">
+                <input type="password" placeholder="ConfirmPassword" name="confirmPassword" class="form-control form-control-solid placeholder-no-fix form-group" [(ngModel)]="reset_confirmPassword" #confirmPassword="ngModel" [ngClass]="{ 'red-border-class': resetPasswordForm.submitted && confirmPassword.invalid }" required>
+              <div *ngIf="resetPasswordForm.submitted && confirmPassword.invalid" class="invalid-feedback">
+                  <div *ngIf="confirmPassword.errors.required" class="text-danger">Confirm Password is required</div>
+                  <div *ngIf="confirmPassword.errors.mustMatch" class="text-danger">Passwords must match</div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 text-right">
+              <button class="btn yellow_ey" type="submit">Submit</button>
+            </div>
+          </div>
+        </form> -->
+        <!-- END RESET PASSWORD FORM -->
+      </div>
+      <div class="login-footer">
+        <div class="row bs-reset">
+          <div class="col-xs-5 bs-reset"></div>
+          <div class="col-xs-offset-5 col-xs-7 bs-reset">
+            <div class="login-copyright text-right">
+              <p>Copyright &copy; EY @ {{copyrightYear}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 login-container login-container-right bs-reset" [ngStyle]="{
+        background: 'url(./assets/appstyles/img/ey-bg.png) center no-repeat'
+      }"></div>
+  </div>
+</div>

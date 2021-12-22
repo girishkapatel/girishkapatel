@@ -1,0 +1,401 @@
+<div class="page-content">
+  <div class="page-bar">
+    <ul class="page-breadcrumb">
+      <li>
+        <a href="javascript:void(0)">Home</a>
+        <i class="fa fa-circle"></i>
+      </li>
+      <li>
+        <span>Scheduling</span>
+      </li>
+    </ul>
+    <button
+      type="button"
+      class="btn btn-default pull-right"
+      style="margin-top: 4px"
+      (click)="backToScheduleView()"
+    >
+      <i class="fa fa-arrow-left"></i> Back
+    </button>
+  </div>
+
+  <div class="row pt-30">
+    <div class="col-lg-12 col-md-12">
+      <div class="portlet box yellow">
+        <div class="portlet-title">
+          <div class="caption"><i class="fa fa-edit"></i> Edit Schedule</div>
+          <div class="tools">
+            <a href="javascript:;" class="collapse"> </a>
+          </div>
+        </div>
+        <div class="portlet-body">
+          <!-- BEGIN FORM-->
+          <form action="#" class="horizontal-form">
+            <div class="tabbable-custom">
+              <ul class="nav nav-tabs">
+                <li class="active">
+                  <a href="#schedule" data-toggle="tab"> Schedule </a>
+                </li>
+                <li>
+                  <a href="#resource" data-toggle="tab"> Resource </a>
+                </li>
+              </ul>
+              <div class="tab-content">
+                <div class="tab-pane active" id="schedule">
+                  <div class="form-body">
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="control-label"
+                            >Select Business Cycle</label
+                          >
+                          <select
+                            id="processl1"
+                            placeholder="Select Business Cycle"
+                            class="form-control"
+                          >
+                            <option value="">Select Business Cycle</option>
+                            <option value="" selected>Procure To Pay</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="control-label"
+                            >Location
+                            <span class="required" aria-required="true">
+                              *
+                            </span></label
+                          >
+                          <select
+                            class="form-control"
+                            id="location"
+                            placeholder="Select Location"
+                          >
+                            <option value="">Select Location</option>
+                            <option value="" selected>Mithapur</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="control-label"
+                            >No of Man days Required
+                            <span class="required" aria-required="true">
+                              *
+                            </span></label
+                          >
+                          <input
+                            type="text"
+                            id="mandays_req"
+                            class="form-control"
+                            value="90"
+                            placeholder="No of Man days Required"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <!--/row-->
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="control-label"
+                            >Quarter
+                            <span class="required" aria-required="true">
+                              *
+                            </span></label
+                          >
+                          <select
+                            class="form-control"
+                            id="quarter"
+                            placeholder="Select Quarter"
+                          >
+                            <option value="">Select Quarter</option>
+                            <option value="" selected>Q1</option>
+                            <option value="">Q2</option>
+                            <option value="">Q3</option>
+                            <option value="">Q4</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="control-label"
+                            >Quarter Start Date
+                            <span class="required" aria-required="true">
+                              *
+                            </span></label
+                          >
+                          <input
+                            type="text"
+                            id="qsd"
+                            value="01/04/2020"
+                            class="form-control"
+                            placeholder="Enter Start Date"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="control-label"
+                            >Quarter End Date
+                            <span class="required" aria-required="true">
+                              *
+                            </span></label
+                          >
+                          <input
+                            type="text"
+                            id="qed"
+                            value="31/06/2020"
+                            class="form-control"
+                            placeholder="Enter End Date"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane" id="resource">
+                  <div class="form-body">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div
+                          *ngIf="!formVisible"
+                          class="form-actions top text-right"
+                        >
+                          <button
+                            type="button"
+                            (click)="addResource()"
+                            class="btn btn-primary"
+                          >
+                            <i class="fa fa-plus"></i> New Resource
+                          </button>
+                        </div>
+                        <div *ngIf="!formVisible" class="mt-20">
+                          <app-table
+                            [tableId]="tableId"
+                            [tableColumns]="tableColumns"
+                            [tableData]="tableData"
+                            [tableFilters]="tableFilters"
+                          ></app-table>
+                        </div>
+                        <div *ngIf="formVisible">
+                          <h4>New Resource</h4>
+                          <hr />
+                          <form>
+                            <div class="form-body">
+                              <div class="row">
+                                <div class="col-md-4">
+                                  <div class="form-group">
+                                    <label class="control-label"
+                                      >Select Designation</label
+                                    >
+                                    <select
+                                      id="qual"
+                                      placeholder="Select Designation"
+                                      class="form-control"
+                                    >
+                                      <option value="">
+                                        Select Designation
+                                      </option>
+                                      <option value="">
+                                        Senior Consultant
+                                      </option>
+                                      <option value="">
+                                        Associate Consultant
+                                      </option>
+                                    </select>
+                                  </div>
+                                </div>
+                                <div class="col-md-4">
+                                  <div class="form-group">
+                                    <label class="control-label"
+                                      >Select Qualification</label
+                                    >
+                                    <select
+                                      id="qual"
+                                      placeholder="Select Qualification"
+                                      class="form-control"
+                                    >
+                                      <option value="">
+                                        Select Qualification
+                                      </option>
+                                      <option value="">B.COM</option>
+                                      <option value="">CA</option>
+                                      <option value="">B.TECH</option>
+                                    </select>
+                                  </div>
+                                </div>
+                                <div class="col-md-4">
+                                  <div class="form-group">
+                                    <label class="control-label"
+                                      >Experience</label
+                                    >
+                                    <select
+                                      id="qual"
+                                      placeholder="Select Experience"
+                                      class="form-control"
+                                    >
+                                      <option value="">
+                                        Select Experience
+                                      </option>
+                                      <option value="">1 Year</option>
+                                      <option value="">3 Year</option>
+                                      <option value="">5 Year</option>
+                                    </select>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-md-4">
+                                  <div class="form-group">
+                                    <label class="control-label"
+                                      >Select Resource</label
+                                    >
+                                    <select
+                                      id="resourcename"
+                                      placeholder="Select Resource"
+                                      class="form-control"
+                                    >
+                                      <option value="">Select Resource</option>
+                                      <option value="">User 1</option>
+                                      <option value="">User 2</option>
+                                    </select>
+                                  </div>
+                                </div>
+                                <div class="col-md-4">
+                                  <div class="form-group">
+                                    <label class="control-label"
+                                      >Start Date
+                                      <span
+                                        class="required"
+                                        aria-required="true"
+                                      >
+                                        *
+                                      </span></label
+                                    >
+                                    <div class="input-group">
+                                      <input
+                                        type="text"
+                                        id="rsd"
+                                        class="form-control"
+                                        placeholder="dd/mm/yyyy"
+                                        name="rsd"
+                                        [(ngModel)]="rsd"
+                                        ngbDatepicker
+                                        #startDate="ngbDatepicker"
+                                        readonly
+                                      />
+                                      <div class="input-group-btn">
+                                        <button
+                                          class="btn btn-default calendar"
+                                          (click)="startDate.toggle()"
+                                          type="button"
+                                        >
+                                          <i class="fa fa-calendar"></i>
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                  <div class="form-group">
+                                    <label class="control-label"
+                                      >End Date
+                                      <span
+                                        class="required"
+                                        aria-required="true"
+                                      >
+                                        *
+                                      </span></label
+                                    >
+                                    <div class="input-group">
+                                      <input
+                                        type="text"
+                                        id="red"
+                                        class="form-control"
+                                        placeholder="dd/mm/yyyy"
+                                        name="red"
+                                        [(ngModel)]="red"
+                                        ngbDatepicker
+                                        #endDate="ngbDatepicker"
+                                        readonly
+                                      />
+                                      <div class="input-group-btn">
+                                        <button
+                                          class="btn btn-default calendar"
+                                          (click)="endDate.toggle()"
+                                          type="button"
+                                        >
+                                          <i class="fa fa-calendar"></i>
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="form-actions">
+                              <div class="row">
+                                <div class="col-md-12 text-right">
+                                  <button
+                                    type="button"
+                                    (click)="cancelResourceAddEdit($event)"
+                                    class="btn btn-primary"
+                                  >
+                                    <i class="fa fa-plus"></i> New
+                                  </button>
+
+                                  <button type="button" class="btn btn-primary">
+                                    <i class="fa fa-clock-o"></i> Check
+                                    Availability
+                                  </button>
+
+                                  <button
+                                    type="button"
+                                    (click)="cancelResourceAddEdit($event)"
+                                    class="btn btn-default"
+                                  >
+                                    <i class="fa fa-close"></i> Cancel
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-actions text-center mt-30 mb-15">
+              <button type="button" class="btn btn-success">
+                <i class="fa fa-save"></i> Save
+              </button>
+
+              <button type="button" class="btn btn-primary">
+                <i class="fa fa-send"></i> Send For Approval
+              </button>
+
+              <button
+                type="button"
+                (click)="backToScheduleView()"
+                class="btn btn-default"
+              >
+                <i class="fa fa-close"></i> Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="clearfix"></div>
+</div>

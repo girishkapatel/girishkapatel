@@ -1,0 +1,33 @@
+.user-icon {
+  padding: 3px;
+  border: 1px solid #c6cfda;
+  color: #c6cfda;
+  margin-right: 5px;
+  border-radius: 20px !important;
+  font-size: 12px;
+}
+
+.logo-text {
+  position: absolute;
+  left: 4.4%;
+  top: 11.6px;
+}
+
+.logo-text span {
+  display: block;
+  color: #fff;
+  font-size: 12px;
+  line-height: 15px;
+}
+
+.logo-default {
+  width: 31%;
+  margin: 0 !important;
+}
+.dropdown-menu {
+  max-height: 250px; /*Provide height in pixels or in other units as per your layout*/
+  overflow-y: auto; /*Provide an auto overflow to diaply scroll*/
+}
+.readable-Color {
+  color: #888;
+}

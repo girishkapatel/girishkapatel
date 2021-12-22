@@ -1,0 +1,10 @@
+.tabs-left.nav-tabs>li>a.active, .tabs-left.nav-tabs>li>a.active:hover>li>a.active:focus {
+    border-radius: 4px 0 0 4px;
+    border-color: #ddd transparent #ddd #ddd;
+    background:#ddd;
+    color:#000;
+}
+
+.myClass{
+    display: none;
+}

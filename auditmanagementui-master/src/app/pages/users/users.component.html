@@ -1,0 +1,556 @@
+<div class="page-content" id="usersComponent">
+  <div class="page-bar">
+    <ul class="page-breadcrumb">
+      <li>
+        <a href="javascript:void(0)">Home</a>
+        <i class="fa fa-circle"></i>
+      </li>
+      <li>
+        <span>Users</span>
+      </li>
+    </ul>
+  </div>
+
+  <div [ngClass]="{ hide: !formVisible }" class="mt-30">
+    <div class="portlet box" [ngClass]="{ blue: !isEdit, yellow: isEdit }">
+      <div class="portlet-title">
+        <div class="caption">
+          <i
+            class="fa"
+            [ngClass]="{ 'fa-plus': !isEdit, 'fa-edit': isEdit }"
+          ></i>
+          {{ userTitle }}
+        </div>
+        <div class="tools">
+          <a href="javascript:;" class="collapse"></a>
+        </div>
+      </div>
+      <div class="portlet-body form">
+        <form
+          (ngSubmit)="saveUser($event) && userForm.form.valid"
+          id="userform"
+          #userForm="ngForm"
+        >
+          <div class="form-body">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label"
+                    >Enter First Name<span class="text-danger">*</span></label
+                  >
+                  <input
+                    type="text"
+                    id="firstName"
+                    name="FirstName"
+                    [(ngModel)]="firstName"
+                    placeholder="Enter First Name"
+                    class="form-control"
+                    required
+                    #firstNames="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                        firstNames.errors && userForm.submitted
+                    }"
+                  />
+                  <div
+                    *ngIf="userForm.submitted && firstNames.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="firstNames.errors.required"
+                    >
+                      First Name is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label">Enter Middle Name</label>
+                  <input
+                    type="text"
+                    id="middleName"
+                    name="MiddleName"
+                    [(ngModel)]="middleName"
+                    placeholder="Enter Middle Name"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label"
+                    >Enter Last Name<span class="text-danger">*</span></label
+                  >
+                  <input
+                    type="text"
+                    id="lastName"
+                    name="LastName"
+                    [(ngModel)]="lastName"
+                    placeholder="Enter Last Name"
+                    class="form-control"
+                    required
+                    #lastNames="ngModel"
+                    [ngClass]="{
+                      'red-border-class': lastNames.errors && userForm.submitted
+                    }"
+                  />
+                  <div
+                    *ngIf="userForm.submitted && lastNames.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="lastNames.errors.required"
+                    >
+                      Last Name is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label"
+                    >Enter Email Address<span class="text-danger"
+                      >*</span
+                    ></label
+                  >
+                  <input
+                    type="text"
+                    id="emailId"
+                    name="EmailId"
+                    [(ngModel)]="emailId"
+                    placeholder="Enter Email Address"
+                    class="form-control"
+                    required
+                    #emails="ngModel"
+                    [ngClass]="{
+                      'red-border-class': emails.errors && userForm.submitted
+                    }"
+                  />
+                  <div
+                    *ngIf="userForm.submitted && emails.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="emails.errors.required"
+                    >
+                      Email Address is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label"
+                    >Enter Password <span class="text-danger">*</span></label
+                  >
+                  <input
+                    type="password"
+                    id="password"
+                    name="Password"
+                    [(ngModel)]="password"
+                    placeholder="Enter Password"
+                    class="form-control"
+                    required
+                    #passwords="ngModel"
+                    [ngClass]="{
+                      'red-border-class': passwords.errors && userForm.submitted
+                    }"
+                  />
+                  <div
+                    *ngIf="userForm.submitted && passwords.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="passwords.errors.required"
+                    >
+                      Password is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label">Select Status</label>
+                  <select
+                    id="status"
+                    placeholder="Select Status"
+                    name="IsActive"
+                    [(ngModel)]="status"
+                    class="form-control"
+                  >
+                    <option value="true" selected>Active</option>
+                    <option value="false">Inactive</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label"
+                    >Enter Designation <span class="text-danger">*</span></label
+                  >
+                  <select
+                    id="designation"
+                    placeholder="Select Designation"
+                    name="designation"
+                    [(ngModel)]="designation"
+                    class="form-control"
+                    required
+                    #designations="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                        designations.errors && userForm.submitted
+                    }"
+                  >
+                    <option value="">Select Designation</option>
+                    <option
+                      *ngFor="let designation of designationOptions"
+                      [value]="designation.name"
+                    >
+                      {{ designation.name }}
+                    </option>
+                  </select>
+                  <div
+                    *ngIf="userForm.submitted && designations.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="designations.errors.required"
+                    >
+                      Designation is required
+                    </div>
+                  </div>
+                  <!-- <input type="text" id="designation" name="Designation" [(ngModel)]="designation" placeholder="Enter Designation" class="form-control"  required>  -->
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label"
+                    >Enter Work Experience
+                    <span class="text-danger">*</span></label
+                  >
+                  <input
+                    type="number"
+                    id="experiance"
+                    name="Experiance"
+                    [(ngModel)]="exp"
+                    placeholder="Enter Work Experience"
+                    class="form-control"
+                    required
+                    #experiances="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                        experiances.errors && userForm.submitted
+                    }"
+                  />
+                  <div
+                    *ngIf="userForm.submitted && experiances.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="experiances.errors.required"
+                    >
+                      Experiance is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label"
+                    >Enter Qualification<span class="text-danger"
+                      >*</span
+                    ></label
+                  >
+                  <input
+                    type="text"
+                    id="qualification"
+                    name="Qualification"
+                    [(ngModel)]="qualification"
+                    placeholder="Enter Qualification"
+                    class="form-control"
+                    required
+                    #qualifications="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                        qualifications.errors && userForm.submitted
+                    }"
+                  />
+                  <div
+                    *ngIf="userForm.submitted && qualifications.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="qualifications.errors.required"
+                    >
+                      Qualification is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label"
+                    >Select Role<span class="text-danger">*</span></label
+                  >
+                  <select
+                    id="role"
+                    placeholder="Select Role"
+                    name="RoleId"
+                    [(ngModel)]="roleId"
+                    class="form-control"
+                    required
+                    #roles="ngModel"
+                    [ngClass]="{
+                      'red-border-class': roles.errors && userForm.submitted
+                    }"
+                  >
+                    <option value="">Select Role</option>
+                    <option
+                      *ngFor="let urole of roleOptions"
+                      [value]="urole.id"
+                    >
+                      {{ urole.name }}
+                    </option>
+                  </select>
+                  <div
+                    *ngIf="userForm.submitted && roles.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="roles.errors.required"
+                    >
+                      Role is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label">Report To</label>
+                  <select
+                    id="auditeeReportTo"
+                    placeholder="Select Report To"
+                    class="form-control"
+                    name="reportToId"
+                    [(ngModel)]="reportToId"
+                  >
+                    <option value="">Select Report To</option>
+                    <option
+                      *ngFor="let user of userOpts; let i = index"
+                      [attr.data-index]="i"
+                      [value]="user.id"
+                    >
+                      {{ user.firstName }} {{ user.lastName }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label">Enter Employee Code</label>
+                  <input
+                    type="text"
+                    id="employeeCode"
+                    name="EmployeeCode"
+                    [(ngModel)]="employeeCode"
+                    placeholder="Enter Employee Code"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-actions">
+            <div class="row">
+              <div class="col-md-12 text-right">
+                <button type="submit" class="btn btn-success">
+                  <i class="fa fa-save"></i> Save
+                </button>
+
+                <button
+                  type="button"
+                  (click)="cancelAddEdit($event)"
+                  class="btn btn-default"
+                >
+                  <i class="fa fa-close"></i> Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div [ngClass]="{ hide: formVisible }" class="tabbable-custom mt-30">
+    <ul class="nav nav-tabs">
+      <li class="active">
+        <a href="#user" data-toggle="tab"> User </a>
+      </li>
+      <li>
+        <a href="#stakeholders" data-toggle="tab"> Stakeholders </a>
+      </li>
+    </ul>
+
+    <div class="tab-content">
+      <div class="tab-pane active" id="user">
+        <div class="row mb-30">
+          <div class="col-md-12">
+            <div class="form-actions top text-right">
+              <button
+                [disabled]="isStackHolder"
+                type="button"
+                (click)="addUser('user')"
+                class="btn btn-primary"
+                *ngIf="accessRights.isAdd"
+              >
+                <i class="fa fa-plus"></i> New
+              </button>
+
+              <button
+                type="button"
+                class="btn btn-primary m-r-5"
+                (click)="ExportUser()"
+              >
+                <i class="fa fa-file-excel-o"></i> Download Excel
+              </button>
+              <button
+              type="button"
+              class="btn btn-primary m-r-5"
+              (click)="SampleExportUser()"
+              [disabled]="isStackHolder"
+            >
+              <i class="fa fa-file-excel-o"></i> Sample Excel
+            </button>
+              <input
+                type="file"
+                #fileInput
+                class="hidden"
+                (change)="importUserExcel()"
+              />
+
+              <button
+                [disabled]="isStackHolder"
+                type="button"
+                class="btn btn-primary"
+                (click)="fileInput.click()"
+                *ngIf="accessRights.isEdit"
+              >
+                <i class="fa fa-file-excel-o"></i> Upload Excel
+              </button>
+            </div>
+
+            <div class="mt-20" style="overflow-x: auto">
+              <!-- <div class="wrapper1">
+                <div class="div1"></div>
+              </div>
+              <div class="wrapper2">
+                <div class="div2"> -->
+                  <table [id]="tableId" class="table table-bordered"></table>
+                  <!-- <app-table
+                [tableId]="tableId"
+                [tableColumns]="tableColumns"
+                [tableApi]="'api/user'"
+                [tableFilters]="tableFilters"
+                [tableScroll]="true"
+              ></app-table> -->
+                <!-- </div>
+              </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="stakeholders">
+        <div class="form-actions top text-right">
+          <button
+            [disabled]="isStackHolder"
+            type="button"
+            (click)="addUser('stakeholder')"
+            class="btn btn-primary"
+            *ngIf="accessRights.isAdd"
+          >
+            <i class="fa fa-plus"></i> New
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-primary m-r-5"
+            (click)="ExportStackHolder()"
+          >
+            <i class="fa fa-file-excel-o"></i> Download Excel
+          </button>
+          <button
+          type="button"
+          class="btn btn-primary m-r-5"
+          (click)="SampleExportStackHolder()"
+          [disabled]="isStackHolder"
+        >
+          <i class="fa fa-file-excel-o"></i> Sample Excel
+        </button>
+          <input
+            type="file"
+            #fileInputStackHolder
+            class="hidden"
+            (change)="importStackHolderExcel()"
+          />
+
+          <button
+            [disabled]="isStackHolder"
+            type="button"
+            class="btn btn-primary"
+            (click)="fileInputStackHolder.click()"
+            *ngIf="accessRights.isEdit"
+          >
+            <i class="fa fa-file-excel-o"></i> Upload Excel
+          </button>
+        </div>
+
+        <div class="mt-20" style="overflow-x: auto">
+          <!-- <div class="wrapper3">
+            <div class="div3"></div>
+          </div>
+          <div class="wrapper4">
+            <div class="div4"> -->
+              <table
+                [id]="stakeHolderTableId"
+                class="table table-bordered"
+              ></table>
+              <!--          
+          <app-table
+            [tableId]="stakeHolderTableId"
+            [tableColumns]="StackHoldertableColumns"
+            [tableApi]="'api/stakeholder'"
+            [tableFilters]="tableFilters"
+            [tableScroll]="true"
+          ></app-table> -->
+            <!-- </div>
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+>
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

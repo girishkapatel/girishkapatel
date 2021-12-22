@@ -1,0 +1,95 @@
+<div id="sectorComponent">
+  <div *ngIf="!formVisible" class="form-actions top text-right">
+    <button [disabled]="isStackHolder"
+      type="button"
+      (click)="addSector()"
+      class="btn btn-primary"
+      *ngIf="accessRights.isAdd"
+    >
+      <i class="fa fa-plus"></i> New
+    </button>
+  </div>
+
+  <div *ngIf="!formVisible" class="mt-20">
+    <app-table
+      [tableId]="tableId"
+      [tableColumns]="tableColumns"
+      [tableApi]="'api/sector'"
+      [tableFilters]="tableFilters"
+    ></app-table>
+  </div>
+
+  <div *ngIf="formVisible">
+    <div class="portlet box blue">
+      <div class="portlet-title">
+        <div class="caption"><i class="fa fa-plus"></i> Sector</div>
+        <div class="tools">
+          <a href="javascript:;" class="collapse"> </a>
+        </div>
+      </div>
+      <div class="portlet-body form">
+        <form (ngSubmit)="saveSector($event)" #sectorForm="ngForm">
+          <div class="form-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">Sector Name</label>
+                  <span class="text-danger">*</span>
+                  <input
+                    #sectorNames="ngModel"
+                    type="text"
+                    id="sectorname"
+                    name="Name"
+                    placeholder="Enter Sector Name"
+                    [(ngModel)]="sectorName"
+                    class="form-control"
+                    required
+                    ngModel
+                    [ngClass]="{
+                      'red-border-class': sectorNames.errors && submitted
+                    }"
+                  />
+                  <div
+                    *ngIf="sectorForm.submitted && sectorNames.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger"
+                      *ngIf="sectorNames.errors.required"
+                    >
+                      Sector Name is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-actions">
+            <div class="row">
+              <div class="col-md-12 text-right">
+                <button type="submit" class="btn btn-success">
+                  <i class="fa fa-save"></i> Save
+                </button>
+                <button
+                  type="button"
+                  (click)="cancelAddEdit($event)"
+                  class="btn btn-default"
+                >
+                  <i class="fa fa-close"></i> Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<ngx-spinner
+bdColor="rgba(51,51,51,0.8)"
+size="medium"
+color="#fff"
+type="ball-scale-multiple"
+>
+<p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

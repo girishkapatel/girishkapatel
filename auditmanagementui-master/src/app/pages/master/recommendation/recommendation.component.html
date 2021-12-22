@@ -1,0 +1,128 @@
+<div id="recommendationComponent">
+  <div class="portlet light">
+    <div class="portlet-title">
+      <div class="caption">
+        <span class="caption-subject bold uppercase">Recommendation</span>
+      </div>
+
+      <div class="actions">
+        <button [disabled]="isStackHolder"
+          type="button"
+          (click)="addRecommendation()"
+          class="btn btn-primary"
+          *ngIf="accessRights.isAdd"
+        >
+          <i class="fa fa-plus"></i> New
+        </button>
+      </div>
+    </div>
+
+    <div class="portlet-body">
+      <app-table
+        [tableId]="recommendation_table"
+        [tableColumns]="tableColumns"
+        [tableScroll]="true"
+        [tableApi]="'api/recommendation'"
+        [tableFilters]="tableFilters"
+      ></app-table>
+    </div>
+  </div>
+</div>
+
+<form name="form" #recommendationForm="ngForm" novalidate>
+  <div
+    class="modal fade"
+    id="manageRecommendationModal"
+    tabindex="-1"
+    data-width="760"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header" *ngIf="!isEdit">
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-hidden="true"
+          ></button>
+          <h4 class="modal-title" style="font-weight: bold">
+            <i class="fa fa-plus"></i> &nbsp;New Recommendation
+          </h4>
+        </div>
+        <div class="modal-header" *ngIf="isEdit">
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-hidden="true"
+          ></button>
+          <h4 class="modal-title" style="font-weight: bold">
+            <i class="fa fa-edit"></i> &nbsp;Update Recommendation
+          </h4>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="control-label"
+              >Recommendation Name<span class="text-danger">*</span></label
+            >
+            <input
+              #recommNames="ngModel"
+              type="text"
+              id="recommName"
+              name="recommName"
+              [(ngModel)]="recommName"
+              placeholder="Enter recommendation name"
+              class="form-control"
+              required
+              ngModel
+              [ngClass]="{
+                'red-border-class': recommNames.errors && submitted
+              }"
+            />
+            <div
+              *ngIf="submitted && recommNames.errors"
+              class="invalid-feedback"
+            >
+              <div class="text-danger" *ngIf="submitted && recommNames.errors">
+                Recommendation Name is required
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-success"
+            (click)="saveRecommendation()"
+            *ngIf="!isEdit"
+          >
+            <i class="fa fa-save"></i> Save
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-success"
+            (click)="saveRecommendation()"
+            *ngIf="isEdit"
+          >
+            <i class="fa fa-save"></i> Save
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-default"
+            data-dismiss="modal"
+            (click)="cancelAddEdit($event)"
+          >
+            <i class="fa fa-close"></i> Close
+          </button>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+</form>

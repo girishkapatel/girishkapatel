@@ -1,0 +1,435 @@
+.switch {
+  opacity: 0;
+  position: absolute;
+  z-index: 1;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+.switch + .lable {
+  position: relative;
+  display: inline-block;
+  margin: 0;
+  line-height: 20px;
+  min-height: 18px;
+  min-width: 18px;
+  font-weight: normal;
+  cursor: pointer;
+}
+.switch + .lable::before {
+  cursor: pointer;
+  font-family: fontAwesome;
+  font-weight: normal;
+  font-size: 12px;
+  color: #32a3ce;
+  content: "\a0";
+  background-color: #fafafa;
+  border: 1px solid #c8c8c8;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  border-radius: 0;
+  display: inline-block;
+  text-align: center;
+  height: 16px;
+  line-height: 14px;
+  min-width: 16px;
+  margin-right: 1px;
+  position: relative;
+  top: -1px;
+}
+.switch:checked + .lable::before {
+  display: inline-block;
+  /* content: "\f00c"; */
+  background-color: #f5f8fc;
+  border-color: #adb8c0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05),
+    inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05),
+    inset 15px 10px -12px rgba(255, 255, 255, 0.1);
+}
+
+label.label-switch.switch-info {
+  float: right;
+  margin-top: 10px;
+}
+/* CSS3 on/off switches */
+.switch + .lable {
+  margin: 0 4px;
+  min-height: 24px;
+}
+.switch + .lable::before {
+  font-weight: normal;
+  font-size: 11px;
+  line-height: 17px;
+  height: 20px;
+  overflow: hidden;
+  border-radius: 12px;
+  background-color: #f5f5f5;
+  -webkit-box-shadow: inset 0 1px 1px 0 rgba(0, 0, 0, 0.15);
+  box-shadow: inset 0 1px 1px 0 rgba(0, 0, 0, 0.15);
+  border: 1px solid #ccc;
+  text-align: left;
+  float: left;
+  padding: 0;
+  width: 52px;
+  text-indent: -21px;
+  margin-right: 0;
+  -webkit-transition: text-indent 0.3s ease;
+  -o-transition: text-indent 0.3s ease;
+  transition: text-indent 0.3s ease;
+  top: auto;
+}
+.switch.switch-bootstrap + .lable::before {
+  font-family: FontAwesome;
+  /* content: "\f00d"; */
+  box-shadow: none;
+  border-width: 0;
+  font-size: 16px;
+  background-color: #a9a9a9;
+  color: #f2f2f2;
+  width: 52px;
+  height: 22px;
+  line-height: 21px;
+  text-indent: 32px;
+  -webkit-transition: background 0.1s ease;
+  -o-transition: background 0.1s ease;
+  transition: background 0.1s ease;
+  margin-right: 5px;
+}
+.switch.switch-bootstrap + .lable::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 3px;
+  border-radius: 12px;
+  box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  width: 18px;
+  height: 18px;
+  text-align: center;
+  background-color: gold;
+  border: 4px solid gold;
+  -webkit-transition: left 0.2s ease;
+  -o-transition: left 0.2s ease;
+  transition: left 0.2s ease;
+}
+.switch.switch-bootstrap:checked + .lable::before {
+  /* content: "\f00c"; */
+  text-indent: 6px;
+  color: #fff;
+  border-color: #b7d3e5;
+}
+.switch-primary > .switch.switch-bootstrap:checked + .lable::before {
+  background-color: #337ab7;
+  margin-right: 5px;
+}
+.switch-success > .switch.switch-bootstrap:checked + .lable::before {
+  background-color: #5cb85c;
+  margin-right: 5px;
+}
+.switch-danger > .switch.switch-bootstrap:checked + .lable::before {
+  background-color: #d9534f;
+  margin-right: 5px;
+}
+.switch-info > .switch.switch-bootstrap:checked + .lable::before {
+  background-color: #a9a9a9;
+  margin-right: 5px;
+}
+.switch-warning > .switch.switch-bootstrap:checked + .lable::before {
+  background-color: #f0ad4e;
+  margin-right: 5px;
+}
+.switch.switch-bootstrap:checked + .lable::after {
+  left: 32px;
+  background-color: gold;
+  border: 4px solid gold;
+  text-shadow: 0 -1px 0 rgba(0, 200, 0, 0.25);
+}
+/* square */
+.switch-square {
+  opacity: 0;
+  position: absolute;
+  z-index: 1;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+.switch-square + .lable {
+  position: relative;
+  display: inline-block;
+  margin: 0;
+  line-height: 20px;
+  min-height: 18px;
+  min-width: 18px;
+  font-weight: normal;
+  cursor: pointer;
+}
+.switch-square + .lable::before {
+  cursor: pointer;
+  font-family: fontAwesome;
+  font-weight: normal;
+  font-size: 12px;
+  color: #32a3ce;
+  content: "\a0";
+  background-color: #fafafa;
+  border: 1px solid #c8c8c8;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  border-radius: 0;
+  display: inline-block;
+  text-align: center;
+  height: 16px;
+  line-height: 14px;
+  min-width: 16px;
+  margin-right: 1px;
+  position: relative;
+  top: -1px;
+}
+.switch-square:checked + .lable::before {
+  display: inline-block;
+  /* content: "\f00c"; */
+  background-color: #f5f8fc;
+  border-color: #adb8c0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05),
+    inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05),
+    inset 15px 10px -12px rgba(255, 255, 255, 0.1);
+}
+/* CSS3 on/off switches */
+.switch-square + .lable {
+  margin: 0 4px;
+  min-height: 24px;
+}
+.switch-square + .lable::before {
+  font-weight: normal;
+  font-size: 11px;
+  line-height: 17px;
+  height: 20px;
+  overflow: hidden;
+  border-radius: 2px;
+  background-color: #f5f5f5;
+  -webkit-box-shadow: inset 0 1px 1px 0 rgba(0, 0, 0, 0.15);
+  box-shadow: inset 0 1px 1px 0 rgba(0, 0, 0, 0.15);
+  border: 1px solid #ccc;
+  text-align: left;
+  float: left;
+  padding: 0;
+  width: 52px;
+  text-indent: -21px;
+  margin-right: 0;
+  -webkit-transition: text-indent 0.3s ease;
+  -o-transition: text-indent 0.3s ease;
+  transition: text-indent 0.3s ease;
+  top: auto;
+}
+.switch-square.switch-bootstrap + .lable::before {
+  font-family: FontAwesome;
+  content: "\f00d";
+  box-shadow: none;
+  border-width: 0;
+  font-size: 16px;
+  background-color: #a9a9a9;
+  color: #f2f2f2;
+  width: 52px;
+  height: 22px;
+  line-height: 21px;
+  text-indent: 32px;
+  -webkit-transition: background 0.1s ease;
+  -o-transition: background 0.1s ease;
+  transition: background 0.1s ease;
+}
+.switch-square.switch-bootstrap + .lable::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 3px;
+  border-radius: 12px;
+  box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  width: 18px;
+  height: 18px;
+  text-align: center;
+  background-color: #f2f2f2;
+  border: 4px solid #f2f2f2;
+  -webkit-transition: left 0.2s ease;
+  -o-transition: left 0.2s ease;
+  transition: left 0.2s ease;
+}
+.switch-square.switch-bootstrap:checked + .lable::before {
+  /* content: "\f00c"; */
+  text-indent: 6px;
+  color: #fff;
+  border-color: #b7d3e5;
+}
+.switch-primary > .switch-square.switch-bootstrap:checked + .lable::before {
+  background-color: #337ab7;
+}
+.switch-success > .switch-square.switch-bootstrap:checked + .lable::before {
+  background-color: #5cb85c;
+}
+.switch-danger > .switch-square.switch-bootstrap:checked + .lable::before {
+  background-color: #d9534f;
+}
+.switch-info > .switch-square.switch-bootstrap:checked + .lable::before {
+  background-color: #5bc0de;
+}
+.switch-warning > .switch-square.switch-bootstrap:checked + .lable::before {
+  background-color: #f0ad4e;
+}
+.switch-square.switch-bootstrap:checked + .lable::after {
+  left: 32px;
+  background-color: #fff;
+  border: 4px solid #fff;
+  text-shadow: 0 -1px 0 rgba(0, 200, 0, 0.25);
+}
+.switch-square.switch-bootstrap + .lable::after {
+  border-radius: 2px;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+#chartdiv {
+  width: 100%;
+  height: 600px;
+}
+
+#quickview {
+  position: absolute;
+  background: #ededed;
+  width: 300px;
+  z-index: 99;
+  padding: 0px 10px 0px 10px !important;
+  left: 15px;
+}
+
+.position-relative {
+  position: relative;
+}
+.dashboard-title {
+  position: absolute;
+  width: 50%;
+  top: -35px;
+  left: 25%;
+}
+
+.dashboard-title h2 {
+  font-size: 24px;
+}
+
+#quickview .portlet-title {
+  margin: 0px;
+  min-height: 30px;
+  padding: 3px 0px 0px 0px !important;
+}
+
+#quickview .caption {
+  padding: 5px 0;
+}
+#quickview .tools {
+  padding: 5px 0 5px;
+}
+#quickview .caption-subject {
+  font-size: 14px;
+}
+
+#quickview .caption i {
+  font-size: 13px;
+}
+
+.scroller {
+  overflow-y: auto;
+}
+
+.quickview-content {
+  margin-bottom: 5px;
+}
+
+.quickview-content .quickview-heading {
+  font-size: 11px;
+  padding: 3px 0px 3px 0px;
+  border-bottom: 1px solid #828282;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.quickview-content .quickview-item {
+  font-size: 11px;
+  padding: 3px 0px 3px 0px;
+  line-height: 12px;
+}
+
+.quickview-content .quickview-item span {
+  background: #fff;
+  width: 50px;
+  text-align: center;
+}
+
+.portlet.light {
+  padding: 5px 10px 5px 10px;
+  margin-bottom: 15px;
+}
+.portlet-title {
+  padding: 0 !important;
+  margin: 0;
+  min-height: 35px !important;
+  border: none !important;
+}
+
+.portlet-body {
+  border-top: 1px solid #eef1f5;
+  overflow-x: auto;
+}
+
+.portlet-body table {
+  margin-top: 10px;
+}
+
+.quickview-item.break {
+  margin-bottom: 9px;
+}
+
+.m-r-5 {
+  margin-right: 5px;
+}
+.red-border-class {
+  border: 1px solid red;
+}
+
+.myClass {
+  font-weight: bold;
+}
+
+.selectTableFilter {
+  width: 18px;
+  margin-left: 15px;
+  border: none;
+}
+.wrapper1, .wrapper2 {
+  width: 100%;
+  overflow-x: scroll;
+  overflow-y:hidden;
+}
+
+.div1 {
+  width:2400px;
+  height: 30px;
+}
+
+.div2 {
+  width:2400px; 
+}
+.pd-top
+{
+  padding-top: 10px;
+}
+.modal-dialog {
+  position:fixed;
+  top:auto;
+  right:auto;
+  left:auto;
+  bottom:0;
+}  
+.modal {
+  width: 600px; 
+  margin: 0 auto; 
+}
+span .textred {
+  color: red !important;
+}

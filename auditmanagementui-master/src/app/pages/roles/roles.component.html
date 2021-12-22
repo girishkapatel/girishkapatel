@@ -1,0 +1,359 @@
+<div class="page-content" id="rolesComponent">
+  <div class="page-bar">
+    <ul class="page-breadcrumb">
+      <li>
+        <a href="javascript:void(0)">Home</a>
+        <i class="fa fa-circle"></i>
+      </li>
+      <li>
+        <span>Roles</span>
+      </li>
+    </ul>
+
+    <button
+      [ngClass]="{ hide: !formVisible }"
+      type="button"
+      class="btn btn-default pull-right"
+      style="margin-top: 4px"
+      (click)="cancelAddEdit()"
+    >
+      <i class="fa fa-arrow-left"></i> Back
+    </button>
+  </div>
+
+  <div class="row pt-30 mb-30">
+    <div class="col-md-12">
+      <div *ngIf="!formVisible" class="form-actions top text-right">
+        <button [disabled]="isStackHolder"
+          type="button"
+          (click)="addRoles()"
+          class="btn btn-primary"
+          *ngIf="accessRights.isAdd"
+        >
+          <i class="fa fa-plus"></i> New
+        </button>
+      </div>
+
+      <div [ngClass]="{ hide: formVisible }" class="mt-20">
+        <app-table
+          [tableId]="tableId"
+          [tableColumns]="tableColumns"
+          [tableApi]="'api/role'"
+          [tableFilters]="tableFilters"
+        ></app-table>
+      </div>
+
+      <div [ngClass]="{ hide: !formVisible }">
+        <div class="portlet box" [ngClass]="{ blue: !isEdit, yellow: isEdit }">
+          <div class="portlet-title">
+            <div class="caption">
+              <i
+                class="fa"
+                [ngClass]="{ 'fa-plus': !isEdit, 'fa-edit': isEdit }"
+              ></i>
+              Role
+            </div>
+
+            <div class="tools">
+              <a href="javascript:;" class="collapse"> </a>
+            </div>
+          </div>
+
+          <div class="portlet-body">
+            <form
+              (ngSubmit)="saveRoles($event) && rolesForm.form.valid"
+              #rolesForm="ngForm"
+            >
+              <div class="form-body">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="control-label">
+                        Role Name <span class="text-danger">*</span></label
+                      >
+                      <input
+                        type="text"
+                        id="rolesname"
+                        name="Name"
+                        placeholder="Enter Roles Name"
+                        [(ngModel)]="rolesName"
+                        class="form-control"
+                        required
+                        #rolename="ngModel"
+                        [ngClass]="{
+                          'red-border-class':
+                            rolename.errors && rolesForm.submitted
+                        }"
+                      />
+
+                      <div
+                        *ngIf="rolesForm.submitted && rolename.invalid"
+                        class="invalid-feedback"
+                      >
+                        <div
+                          class="text-danger myClass"
+                          *ngIf="rolename.errors.required"
+                        >
+                          Role Name is required
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="control-label">Select Status</label>
+                      <select
+                        id="status"
+                        placeholder="Select Status"
+                        name="IsActive"
+                        class="form-control"
+                        [(ngModel)]="status"
+                      >
+                        <option value="true" selected>Active</option>
+                        <option value="false">Inactive</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <table class="table table-bordered" id="user-modules">
+                      <thead>
+                        <tr>
+                          <th>Module</th>
+                          <th class="text-center">
+                            <i class="fa fa-eye"></i> View
+                          </th>
+                          <th class="text-center">
+                            <i class="fa fa-plus"></i> Add / New
+                          </th>
+                          <th class="text-center">
+                            <i class="fa fa-edit"></i> Edit / Update
+                          </th>
+                          <th class="text-center">
+                            <i class="fa fa-trash"></i> Delete
+                          </th>
+                          <th class="text-center">
+                            <i class="fa fa-check-square"></i> Grant All
+                          </th>
+                        </tr>
+                      </thead>
+
+                      <tbody
+                        *ngFor="
+                          let module of moduleData;
+                          let i = index;
+                          trackBy: trackByIndex
+                        "
+                      >
+                        <tr>
+                          <td>{{ module.name }}</td>
+                          <td class="text-center">
+                            <ui-switch
+                              [checked]="module.access"
+                              uncheckedLabel="off"
+                              checkedLabel="on"
+                              (change)="onView($event, module, 0)"
+                            ></ui-switch>
+                          </td>
+                          <td class="text-center">
+                            <ui-switch
+                              [checked]="module.isAdd"
+                              uncheckedLabel="off"
+                              checkedLabel="on"
+                              (change)="onAdd($event, module, 0)"
+                            ></ui-switch>
+                          </td>
+                          <td class="text-center">
+                            <ui-switch
+                              [checked]="module.isEdit"
+                              uncheckedLabel="off"
+                              checkedLabel="on"
+                              (change)="onEdit($event, module, 0)"
+                            ></ui-switch>
+                          </td>
+                          <td class="text-center">
+                            <ui-switch
+                              [checked]="module.isDelete"
+                              uncheckedLabel="off"
+                              checkedLabel="on"
+                              (change)="onDelete($event, module, 0)"
+                            ></ui-switch>
+                          </td>
+                          <td class="text-center">
+                            <ui-switch
+                              [checked]="
+                                module.access &&
+                                module.isAdd &&
+                                module.isEdit &&
+                                module.isDelete
+                              "
+                              uncheckedLabel="off"
+                              checkedLabel="on"
+                              (change)="onGrantAll($event, module, 0)"
+                            ></ui-switch>
+                          </td>
+                        </tr>
+                        <ng-container *ngIf="module.submodules">
+                          <ng-container
+                            *ngFor="
+                              let submodule of module.submodules;
+                              let si = index
+                            "
+                          >
+                            <tr>
+                              <td>{{ module.name }} | {{ submodule.name }}</td>
+                              <td class="text-center">
+                                <ui-switch
+                                  [checked]="submodule.access"
+                                  uncheckedLabel="off"
+                                  checkedLabel="on"
+                                  (change)="onView($event, submodule, 1)"
+                                ></ui-switch>
+                              </td>
+                              <td class="text-center">
+                                <ui-switch
+                                  [checked]="submodule.isAdd"
+                                  uncheckedLabel="off"
+                                  checkedLabel="on"
+                                  (change)="onAdd($event, submodule, 1)"
+                                ></ui-switch>
+                              </td>
+                              <td class="text-center">
+                                <ui-switch
+                                  [checked]="submodule.isEdit"
+                                  uncheckedLabel="off"
+                                  checkedLabel="on"
+                                  (change)="onEdit($event, submodule, 1)"
+                                ></ui-switch>
+                              </td>
+                              <td class="text-center">
+                                <ui-switch
+                                  [checked]="submodule.isDelete"
+                                  uncheckedLabel="off"
+                                  checkedLabel="on"
+                                  (change)="onDelete($event, submodule, 1)"
+                                ></ui-switch>
+                              </td>
+                              <td class="text-center">
+                                <ui-switch
+                                  [checked]="
+                                    submodule.access &&
+                                    submodule.isAdd &&
+                                    submodule.isEdit &&
+                                    submodule.isDelete
+                                  "
+                                  uncheckedLabel="off"
+                                  checkedLabel="on"
+                                  (change)="onGrantAll($event, submodule, 1)"
+                                ></ui-switch>
+                              </td>
+                            </tr>
+
+                            <ng-container *ngIf="submodule.submodules">
+                              <ng-container
+                                *ngFor="
+                                  let submodule1 of submodule.submodules;
+                                  let si1 = index
+                                "
+                              >
+                                <tr>
+                                  <td>
+                                    {{ module.name }} | {{ submodule.name }} |
+                                    {{ submodule1.name }}
+                                  </td>
+                                  <td class="text-center">
+                                    <ui-switch
+                                      [checked]="submodule1.access"
+                                      uncheckedLabel="off"
+                                      checkedLabel="on"
+                                      (change)="onView($event, submodule1, 2)"
+                                    ></ui-switch>
+                                  </td>
+                                  <td class="text-center">
+                                    <ui-switch
+                                      [checked]="submodule1.isAdd"
+                                      uncheckedLabel="off"
+                                      checkedLabel="on"
+                                      (change)="onAdd($event, submodule1, 2)"
+                                    ></ui-switch>
+                                  </td>
+                                  <td class="text-center">
+                                    <ui-switch
+                                      [checked]="submodule1.isEdit"
+                                      uncheckedLabel="off"
+                                      checkedLabel="on"
+                                      (change)="onEdit($event, submodule1, 2)"
+                                    ></ui-switch>
+                                  </td>
+                                  <td class="text-center">
+                                    <ui-switch
+                                      [checked]="submodule1.isDelete"
+                                      uncheckedLabel="off"
+                                      checkedLabel="on"
+                                      (change)="onDelete($event, submodule1, 2)"
+                                    ></ui-switch>
+                                  </td>
+                                  <td class="text-center">
+                                    <ui-switch
+                                      [checked]="
+                                        submodule1.access &&
+                                        submodule1.isAdd &&
+                                        submodule1.isEdit &&
+                                        submodule1.isDelete
+                                      "
+                                      uncheckedLabel="off"
+                                      checkedLabel="on"
+                                      (change)="
+                                        onGrantAll($event, submodule1, 2)
+                                      "
+                                    ></ui-switch>
+                                  </td>
+                                </tr>
+                              </ng-container>
+                            </ng-container>
+                          </ng-container>
+                        </ng-container>
+                      </tbody>
+                    </table>
+
+                    <!-- <table class="table table-bordered" id="user-modules">
+                      <thead>
+                        <tr>
+                          <th>Module Name</th>
+                          <th>Access</th>
+                          <th style="width: 50%">Sub Modules</th>
+                        </tr>
+                      </thead>
+                      <tbody></tbody>
+                    </table> -->
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-actions">
+                <div class="row">
+                  <div class="col-md-12 text-right">
+                    <button type="submit" class="btn btn-success">
+                      <i class="fa fa-save"></i> Save
+                    </button>
+
+                    <button
+                      type="button"
+                      (click)="cancelAddEdit($event)"
+                      class="btn btn-default"
+                    >
+                      <i class="fa fa-close"></i> Cancel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,241 @@
+<div id="prmComponent">
+  <div *ngIf="!formVisible" class="portlet light">
+    <div class="portlet-title">
+      <div class="caption">
+        <span class="caption-subject bold uppercase">Process Risk Mapping</span>
+      </div>
+
+      <div class="actions">
+        <button [disabled]="isStackHolder"
+          type="button"
+          class="btn btn-primary"
+          style="margin-right: 5px"
+          *ngIf="accessRights.isEdit"
+        >
+          <i class="fa fa-cogs"></i> Simulate
+        </button>
+
+        <button [disabled]="isStackHolder"
+          type="button"
+          (click)="addProcessriskmapping()"
+          class="btn btn-primary m-r-5"
+          *ngIf="accessRights.isAdd"
+        >
+          <i class="fa fa-plus"></i> New
+        </button>
+
+        <button  
+          type="button"
+          class="btn btn-primary m-r-5"
+          (click)="exportPRM()"
+        >
+          <i class="fa fa-file-excel-o"></i> Download Excel
+        </button>
+
+        <button   type="button" class="btn btn-primary m-r-5" (click)="sampleExportPRM()"  [disabled]="isStackHolder">
+        <i class="fa fa-file-excel-o"></i> Sample Excel
+      </button>
+
+        <input type="file" #fileInput class="hidden" (change)="importPRM()" />
+
+        <button [disabled]="isStackHolder"
+          type="button"
+          class="btn btn-primary"
+          (click)="fileInput.click()"
+          *ngIf="accessRights.isEdit"
+        >
+          <i class="fa fa-file-excel-o"></i> Upload Excel
+        </button>
+      </div>
+    </div>
+
+    <div class="portlet-body">
+      <app-table
+        [tableScroll]="true"
+        [tableId]="tableId"
+        [tableColumns]="tableColumns"
+        [tableApi]="'api/processriskmapping'"
+        [tableFilters]="tableFilters"
+      ></app-table>
+    </div>
+  </div>
+
+  <div *ngIf="formVisible">
+    <div class="portlet box blue">
+      <div class="portlet-title">
+        <div class="caption">
+          <i class="fa fa-plus"></i> Process Risk Mapping
+        </div>
+        <div class="tools">
+          <a href="javascript:;" class="collapse"> </a>
+        </div>
+      </div>
+      <div class="portlet-body form">
+        <form
+          (ngSubmit)="saveProcessriskmapping($event)"
+          #processriskmappingForm="ngForm"
+        >
+          <div class="form-body">
+            <div class="row">
+              <!-- <div class="col-md-4"> -->
+              <!-- <div class="form-group"> -->
+              <!-- <label class="control-label">Select Business Cycle</label> -->
+              <!-- <select id="businessCycle" name="BusinessCycleId" placeholder="Select Business Cycle" (change)="getProcessLevel1Opts()" class="form-control" [(ngModel)]="businessCycleId"> -->
+              <!-- <option value="">Select Business Cycle</option> -->
+              <!-- <option *ngFor="let businessCycle of businessCycleOptions" [value]="businessCycle.id" >{{businessCycle.name}}</option> -->
+              <!-- </select> -->
+              <!-- </div> -->
+              <!-- </div> -->
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label">Select Audit Name</label>
+                  <select
+                    id="auditName"
+                    name="ProcessLocationMappingId"
+                    placeholder="Select Audit Name"
+                    class="form-control"
+                    [(ngModel)]="ProcessLocationMappingId"
+                    (change)="getLocationOpts()"
+                  >
+                    <option value="">Select Audit Name</option>
+                    <option
+                      *ngFor="let auditName of auditNameOptions"
+                      [value]="auditName.id"
+                    >
+                      {{ auditName.auditName }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <!-- <div class="col-md-4"> -->
+              <!-- <label class="control-label">Select Process Level 1</label> -->
+              <!-- <select id="processL1Id" name="ProcessL1Id" (change)="getLocationOpts()" placeholder="Select Process Level 1" class="form-control" [(ngModel)]="processlevel1Id"> -->
+              <!-- <option value="">Select Process Level 1</option> -->
+              <!-- <option *ngFor="let processlevel1 of processlevel1Options" [value]="processlevel1.id" >{{processlevel1.name}}</option> -->
+              <!-- </select> -->
+              <!-- </div> -->
+              <!--  -->
+              <!-- <div class="col-md-4"> -->
+              <!-- <div class="form-group"> -->
+              <!-- <label class="control-label">Process L2 Name</label> -->
+              <!-- <select id="processL2Id" name="ProcessL2Id" placeholder="Select Process Level 2" class="form-control" [(ngModel)]="processlevel2Id"> -->
+              <!-- <option value="">Select Process Level 2</option> -->
+              <!-- <option *ngFor="let processlevel2 of processlevel2Options" [value]="processlevel2.id" >{{processlevel2.name}}</option> -->
+              <!-- </select> -->
+              <!-- </div> -->
+              <!-- </div> -->
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label"> Quantitative Assessment</label>
+                  <select
+                    id="quanasses"
+                    placeholder="Select Quantitative Assessment"
+                    class="form-control"
+                    name="QuantativeAssessment"
+                    [(ngModel)]="quan"
+                  >
+                    <option value="">Select Quantitative Assessment</option>
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label"> Qualitative Assessment</label>
+                  <select
+                    id="qualasses"
+                    placeholder="Select Qualitative Assessment"
+                    class="form-control"
+                    name="QualitativeAssessment"
+                    [(ngModel)]="qual"
+                  >
+                    <option value="">Select Qualitative Assessment</option>
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label"> Final Process Rating</label>
+                  <select
+                    id="fpr"
+                    placeholder="Select Rating"
+                    class="form-control"
+                    name="FinalProcessrating"
+                    [(ngModel)]="fpr"
+                  >
+                    <option value="">Select Final Process Rating</option>
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-10">
+              <div class="col-md-12">
+                <table class="table table-bordered" id="tableLoc">
+                  <thead>
+                    <tr>
+                      <th>Company Name</th>
+                      <th>Division</th>
+                      <th>Location</th>
+                      <th>Profit Center Code</th>
+                      <th>Trial Balance</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let loc of locMapped; let i = index">
+                      <td>{{ loc.location.company.name }}</td>
+                      <td>{{ loc.location.divisionDescription }}</td>
+                      <td>{{ loc.location.cityOrTown.name }}</td>
+                      <td>{{ loc.location.profitCenterCode }}</td>
+                      <td>
+                        <input
+                          type="text"
+                          id="{{ loc.location.id }}"
+                          value="{{ loc.trialBalance.toFixed(2) }}"
+                          class="form-control"
+                        />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="form-actions">
+            <div class="row">
+              <div class="col-md-12 text-right">
+                <button type="submit" class="btn btn-success">
+                  <i class="fa fa-save"></i> Save
+                </button>
+                <button
+                  type="button"
+                  (click)="cancelAddEdit($event)"
+                  class="btn btn-default"
+                >
+                  <i class="fa fa-close"></i> Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<ngx-spinner
+bdColor="rgba(51,51,51,0.8)"
+size="medium"
+color="#fff"
+type="ball-scale-multiple"
+>
+<p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

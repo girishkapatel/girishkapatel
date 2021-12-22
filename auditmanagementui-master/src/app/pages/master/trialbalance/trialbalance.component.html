@@ -1,0 +1,251 @@
+<div *ngIf="!formVisible" class="portlet light">
+  <div class="portlet-title">
+    <div class="caption">
+      <span class="caption-subject bold uppercase">Trial Balance</span>
+    </div>
+
+    <div class="actions">
+      <button [disabled]="isStackHolder"
+        type="button"
+        (click)="addTrialbalance()"
+        class="btn btn-primary m-r-5"
+        *ngIf="accessRights.isAdd"
+      >
+        <i class="fa fa-plus"></i> New
+      </button>
+
+      <button 
+        type="button"
+        class="btn btn-primary m-r-5"
+        (click)="ExportTrialBalance()"
+      >
+        <i class="fa fa-file-excel-o"></i> Download Excel
+      </button>
+      <button 
+      type="button"
+      class="btn btn-primary m-r-5"
+      (click)="sampleExportTrialBalance()"
+      [disabled]="isStackHolder"
+    >
+      <i class="fa fa-file-excel-o"></i> Sample Excel
+    </button>
+      <input type="file" #fileInput class="hidden" (change)="importExcel()" />
+
+      <button [disabled]="isStackHolder"
+        type="button"
+        class="btn btn-primary"
+        (click)="fileInput.click()"
+        *ngIf="accessRights.isEdit"
+      >
+        <i class="fa fa-file-excel-o"></i> Upload Excel
+      </button>
+    </div>
+  </div>
+
+  <div [ngClass]="{ hide: formVisible }" class="portlet-body">
+    <app-table
+      [tableId]="tableId"
+      [tableScroll]="true"
+      [tableColumns]="tableColumns"
+      [tableApi]="'api/TrialBalance'"
+      [tableFilters]="tableFilters"
+    ></app-table>
+  </div>
+</div>
+
+<div *ngIf="formVisible">
+  <div class="portlet box blue">
+    <div class="portlet-title">
+      <div class="caption"><i class="fa fa-plus"></i> Trial Balance</div>
+      <div class="tools">
+        <a href="javascript:;" class="collapse"> </a>
+      </div>
+    </div>
+    <div class="portlet-body form">
+      <form
+        name="form"
+        (ngSubmit)="saveTrialbalance($event)"
+        #trialbalanceForm="ngForm"
+      >
+        <div class="form-body">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label"
+                  >GL Code
+                  <span class="text-danger">*</span>
+                </label>
+                <input
+                  #glcodes="ngModel"
+                  [(ngModel)]="glcode"
+                  name="glcode"
+                  type="text"
+                  id="glcode"
+                  placeholder="Enter GL Code"
+                  class="form-control"
+                  required
+                  [ngClass]="{
+                    'red-border-class':
+                      glcodes.errors && trialbalanceForm.submitted
+                  }"
+                />
+
+                <div
+                  *ngIf="trialbalanceForm.submitted && glcodes.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="glcodes.errors.required"
+                  >
+                    Gl code is required
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label">GL Class</label>
+                <select
+                  id="glclass"
+                  placeholder="Select GL Class"
+                  class="form-control"
+                  name="glclass"
+                  [(ngModel)]="glclass"
+                >
+                  <option value="">Select GL Class</option>
+                  <option value="ASSETS">ASSETS</option>
+                  <option value="EQUITY AND LIABIILTY">
+                    EQUITY AND LIABIILTY
+                  </option>
+                  <option value="REVENUE">REVENUE</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label">GL Description</label>
+                <input
+                  type="text"
+                  id="gldescription"
+                  placeholder="Enter GL Description"
+                  class="form-control"
+                  name="gldescription"
+                  [(ngModel)]="gldescription"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label"
+                  >Select Audit Name <span class="text-danger">*</span></label
+                >
+                <select
+                  id="ProcessLocationMappingId"
+                  name="ProcessLocationMappingId"
+                  placeholder="Select Audit Name"
+                  class="form-control"
+                  [(ngModel)]="ProcessLocationMappingId"
+                  (change)="getLocationOpts()"
+                  required
+                  #auditnames="ngModel"
+                  [ngClass]="{
+                    'red-border-class':
+                      auditnames.errors && trialbalanceForm.submitted
+                  }"
+                >
+                  <option value="">Select Audit Name</option>
+                  <option
+                    *ngFor="let auditName of auditNameOptions"
+                    [value]="auditName.id"
+                  >
+                    {{ auditName.auditName }}
+                  </option>
+                </select>
+                <div
+                  *ngIf="trialbalanceForm.submitted && auditnames.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="auditnames.errors.required"
+                  >
+                    Audit Name is required
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label">Total Balance</label>
+                <input
+                  type="text"
+                  id="totalbalance"
+                  placeholder="Total Balance"
+                  name="totalbalance"
+                  [(ngModel)]="totalbalance"
+                  value="{{ totalbalance }}"
+                  class="form-control"
+                  disabled="true"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row mt-10">
+            <div class="col-md-12">
+              <table class="table table-bordered" id="tableLoc">
+                <thead>
+                  <tr>
+                    <th>Company Name</th>
+                    <th>Division</th>
+                    <th>Location</th>
+                    <th>Profit Center Code</th>
+                    <th>Trial Balance</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let loc of locMapped; let i = index">
+                    <td>{{ loc.location.company.name }}</td>
+                    <td>{{ loc.location.divisionDescription }}</td>
+                    <td>{{ loc.location.cityOrTown.name }}</td>
+                    <td>{{ loc.location.profitCenterCode }}</td>
+                    <td>
+                      <input
+                        #pbalance
+                        type="text"
+                        id="{{ loc.id }}"
+                        value="{{ loc.trialBalance }}"
+                        class="form-control"
+                        (blur)="calculateBalance(pbalance.value)"
+                      />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="form-actions">
+          <div class="row">
+            <div class="col-md-12 text-right">
+              <button type="submit" class="btn btn-success">
+                <i class="fa fa-save"></i> Save
+              </button>
+              
+              <button
+                type="button"
+                (click)="cancelAddEdit($event)"
+                class="btn btn-default"
+              >
+                <i class="fa fa-close"></i> Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

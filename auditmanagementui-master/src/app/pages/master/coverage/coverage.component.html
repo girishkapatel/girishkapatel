@@ -1,0 +1,230 @@
+<div class="col-md-12">
+  <!-- <div *ngIf="!formVisible" class="form-actions top text-right">
+        <button type="button" class="btn green">Download Coverage</button>   
+        <button type="button" class="btn green">Upload Coverage</button>
+        <button type="button" (click)="addCoverage()" class="btn green">Add Coverage</button>
+    </div> -->
+  <div *ngIf="!formVisible" class="mt-20">
+    <!-- <app-table [tableId]="tableId" [tableColumns]="tableColumns" [tableData]="tableData" [tableFilters]="tableFilters"></app-table> -->
+    <div class="tabbable-custom">
+      <ul class="nav nav-tabs">
+        <li class="active">
+          <a href="#divisionwise" data-toggle="tab">Division Wise </a>
+        </li>
+        <li>
+          <a href="#locationwise" data-toggle="tab"> Location Wise </a>
+        </li>
+        <li>
+          <a href="#processwise" data-toggle="tab"> Process Wise </a>
+        </li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane active" id="divisionwise">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Year 1</th>
+                <th>Year 2</th>
+                <th>Year 3</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="font-weight: bold">Overall Coverage</td>
+                <td>86%</td>
+                <td>79%</td>
+                <td>70%</td>
+              </tr>
+
+              <tr>
+                <td style="font-weight: bold">Division Wise Coverage</td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Chemicals</td>
+                <td>95%</td>
+                <td>90%</td>
+                <td>90%</td>
+              </tr>
+              <tr>
+                <td>Bio Carb</td>
+                <td>85%</td>
+                <td>78%</td>
+                <td>65%</td>
+              </tr>
+              <tr>
+                <td>Cement</td>
+                <td>706%</td>
+                <td>69%</td>
+                <td>60%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="tab-pane" id="locationwise">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Year 1</th>
+                <th>Year 2</th>
+                <th>Year 3</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="font-weight: bold">Overall Coverage</td>
+                <td>86%</td>
+                <td>79%</td>
+                <td>70%</td>
+              </tr>
+
+              <tr>
+                <td style="font-weight: bold">Location Wise Coverage</td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>India</td>
+                <td>95%</td>
+                <td>90%</td>
+                <td>85%</td>
+              </tr>
+              <tr>
+                <td>USA</td>
+                <td>85%</td>
+                <td>75%</td>
+                <td>70%</td>
+              </tr>
+              <tr>
+                <td>Russia</td>
+                <td>85%</td>
+                <td>80%</td>
+                <td>70%</td>
+              </tr>
+              <tr>
+                <td>UAE</td>
+                <td>80%</td>
+                <td>70%</td>
+                <td>60%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="tab-pane" id="processwise">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Business Cycle</th>
+                <th>Chemical</th>
+                <th>Bio Carb</th>
+                <th>Cement</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Procure to Pay</td>
+                <td><input type="checkbox" checked /></td>
+                <td><input type="checkbox" /></td>
+                <td><input type="checkbox" checked /></td>
+              </tr>
+              <tr>
+                <td>Order to Cash</td>
+                <td><input type="checkbox" checked /></td>
+                <td><input type="checkbox" checked /></td>
+                <td><input type="checkbox" checked /></td>
+              </tr>
+              <tr>
+                <td>Hire to Retire</td>
+                <td><input type="checkbox" checked /></td>
+                <td><input type="checkbox" /></td>
+                <td><input type="checkbox" /></td>
+              </tr>
+              <tr>
+                <td>Record to Report</td>
+                <td><input type="checkbox" /></td>
+                <td><input type="checkbox" checked /></td>
+                <td><input type="checkbox" /></td>
+              </tr>
+              <tr>
+                <td>Manufacturing</td>
+                <td><input type="checkbox" /></td>
+                <td><input type="checkbox" checked /></td>
+                <td><input type="checkbox" /></td>
+              </tr>
+              <tr>
+                <td>Cyber security</td>
+                <td><input type="checkbox" checked /></td>
+                <td><input type="checkbox" /></td>
+                <td><input type="checkbox" /></td>
+              </tr>
+              <tr>
+                <td>Legal compliance</td>
+                <td><input type="checkbox" checked /></td>
+                <td><input type="checkbox" /></td>
+                <td><input type="checkbox" /></td>
+              </tr>
+              <tr>
+                <td>Asset management</td>
+                <td><input type="checkbox" checked /></td>
+                <td><input type="checkbox" /></td>
+                <td><input type="checkbox" /></td>
+              </tr>
+              <tr>
+                <td>IT data security</td>
+                <td><input type="checkbox" checked /></td>
+                <td><input type="checkbox" /></td>
+                <td><input type="checkbox" /></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <div *ngIf="formVisible">
+        <div class="portlet box blue">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-plus"></i> Coverage 
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse"> </a>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form (onSubmit)="saveCoverage($event)" #coverageForm="ngForm">
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Coverage Name</label>
+                                    <input type="text" id="coveragename" placeholder="Enter Coverage Name" class="form-control"  required> 
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Division</label>
+                                    <input type="text" id="division" placeholder="Enter Division" class="form-control"  required> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-12 text-right">
+                                <button type="submit" class="btn green">Save</button>
+                                <button type="button" (click)="cancelAddEdit($event)" class="btn default">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+    </div> -->
+</div>

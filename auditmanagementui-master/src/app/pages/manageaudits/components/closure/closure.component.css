@@ -1,0 +1,70 @@
+.portlet.light{
+    border: 1px solid #ededed;
+    padding-bottom: 5px;
+}
+
+.closure-heading{
+    padding-bottom: 5px;
+    border-bottom: 1px solid #ededed;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color:#666;
+}
+
+.closure-subheading{
+    font-size: 12px;
+    padding: 5px 0px 5px 0px;
+    font-weight: bold;
+    margin-top:10px
+}
+
+.closure-item{
+    display: flex;
+    margin-top: 5px;
+    font-size:13px
+}
+
+.closure-item .closure-data input{
+    padding: 5px 10px 5px 8px;
+    height: 30px;
+}
+
+.closure-item .closure-label{
+    width: 60%;
+    margin-top: 5px;
+}
+
+.closure-item .closure-data{
+    width: 40%;
+}
+
+.closure-container{
+    margin-bottom:20px;
+}
+
+
+.closure-heading-wd{
+    display: flex;
+    margin-top: 5px;
+}
+
+
+.closure-heading-wd .closure-data input{
+    padding: 5px 10px 5px 8px;
+    height: 30px;
+}
+
+.closure-heading-wd .closure-label{
+    width: 60%;
+    margin-top: 5px;
+}
+
+.closure-heading-wd .closure-data{
+    width: 40%;
+}
+
+.closure-section{
+    max-height: 600px;
+    overflow-y: auto;
+    margin-top:15px
+}

@@ -1,0 +1,381 @@
+<div class="col-md-4 mb-20">
+  <h3 style="font-weight: bold" class="mt-10">{{ universeTitle }}</h3>
+</div>
+<div class="col-md-8 mb-20 text-right">
+  <button
+    type="button"
+    class="btn btn-default"
+    (click)="hideProcessChart()"
+    [ngClass]="{ hide: universeView }"
+  >
+    <i class="fa fa-arrow-left"></i> Back
+  </button>
+</div>
+
+<div class="col-md-12 sectorchart" [ngClass]="{ hide: !universeView }">
+  <div class="row">
+    <div class="col-md-12">
+      <h4 class="sector-heading">Advance Manufacturing and Mobility</h4>
+    </div>
+    <div class="col-md-3">
+      <div class="sector-item">
+        <div class="sector-icon">
+          <img [src]="'./assets/appstyles/img/sector/auto.png'" />
+        </div>
+        <div class="sector-label">Automotive</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="sector-item">
+        <div class="sector-icon">
+          <img [src]="'./assets/appstyles/img/sector/oem.png'" />
+        </div>
+        <div class="sector-label">Automotive OEM</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-30">
+    <div class="col-md-12">
+      <h4 class="sector-heading">Consumer</h4>
+    </div>
+    <div class="col-md-3">
+      <div class="sector-item">
+        <div class="sector-icon">
+          <img [src]="'./assets/appstyles/img/sector/beverages.png'" />
+        </div>
+        <div class="sector-label">Beverages (BePA)</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="sector-item">
+        <div class="sector-icon">
+          <img [src]="'./assets/appstyles/img/sector/coppa.png'" />
+        </div>
+        <div class="sector-label">Consumer Products (CoPPA)</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="sector-item">
+        <div class="sector-icon">
+          <img [src]="'./assets/appstyles/img/sector/retail.png'" />
+        </div>
+        <div class="sector-label">Retail (ReFORM)</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="sector-item">
+        <div class="sector-icon">
+          <img [src]="'./assets/appstyles/img/sector/topa.png'" />
+        </div>
+        <div class="sector-label">Tabacco (ToPA)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-30">
+    <div class="col-md-12">
+      <h4 class="sector-heading">Energy</h4>
+    </div>
+    <div class="col-md-3" (click)="showProcessChart()">
+      <div class="sector-item">
+        <div class="sector-icon">
+          <img [src]="'./assets/appstyles/img/sector/chemicals.png'" />
+        </div>
+        <div class="sector-label">Chemicals</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="sector-item">
+        <div class="sector-icon">
+          <img [src]="'./assets/appstyles/img/sector/prime.png'" />
+        </div>
+        <div class="sector-label">Mining and Metals (PRIME)</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="sector-item">
+        <div class="sector-icon">
+          <img [src]="'./assets/appstyles/img/sector/pogo.png'" />
+        </div>
+        <div class="sector-label">Oil and Gas (POGO)</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="sector-item">
+        <div class="sector-icon">
+          <img [src]="'./assets/appstyles/img/sector/pogofs.png'" />
+        </div>
+        <div class="sector-label">Oil Field Service (POGO-FS)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-30">
+    <div class="col-md-3">
+      <div class="sector-item">
+        <div class="sector-icon">
+          <img [src]="'./assets/appstyles/img/sector/pumma.png'" />
+        </div>
+        <div class="sector-label">Power & Utilities (PUMMA)</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="sector-item">
+        <div class="sector-icon">
+          <img [src]="'./assets/appstyles/img/sector/wumma.png'" />
+        </div>
+        <div class="sector-label">Water Utilities (WUMMA)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-30">
+    <div class="col-md-12">
+      <h4 class="sector-heading">Financial Service</h4>
+    </div>
+    <div class="col-md-3">
+      <div class="sector-item">
+        <div class="sector-icon">
+          <img [src]="'./assets/appstyles/img/sector/banking.png'" />
+        </div>
+        <div class="sector-label">Consumer banking</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="sector-item">
+        <div class="sector-icon">
+          <img [src]="'./assets/appstyles/img/sector/inform.png'" />
+        </div>
+        <div class="sector-label">Automotive OEM</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="sector-item">
+        <div class="sector-icon">
+          <img [src]="'./assets/appstyles/img/sector/insurance.png'" />
+        </div>
+        <div class="sector-label">
+          General Insurance/Property & Casualty (InFORM)
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="sector-item">
+        <div class="sector-icon">
+          <img [src]="'./assets/appstyles/img/sector/finance.png'" />
+        </div>
+        <div class="sector-label">Mortgage Finance</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-30">
+    <div class="col-md-3">
+      <div class="sector-item">
+        <div class="sector-icon">
+          <img [src]="'./assets/appstyles/img/sector/wealth.png'" />
+        </div>
+        <div class="sector-label">WAM-PRO Wealth Management</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="sector-item">
+        <div class="sector-icon">
+          <img [src]="'./assets/appstyles/img/sector/assets.png'" />
+        </div>
+        <div class="sector-label">WAM-PRO Asset Manager</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="sector-item">
+        <div class="sector-icon">
+          <img [src]="'./assets/appstyles/img/sector/wam.png'" />
+        </div>
+        <div class="sector-label">WAM-PRO Asset Servicing</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="sector-item">
+        <div class="sector-icon">
+          <img [src]="'./assets/appstyles/img/sector/equity.png'" />
+        </div>
+        <div class="sector-label">WAM-PRO Private Equity</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-md-12 processsChartView" [ngClass]="{ hide: universeView }">
+  <div class="row">
+    <div class="col-md-12">
+      <h4 class="sector-heading">Management Processes</h4>
+    </div>
+    <div class="col-md-3">
+      <img [src]="'./assets/appstyles/img/sector/mp1.png'" />
+    </div>
+    <div class="col-md-3">
+      <img [src]="'./assets/appstyles/img/sector/mp2.png'" />
+    </div>
+    <div class="col-md-3">
+      <img [src]="'./assets/appstyles/img/sector/mp3.png'" />
+    </div>
+    <div class="col-md-3">
+      <img [src]="'./assets/appstyles/img/sector/mp4.png'" />
+    </div>
+  </div>
+  <div class="row mt-10">
+    <div class="col-md-3">
+      <img [src]="'./assets/appstyles/img/sector/mp5.png'" />
+    </div>
+  </div>
+
+  <div class="row mt-30">
+    <div class="col-md-12">
+      <h4 class="sector-heading">Core Processes</h4>
+    </div>
+    <div class="col-md-3">
+      <img [src]="'./assets/appstyles/img/sector/cp1.png'" />
+    </div>
+    <div class="col-md-3" (click)="showProcessDetail()">
+      <img [src]="'./assets/appstyles/img/sector/cp2.png'" />
+    </div>
+    <div class="col-md-3">
+      <img [src]="'./assets/appstyles/img/sector/cp3.png'" />
+    </div>
+    <div class="col-md-3">
+      <img [src]="'./assets/appstyles/img/sector/cp4.png'" />
+    </div>
+  </div>
+  <div class="row mt-10">
+    <div class="col-md-3">
+      <img [src]="'./assets/appstyles/img/sector/cp5.png'" />
+    </div>
+    <div class="col-md-3">
+      <img [src]="'./assets/appstyles/img/sector/cp6.png'" />
+    </div>
+  </div>
+
+  <div class="row mt-30">
+    <div class="col-md-12">
+      <h4 class="sector-heading">Support Processes</h4>
+    </div>
+    <div class="col-md-3">
+      <img [src]="'./assets/appstyles/img/sector/sp1.png'" />
+    </div>
+    <div class="col-md-3">
+      <img [src]="'./assets/appstyles/img/sector/sp2.png'" />
+    </div>
+    <div class="col-md-3">
+      <img [src]="'./assets/appstyles/img/sector/sp3.png'" />
+    </div>
+    <div class="col-md-3">
+      <img [src]="'./assets/appstyles/img/sector/sp4.png'" />
+    </div>
+  </div>
+  <div class="row mt-10">
+    <div class="col-md-3">
+      <img [src]="'./assets/appstyles/img/sector/sp5.png'" />
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="basic"
+  tabindex="-1"
+  data-width="760"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        ></button>
+        <h4 class="modal-title" style="font-weight: bold">
+          <i class="fa fa-cogs"></i> &nbsp;Procure to Pay
+        </h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <table class="table table-bordered processTable">
+              <thead>
+                <tr>
+                  <th>Business Cycle</th>
+                  <th>Process L1</th>
+                  <th>Process l2</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td rowspan="11">Procure to Pay</td>
+                  <td rowspan="6">
+                    <input type="checkbox" /> &nbsp;Procurement
+                  </td>
+                  <td><input type="checkbox" /> &nbsp;Procurement Planning</td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox" /> &nbsp;Vendor management</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" /> &nbsp;RFQ and Bidding Process
+                  </td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox" /> &nbsp;Vendor Selection</td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox" /> &nbsp;Ordering</td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox" /> &nbsp;Post PO Activities</td>
+                </tr>
+
+                <tr>
+                  <td rowspan="5">
+                    <input type="checkbox" /> &nbsp;Accounts Payable
+                  </td>
+                  <td><input type="checkbox" /> &nbsp;Invoice Receipts</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" /> &nbsp;Invoice Validation and
+                    Verification
+                  </td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox" /> &nbsp;Invoice Processing</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" /> &nbsp;Deduction and Monitoring
+                  </td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox" /> &nbsp;Disbursement</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-dismiss="modal">
+          <i class="fa fa-save"></i> Create Audit
+        </button>
+
+        <button type="button" class="btn btn-default" data-dismiss="modal">
+          <i class="fa fa-close"></i> Close
+        </button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>

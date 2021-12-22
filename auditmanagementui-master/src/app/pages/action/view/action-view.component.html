@@ -1,0 +1,704 @@
+<div class="page-content" id="action-view-component">
+  <div class="page-bar">
+    <ul class="page-breadcrumb">
+      <li>
+        <a href="javascript:void(0)">Home</a>
+        <i class="fa fa-circle"></i>
+      </li>
+
+      <li>
+        <span>Action Plans</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="pt-10 position-relative" [ngClass]="{ hide: showDetails }">
+    <div class="text-center mb-20 dashboard-title">
+      <h2 class="nmt">Overall Action Plan Status</h2>
+    </div>
+
+    <div class="pull-right mr-20">
+      <div class="btn-group mr-10">
+        <a
+          href=""
+          class="btn btn-circle grey-salsa btn-sm dropdown-toggle"
+          data-toggle="dropdown"
+          data-hover="dropdown"
+          data-close-others="true"
+        >
+          {{ this.SelectedDivisionTitle }}
+          <span class="fa fa-angle-down"> </span>
+        </a>
+        <ul class="dropdown-menu pull-right">
+          <li>
+            <a
+              (click)="
+                this.SelectedDivisionTitle = 'Select location';
+                this.SelectedDivisionId = '';
+                filterActionPlans(period)
+              "
+              >Select Location
+            </a>
+          </li>
+
+          <li
+            *ngFor="let location of locationOptions"
+            #locations
+            [value]="location.id"
+          >
+            <a (click)="locationChange(location); filterActionPlans(period)">
+              {{ location.locationDescription }}
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="btn-group">
+        <a
+          href=""
+          class="btn btn-circle grey-salsa btn-sm dropdown-toggle"
+          data-toggle="dropdown"
+          data-hover="dropdown"
+          data-close-others="true"
+        >
+          {{ this.SelectedAuditTitle }}
+          <span class="fa fa-angle-down"> </span>
+        </a>
+
+        <ul class="dropdown-menu pull-right">
+          <li>
+            <a
+              (click)="
+                this.SelectedAuditTitle = 'Select Audit';
+                this.SelectedAuditId = '';
+                filterActionPlans(period)
+              "
+            >
+              Select Audit
+            </a>
+          </li>
+
+          <li *ngFor="let audit of auditOptions">
+            <a (click)="auditChange(audit); filterActionPlans(period)">
+              {{ audit.auditName }}
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="btn-group ml-10">
+        <a
+          href=""
+          class="btn btn-circle grey-salsa btn-sm dropdown-toggle"
+          data-toggle="dropdown"
+          data-hover="dropdown"
+          data-close-others="true"
+        >
+          {{ this.SelectedPeriodTitle }}
+          <span class="fa fa-angle-down"> </span>
+        </a>
+
+        <ul class="dropdown-menu pull-right">
+          <li>
+            <a
+              (click)="
+                this.SelectedPeriodTitle = 'Select Period';
+                this.SelectedPeriodId = '';
+                filterActionPlans(period)
+              "
+            >
+              Select Period
+            </a>
+          </li>
+
+          <li *ngFor="let period of periodOptions">
+            <a (click)="periodChange(period); filterActionPlans(period)">
+              {{ period }}
+            </a>
+          </li>
+          <!-- <li *ngFor="let period of periodOptions">
+            <a (click)="periodChange(period);filterActionPlans(period);">
+              {{ period.quater + ", FY " + period.financialYear }}
+            </a>
+          </li> -->
+        </ul>
+      </div>
+
+      <!-- <div class="btn-group ml-10">
+        <a
+          href="javascript:void(0)"
+          (click)="filterActionPlans(period)"
+          class="btn btn-circle red btn-sm"
+        >
+          <span class="fa fa-search"> </span
+        ></a>
+      </div> -->
+    </div>
+
+    <!-- BEGIN Portlet PORTLET-->
+    <div id="quickview" class="portlet light">
+      <div class="portlet-title">
+        <div class="caption">
+          <i class="icon-eye"></i>
+          <span class="caption-subject bold uppercase"> Quick View</span>
+        </div>
+        <div class="tools">
+          <a href="" class="expand"> </a>
+        </div>
+      </div>
+
+      <div class="portlet-body" style="display: none">
+        <div
+          class="scroller"
+          data-rail-visible="1"
+          data-rail-color="yellow"
+          data-handle-color="#a1b2bd"
+        >
+          <div class="row">
+            <div class="col-md-12 quickview-content">
+              <div class="quickview-heading">Total Action Items</div>
+              <div class="quickview-item">
+                Critical Risk
+                <span class="pull-right">{{ quickActionData.critical }}</span>
+              </div>
+              <div class="quickview-item">
+                High Risk
+                <span class="pull-right">{{ quickActionData.high }}</span>
+              </div>
+              <div class="quickview-item">
+                Medium Risk
+                <span class="pull-right">{{ quickActionData.medium }}</span>
+              </div>
+              <div class="quickview-item">
+                Low Risk
+                <span class="pull-right">{{ quickActionData.low }}</span>
+              </div>
+              <div class="quickview-heading">Action Wise Break Up</div>
+              <div class="quickview-item">
+                Actions In Progress
+                <span class="pull-right">{{ inprogressCount }}</span>
+              </div>
+              <div class="quickview-item">
+                Actions pending to be initiated
+                <span class="pull-right">{{ pendingCount }}</span>
+              </div>
+              <!-- <div class="quickview-item">
+                Actions Due Today
+                <span class="pull-right">{{ dueTodayCount }}</span>
+              </div> -->
+              <!-- <div class="quickview-item">
+                Actions Overdue
+                <span class="pull-right">{{ overdueCount }}</span>
+              </div>
+              <div class="quickview-item">
+                Action Not Due
+                <span class="pull-right">{{ notdueCount }}</span>
+              </div> -->
+              <div class="quickview-item">
+                Actions Completed
+                <span class="pull-right">{{ completedCount }}</span>
+              </div>
+              <!-- <div class="quickview-item">
+                Actions with Revised Timeline
+                <span class="pull-right">{{ revisedTimelineCount }}</span>
+              </div> -->
+            </div>
+
+            <!-- <div class="col-md-12 quickview-content">
+              <div class="quickview-heading">Action Wise Break Up</div>
+              <div
+                class="quickview-item"
+                *ngFor="let audit of quickActionData.auditBreakUp"
+              >
+                {{ audit.name }}
+                <span class="pull-right">
+                  {{ audit.count }}
+                </span>
+              </div>
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <label class="label-switch switch-info">
+          <span class="lable">Tabular</span>
+          <input
+            type="checkbox"
+            class="switch switch-bootstrap status"
+            name="status"
+            id="status"
+            (change)="changeLayout($event)"
+          />
+          <span class="lable">Graphical</span></label
+        >
+      </div>
+    </div>
+
+    <div class="row" [ngClass]="{ hide: !chartFlag }">
+      <div class="col-md-12">
+        <app-charts chartId="chartdiv"></app-charts>
+      </div>
+    </div>
+    <div class="row pt-30" [ngClass]="{ hide: chartFlag }">
+      <div   class="col-lg-3 col-md-3 col-sm-6 col-xs-12" >
+        <a
+          class="dashboard-stat dashboard-stat-v2 yellow"
+          (click)="getActions('all')"
+        >
+          <div class="visual">
+            <i class="fa fa-shopping-cart"></i>
+          </div>
+          <div class="details">
+            <div class="number">
+              <span data-counter="counterup" data-value="0"
+                ><!-- allAuditCount -->{{ summaryCountAll }}</span
+              >
+            </div>
+            <div class="desc">All Actions</div>
+          </div>
+        </a>
+      </div>
+      <div
+        class="col-lg-3 col-md-3 col-sm-6 col-xs-12"
+      >
+        <a
+          class="dashboard-stat dashboard-stat-v2 blue"
+          (click)="getActions('inprogress')"
+        >
+          <div class="visual">
+            <i class="fa fa-bar-chart-o"></i>
+          </div>
+          <div class="details">
+            <div class="number">
+              <span data-counter="counterup" data-value="0">{{
+                inprogressCount
+              }}</span>
+            </div>
+            <div class="desc">Actions In Progress</div>
+          </div>
+        </a>
+      </div>
+      <div
+        class="col-lg-3 col-md-3 col-sm-6 col-xs-12"
+      >
+        <a
+          class="dashboard-stat dashboard-stat-v2 red"
+          (click)="getActions('pending')"
+        >
+          <div class="visual">
+            <i class="fa fa-shopping-cart"></i>
+          </div>
+          <div class="details">
+            <div class="number">
+              <span data-counter="counterup" data-value="0">{{
+                pendingCount
+              }}</span>
+            </div>
+            <div class="desc">Actions pending to be initiated</div>
+          </div>
+        </a>
+      </div>
+      <!-- <div
+        class="col-lg-1 col-md-1 col-sm-6 col-xs-12"
+        
+      >
+        <a
+          class="dashboard-stat dashboard-stat-v2 red"
+          (click)="getActions('overdue')"
+        >
+          <div class="visual">
+            <i class="fa fa-globe"></i>
+          </div>
+          <div class="details">
+            <div class="number">
+              <span data-counter="counterup" data-value="0">{{
+                overdueCount
+              }}</span>
+            </div>
+            <div class="desc">
+              Actions <br />
+              Overdue
+            </div>
+          </div>
+        </a>
+      </div> -->
+      <!-- <div
+        class="col-lg-1 col-md-1 col-sm-6 col-xs-12"
+       
+      >
+        <a
+          class="dashboard-stat dashboard-stat-v2 purple"
+          (click)="getActions('notdue')"
+        >
+          <div class="visual">
+            <i class="fa fa-globe"></i>
+          </div>
+          <div class="details">
+            <div class="number">
+              <span data-counter="counterup" data-value="0">{{
+                notdueCount
+              }}</span>
+            </div>
+            <div class="desc">Action <br />Not Due</div>
+          </div>
+        </a>
+      </div> -->
+      <div
+        class="col-lg-3 col-md-3 col-sm-6 col-xs-12"
+      >
+        <a
+          class="dashboard-stat dashboard-stat-v2 green"
+          (click)="getActions('completed')"
+        >
+          <div class="visual">
+            <i class="fa fa-comments"></i>
+          </div>
+          <div class="details">
+            <div class="number">
+              <span data-counter="counterup" data-value="0">{{
+                completedCount
+              }}</span>
+            </div>
+            <div class="desc">Actions Completed</div>
+          </div>
+        </a>
+      </div>
+      <!-- <div
+        class="col-lg-1 col-md-1 col-sm-6 col-xs-12"
+       
+      >
+        <a
+          class="dashboard-stat dashboard-stat-v2 blue"
+          (click)="getActions('revisedtimeline')"
+        >
+          <div class="visual">
+            <i class="fa fa-comments"></i>
+          </div>
+          <div class="details">
+            <div class="number">
+              <span data-counter="counterup" data-value="0">{{
+                revisedTimelineCount
+              }}</span>
+            </div>
+            <div class="desc">
+              Revised<br />
+              Timelines
+            </div>
+          </div>
+        </a>
+      </div> -->
+    </div>
+    <div class="row pt-30">
+      <div class="col-lg-12 col-xs-12 col-sm-12">
+        <div class="portlet light bordered">
+          <div
+            class="portlet-title tabbable-line"
+            [ngClass]="{ hide: chartFlag }"
+          >
+            <div class="caption">
+              <i class="icon-clock font-dark"></i>
+              <span class="caption-subject font-dark bold uppercase">{{
+                actionTitle
+              }}</span>
+            </div>
+
+            <div class="actions">
+              <button
+                [disabled]="isStackHolder"
+                type="button"
+                class="btn btn-primary m-r-5"
+                (click)="addAction()"
+                *ngIf="accessRights.isAdd"
+              >
+                <i class="fa fa-plus"></i> New Action Plan
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary m-r-5"
+                [disabled]="isStackHolder"
+                (click)="OpenMultipleEmailModel()"
+              >
+                <i class="fa fa-send"></i> Send Email
+              </button>
+
+              <button
+                type="button"
+                class="btn btn-primary m-r-5"
+                (click)="exportActionPlans()"
+              >
+                <i class="fa fa-file-excel-o"></i> Download Excel
+              </button>
+              <button
+              type="button"
+              class="btn btn-primary m-r-5"
+              (click)="sampleActionPlans()"
+              [disabled]="isStackHolder"
+            >
+              <i class="fa fa-file-excel-o"></i> Sample Excel
+            </button>
+              <input
+                type="file"
+                #fileInput
+                class="hidden"
+                accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                (change)="importActionPlans()"
+              />
+
+              <button
+                [disabled]="isStackHolder"
+                type="button"
+                class="btn btn-primary"
+                (click)="fileInput.click()"
+                *ngIf="accessRights.isEdit"
+              >
+                <i class="fa fa-file-excel-o"></i> Upload Excel
+              </button>
+            </div>
+          </div>
+
+          <div class="portlet-body">
+            <!-- <div class="wrapper1">
+              <div class="div1"></div>
+            </div> -->
+            <!-- <div class="wrapper2"> -->
+              <!-- <div class="div2"> -->
+                <table
+                  [id]="tableId"
+                  class="table table-bordered display nowrap"
+                  style="width: 100%"
+                >
+                  <!-- <tr id="temp">
+                  <th  class="filterhead" style="visibility: hidden;"></th>
+                    <th class="filterhead">Audit</th>
+                    <th class="filterhead">Location</th>
+                    <th class="filterhead">observation Heading</th>
+                    <th class="filterhead">Observation<br>  Grading</th>
+                    <th class="filterhead">Agreed <br>Timeline</th>
+                    <th class="filterhead">Responsibility <br> Department</th>
+                    <th class="filterhead">Status </th>
+                    <th class="filterhead">Management <br>Implementation<br> Remarks</th>
+                    <th class="filterhead" style="visibility: hidden;">Action</th>
+                </tr> -->
+                </table>
+              <!-- </div> -->
+            <!-- </div> -->
+            <!-- <div [ngClass]="{ hide: !actionInProgress }"> -->
+            <!-- <app-table -->
+            <!-- [tableId]="'ap_table_ip'" -->
+            <!-- (initComplete)="inprogressInit($event)" -->
+            <!-- [tableColumns]="tableColumnsAP" -->
+            <!-- [tableApi]="tableApiUrlIP" -->
+            <!-- [tableFilters]="tableFiltersIP" -->
+            <!-- ></app-table> -->
+            <!-- </div> -->
+            <!--  -->
+            <!-- <div [ngClass]="{ hide: !actionCompleted }"> -->
+            <!-- <app-table -->
+            <!-- [tableId]="'ap_table_com'" -->
+            <!-- (initComplete)="completedInit($event)" -->
+            <!-- [tableColumns]="tableColumnsAP" -->
+            <!-- [tableApi]="tableApiUrlCom" -->
+            <!-- [tableFilters]="tableFiltersCom" -->
+            <!-- ></app-table> -->
+            <!-- </div> -->
+            <!--  -->
+            <!-- <div [ngClass]="{ hide: !actionPen }"> -->
+            <!-- <app-table -->
+            <!-- [tableId]="'ap_table_pen'" -->
+            <!-- (initComplete)="dueTodayInit($event)" -->
+            <!-- [tableColumns]="tableColumnsAP" -->
+            <!-- [tableApi]="tableApiUrlPen" -->
+            <!-- [tableFilters]="tableFiltersPen" -->
+            <!-- ></app-table> -->
+            <!-- </div> -->
+            <!--  -->
+            <!-- <div [ngClass]="{ hide: !actionOverdue }"> -->
+            <!-- <app-table -->
+            <!-- [tableId]="'ap_table_od'" -->
+            <!-- (initComplete)="overdueInit($event)" -->
+            <!-- [tableColumns]="tableColumnsAP" -->
+            <!-- [tableApi]="tableApiUrlOD" -->
+            <!-- [tableFilters]="tableFiltersOD" -->
+            <!-- ></app-table> -->
+            <!-- </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+
+  <div
+    class="modal fade"
+    id="fuContentModal"
+    tabindex="-1"
+    data-width="760"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-hidden="true"
+          ></button>
+          <h4 class="modal-title" style="font-weight: bold">
+            <i class="fa fa-cogs"></i> &nbsp;<span id="fucontent-title"></span>
+          </h4>
+        </div>
+        <form>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-12" id="fucontent"></div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              <i class="fa fa-close"></i> Close
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="sendDNMultipleMailModal"
+  tabindex="-1"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        ></button>
+        <h4 class="modal-title" style="font-weight: bold">
+          <i class="fa fa-send"></i> &nbsp;Send Email
+        </h4>
+      </div>
+      <form
+        name="form"
+        (ngSubmit)="SendMail($event) && mailForm.form.valid"
+        #mailForm="ngForm"
+        novalidate
+      >
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="control-label"
+                  >To<span class="text-danger">*</span></label
+                >
+                <ng-multiselect-dropdown
+                  [placeholder]="'Select To email'"
+                  [data]="userOpts"
+                  [(ngModel)]="selectedToEmail"
+                  [settings]="dropdownSettings"
+                  name="ToEmail"
+                  [ngClass]="{
+                    'red-border-class': ccemails.errors && mailForm.submitted
+                  }"
+                  #ccemails="ngModel"
+                  required
+                >
+                </ng-multiselect-dropdown>
+
+                <div
+                  *ngIf="mailForm.submitted && ccemails.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="ccemails.errors.required"
+                  >
+                    To Email is required
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="control-label">CC</label>
+                <ng-multiselect-dropdown
+                  [placeholder]="'Select CC email'"
+                  [data]="userOpts"
+                  [(ngModel)]="selectedCCEmail"
+                  [settings]="dropdownSettings"
+                  name="CCEmail"
+                >
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="control-label">Mail Body</label>
+                <ckeditor
+                  [(ngModel)]="MailBody"
+                  name="MailBody"
+                  placeholder="Enter Mail Body"
+                  [editor]="Editor"
+                ></ckeditor>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <!-- <table
+                  style="overflow-x: auto"
+                  id="tblActionPlanSendMail"
+                  class="table table-bordered"
+                >
+                  <thead>
+                    <tr>
+                      <th>Audit Number</th>
+                      <th>Audit Name</th>
+                      <th>Audit Location</th>
+                      <th>Observation Grading</th>
+                      <th>Observation Heading</th>
+                      <th>Detailed Observation</th>
+                      <th>Root Cause</th>
+                      <th>Risk Type</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table> -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">
+            <i class="fa fa-send"></i> Send
+          </button>
+
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <i class="fa fa-close"></i> Close
+          </button>
+        </div>
+      </form>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+</div>
+<!-- /.modal-dialog -->
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+>
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

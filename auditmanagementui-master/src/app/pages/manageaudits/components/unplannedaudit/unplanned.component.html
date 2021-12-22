@@ -1,0 +1,585 @@
+<div class="col-md-12" id="apComponent">
+  <div *ngIf="!formVisible" class="form-actions top text-right">
+    <!-- <button type="button" class="btn green">Download Audit Plan</button>
+        <button type="button" class="btn green">Upload Audit Plan</button> -->
+  </div>
+
+  <div *ngIf="true">
+    <form (ngSubmit)="saveAuditSchedule($event)">
+      <div class="form-body">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">Audit Name</label>
+              <!-- <input id="processl1" placeholder="Audit Process" class="form-control" disabled [value]="auditProcess"/> -->
+              <input
+                id="auditName"
+                placeholder="Audit Name"
+                class="form-control"
+                disabled
+                [value]="auditName"
+              />
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label"
+                >Location
+                <span class="required" aria-required="true"> * </span></label
+              >
+              <input
+                id="location"
+                placeholder="Location"
+                class="form-control"
+                disabled
+                [value]="location"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label"
+                >Audit Number<span class="required" aria-required="true">
+                  *
+                </span></label
+              >
+              <input
+                id="auditNumber"
+                placeholder="Audit Number"
+                class="form-control"
+                name="AuditNumber"
+                [(ngModel)]="auditNumber"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label"
+                >Quarter
+                <span class="required" aria-required="true"> * </span></label
+              >
+              <select
+                class="form-control"
+                id="quarter"
+                placeholder="Select Quarter"
+                name="quarter"
+                [(ngModel)]="quarter"
+              >
+                <option value="">Select Quarter</option>
+                <option value="Q1">Q1</option>
+                <option value="Q2">Q2</option>
+                <option value="Q3">Q3</option>
+                <option value="Q4">Q4</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label"
+                >Audit Start Date
+                <span class="required" aria-required="true"> * </span></label
+              >
+              <div class="input-group">
+                <input
+                  type="text"
+                  id="overallAuditStartDate"
+                  class="form-control"
+                  placeholder="dd/mm/yyyy"
+                  name="overallAuditStartDate"
+                  [(ngModel)]="overallAuditStartDate"
+                  ngbDatepicker
+                  #oAuditStartDate="ngbDatepicker"
+                  readonly
+                />
+                <div class="input-group-btn">
+                  <button
+                    class="btn btn-default calendar"
+                    (click)="oAuditStartDate.toggle()"
+                    type="button"
+                  >
+                    <i class="fa fa-calendar"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label"
+                >Audit End Date
+                <span class="required" aria-required="true"> * </span></label
+              >
+              <div class="input-group">
+                <input
+                  type="text"
+                  id="overallAuditEndDate"
+                  class="form-control"
+                  placeholder="dd/mm/yyyy"
+                  name="overallAuditEndDate"
+                  [(ngModel)]="overallAuditEndDate"
+                  ngbDatepicker
+                  #oAuditEndDate="ngbDatepicker"
+                  readonly
+                />
+                <div class="input-group-btn">
+                  <button
+                    class="btn btn-default calendar"
+                    (click)="oAuditEndDate.toggle()"
+                    type="button"
+                  >
+                    <i class="fa fa-calendar"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--/row-->
+        <div class="tabbable-custom mt-30">
+          <ul class="nav nav-tabs">
+            <li class="active">
+              <a href="#approvers" data-toggle="tab"> Approvers </a>
+            </li>
+            <li>
+              <a href="#resources" data-toggle="tab"> Resources </a>
+            </li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane active" id="approvers">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group text-right">
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      (click)="addNewAprrover()"
+                    >
+                      <i class="fa fa-plus"></i> New Approver
+                    </button>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <table id="selectedApprovers" class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Responsibility</th>
+                        <th>Designation</th>
+                        <th>Experience</th>
+                        <th>Qualification</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane" id="resources">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group text-right">
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      (click)="addNewResource()"
+                    >
+                      <i class="fa fa-plus"></i> New Resource
+                    </button>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <table id="selectedResources" class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Designation</th>
+                        <th>Experience</th>
+                        <th>Qualification</th>
+                        <th>Man Days</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-actions">
+        <div class="row">
+          <div class="col-md-12 text-right">
+            <button type="submit" class="btn btn-success">
+              <i class="fa fa-save"></i> Save
+            </button>
+
+            <button
+              type="button"
+              (click)="cancelAuditEdit($event)"
+              class="btn btn-default"
+            >
+              <i class="fa fa-close"></i> Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div
+  class="modal fade"
+  id="manageResource"
+  tabindex="-1"
+  data-width="760"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" *ngIf="!isEditResource">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        ></button>
+        <h4 class="modal-title" style="font-weight: bold">
+          <i class="fa fa-plus"></i> &nbsp;New Resource
+        </h4>
+      </div>
+      <div class="modal-header" *ngIf="isEditResource">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        ></button>
+        <h4 class="modal-title" style="font-weight: bold">
+          <i class="fa fa-edit"></i> &nbsp;Update Resource
+        </h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label"
+                >Select Resource
+                <span class="required" aria-required="true"> * </span></label
+              >
+              <select
+                id="resource"
+                (change)="resourceChange($event)"
+                placeholder="Select"
+                class="form-control"
+                [(ngModel)]="resource"
+              >
+                <option value="">Select</option>
+                <option
+                  *ngFor="let user of userOpts; let i = index"
+                  [attr.data-index]="i"
+                  [value]="user.id"
+                >
+                  {{ user.firstName }} {{ user.lastName }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label"
+                >No of Man days
+                <span class="required" aria-required="true"> * </span></label
+              >
+              <input
+                type="text"
+                id="manDaysRequired"
+                class="form-control"
+                placeholder="No of Man days"
+                name="manDaysRequired"
+                [(ngModel)]="manDaysRequired"
+              />
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label"
+                >Audit Start Date
+                <span class="required" aria-required="true"> * </span></label
+              >
+
+              <div class="input-group">
+                <input
+                  type="text"
+                  id="auditStartDate"
+                  class="form-control"
+                  placeholder="dd/mm/yyyy"
+                  name="auditStartDate"
+                  [(ngModel)]="auditStartDate"
+                  ngbDatepicker
+                  #aStartDate="ngbDatepicker"
+                  readonly
+                />
+                <div class="input-group-btn">
+                  <button
+                    class="btn btn-default calendar"
+                    (click)="aStartDate.toggle()"
+                    type="button"
+                  >
+                    <i class="fa fa-calendar"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label"
+                >Audit End Date
+                <span class="required" aria-required="true"> * </span></label
+              >
+              <div class="input-group">
+                <input
+                  type="text"
+                  id="auditEndDate"
+                  class="form-control"
+                  placeholder="dd/mm/yyyy"
+                  name="auditEndDate"
+                  [(ngModel)]="auditEndDate"
+                  ngbDatepicker
+                  #aEndDate="ngbDatepicker"
+                  readonly
+                />
+                <div class="input-group-btn">
+                  <button
+                    class="btn btn-default calendar"
+                    (click)="aEndDate.toggle()"
+                    type="button"
+                  >
+                    <i class="fa fa-calendar"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="control-label">Designation</label>
+              <input
+                type="text"
+                id="designation"
+                class="form-control"
+                placeholder="Designation"
+                name="designation"
+                [(ngModel)]="designation"
+                disabled
+              />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="control-label">Qualification</label>
+              <input
+                type="text"
+                id="qualification"
+                class="form-control"
+                placeholder="Qualification"
+                name="qualification"
+                [(ngModel)]="qualification"
+                disabled
+              />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="control-label">Experience</label>
+              <input
+                type="text"
+                id="experience"
+                class="form-control"
+                placeholder="Experience"
+                name="experience"
+                [(ngModel)]="experience"
+                disabled
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-success"
+          (click)="addResource()"
+          *ngIf="!isEditResource"
+          data-dismiss="modal"
+        >
+          <i class="fa fa-save"></i> Save
+        </button>
+        <button
+          type="button"
+          class="btn btn-success"
+          (click)="saveResource()"
+          *ngIf="isEditResource"
+          data-dismiss="modal"
+        >
+          <i class="fa fa-save"></i> Save
+        </button>
+
+        <button type="button" class="btn btn-default" data-dismiss="modal">
+          <i class="fa fa-close"></i> Close
+        </button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<div
+  class="modal fade"
+  id="manageApprover"
+  tabindex="-1"
+  data-width="760"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" *ngIf="!isEditApprover">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        ></button>
+        <h4 class="modal-title" style="font-weight: bold">
+          <i class="fa fa-plus"></i> &nbsp;New Approver
+        </h4>
+      </div>
+      <div class="modal-header" *ngIf="isEditApprover">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        ></button>
+        <h4 class="modal-title" style="font-weight: bold">
+          <i class="fa fa-edit"></i> &nbsp;Update Approver
+        </h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">Select Approver</label>
+              <select
+                id="approver"
+                (change)="approverChange($event)"
+                placeholder="Select"
+                class="form-control"
+                [(ngModel)]="approver"
+              >
+                <option value="">Select</option>
+                <option
+                  *ngFor="let user of userOpts; let i = index"
+                  [attr.data-index]="i"
+                  [value]="user.id"
+                >
+                  {{ user.firstName }} {{ user.lastName }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">Designation</label>
+              <input
+                type="text"
+                id="appDesignation"
+                class="form-control"
+                placeholder="Designation"
+                name="appDesignation"
+                [(ngModel)]="appDesignation"
+                disabled
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">Qualification</label>
+              <input
+                type="text"
+                id="appQualification"
+                class="form-control"
+                placeholder="Qualification"
+                name="appQualification"
+                [(ngModel)]="appQualification"
+                disabled
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">Experience</label>
+              <input
+                type="text"
+                id="appExperience"
+                class="form-control"
+                placeholder="Experience"
+                name="appExperience"
+                [(ngModel)]="appExperience"
+                disabled
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">Responsibility</label>
+              <input
+                type="text"
+                id="appResponsibility"
+                class="form-control"
+                placeholder="Responsibility"
+                name="appResponsibility"
+                [(ngModel)]="appResponsibility"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-success"
+          (click)="addApprover()"
+          *ngIf="!isEditApprover"
+          data-dismiss="modal"
+        >
+          <i class="fa fa-save"></i> Save
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-success"
+          (click)="saveApprover()"
+          *ngIf="isEditApprover"
+          data-dismiss="modal"
+        >
+          <i class="fa fa-save"></i> Save
+        </button>
+
+        <button type="button" class="btn btn-default" data-dismiss="modal">
+          <i class="fa fa-close"></i> Close
+        </button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>

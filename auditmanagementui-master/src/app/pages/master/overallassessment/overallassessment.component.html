@@ -1,0 +1,283 @@
+<div id="oaComponent">
+  <div *ngIf="!formVisible" class="portlet light">
+    <div class="portlet-title">
+      <div class="caption">
+        <span class="caption-subject bold uppercase">Overall Assessment</span>
+      </div>
+
+      <div class="actions">
+        <button [disabled]="isStackHolder"
+          type="button"
+          class="btn btn-primary m-r-5"
+          (click)="openSendForm()"
+        >
+          <i class="fa fa-send"></i> Send Email
+        </button>
+        <button  
+          type="button"
+          class="btn btn-primary m-r-5"
+          (click)="exportOverAllAssesment()"
+        >
+          <i class="fa fa-file-excel-o"></i> Download Excel
+        </button>
+        <button 
+          type="button"
+          class="btn btn-primary m-r-5"
+          (click)="exportToPDF()"
+        >
+          <i class="fa fa-file-pdf-o"></i> Export to PDF
+        </button>
+
+        <button 
+          type="button"
+          class="btn btn-primary m-r-5"
+          (click)="exportToPPT()"
+        >
+          <i class="fa fa-file-pdf-o"></i> Export to PPT
+        </button>
+
+        <!-- <input type="file" #fileInput class="hidden" (change)="importExcel()" />
+
+        <button
+          type="button"
+          class="btn green"
+          (click)="fileInput.click()"
+          *ngIf="accessRights.isEdit"
+        >
+          <i class="fa fa-file-excel-o"></i> Upload Excel
+        </button> -->
+      </div>
+    </div>
+
+    <div class="portlet-body">
+      <table [id]="tableId" class="table table-bordered"></table>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="basic"
+  tabindex="-1"
+  data-width="760"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        ></button>
+        <h4 class="modal-title" style="font-weight: bold">
+          <i class="fa fa-cogs"></i> &nbsp;Overall Assessment
+        </h4>
+      </div>
+      <form (ngSubmit)="updateOverallAssessment($event)" #auditForm="ngForm">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label">Coverage</label>
+                <select
+                  id="status"
+                  placeholder="Select Coverage"
+                  name="Coverage"
+                  [(ngModel)]="coverage"
+                  class="form-control"
+                >
+                  <option value="Yes" selected>Yes</option>
+                  <option value="No">No</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label">Last Audited</label>
+                <input
+                  type="text"
+                  id="lastAudited"
+                  name="Lastaudityear"
+                  [(ngModel)]="lastAudited"
+                  placeholder="Enter Last Audited Year"
+                  class="form-control"
+                  required
+                />
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="control-label">Enter Justification</label>
+                <textarea
+                  name="Justification"
+                  [(ngModel)]="justification"
+                  placeholder="Enter Justification"
+                  class="form-control"
+                  required
+                ></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" id="saveAudit" class="btn btn-success">
+            <i class="fa fa-save"></i> Save
+          </button>
+
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <i class="fa fa-close"></i> Close
+          </button>
+        </div>
+      </form>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
+<div
+  class="modal fade"
+  id="createAuditModal"
+  tabindex="-1"
+  data-width="760"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        ></button>
+        <h4 class="modal-title" style="font-weight: bold">
+          <i class="fa fa-cogs"></i> &nbsp;Create Audit
+        </h4>
+      </div>
+      <form (ngSubmit)="createAudit($event)" #createAuditForm="ngForm">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label">Select Type</label>
+                <select
+                  id="auditType"
+                  placeholder="Select Type"
+                  name="auditType"
+                  [(ngModel)]="coverage"
+                  class="form-control"
+                >
+                  <option value="multiple">
+                    Create individual audit for every location
+                  </option>
+                  <option value="single" selected>
+                    Create common audit for all locations
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" id="createAuditBtn" class="btn btn-success">
+            <i class="fa fa-save"></i> Save
+          </button>
+
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <i class="fa fa-close"></i> Close
+          </button>
+        </div>
+      </form>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<div
+  class="modal fade"
+  id="sendmailForm"
+  tabindex="-1"
+  data-width="760"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        ></button>
+        <h4 class="modal-title" style="font-weight: bold">
+          <i class="fa fa-plus"></i> &nbsp;New Procedure
+        </h4>
+      </div>
+      <form
+        name="form"
+        (ngSubmit)="sendMail($event) && apForm.form.valid"
+        #apForm="ngForm"
+        novalidate
+      >
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="control-label"
+                  >Email
+                  <span class="required" aria-required="true"> * </span>
+                </label>
+                <input
+                  #Emails="ngModel"
+                  type="text"
+                  class="form-control"
+                  placeholder="Enter Email"
+                  id="Email"
+                  name="Email"
+                  [(ngModel)]="Email"
+                  [ngClass]="{
+                    'red-border-class': Emails.errors && apForm.submitted
+                  }"
+                  required
+                />
+                <div
+                  *ngIf="apForm.submitted && Emails.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="Emails.errors.required"
+                  >
+                    Email is required
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">
+            <i class="fa fa-save"></i> Save
+          </button>
+
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <i class="fa fa-close"></i> Close
+          </button>
+        </div>
+      </form>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+>
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

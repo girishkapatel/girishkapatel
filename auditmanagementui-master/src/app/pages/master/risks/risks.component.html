@@ -1,0 +1,897 @@
+<div id="riskComponent">
+  <div
+    [ngClass]="{ hide: formVisible }"
+    class="portlet light"
+    style="padding-top: 0"
+  >
+    <div class="portlet-title">
+      <div class="caption">
+        <span class="caption-subject bold uppercase">RACM</span>
+      </div>
+
+      <div class="actions">
+        <button [disabled]="isStackHolder"
+          type="button"
+          (click)="addRisks()"
+          class="btn btn-primary m-r-5"
+          [ngClass]="{ hide: !accessRights.isAdd }"
+        >
+          <i class="fa fa-plus"></i> New
+        </button>
+
+        <button  
+          type="button"
+          class="btn btn-primary m-r-5"
+          (click)="exportRACM()"
+        >
+          <i class="fa fa-file-excel-o"></i> Download Excel
+        </button>
+        <button  
+        type="button"
+        class="btn btn-primary m-r-5"  [disabled]="isStackHolder"
+        (click)="sampleExportRACM()"
+      >
+        <i class="fa fa-file-excel-o"></i> Sample Excel
+      </button>
+        <input type="file" #fileInput class="hidden" (change)="importRACM()" />
+
+        <button [disabled]="isStackHolder"
+          type="button"
+          class="btn btn-primary"
+          (click)="fileInput.click()"
+          *ngIf="accessRights.isEdit"
+        >
+          <i class="fa fa-file-excel-o"></i> Upload Excel
+        </button>
+
+        <!-- <button -->
+        <!-- type="button" -->
+        <!-- (click)="handleFileUploadDialog.show()" -->
+        <!-- class="btn green" -->
+        <!-- > -->
+        <!-- <i class="fa fa-file-excel-o"></i> Upload RACM -->
+        <!-- </button> -->
+      </div>
+    </div>
+
+    <div [ngClass]="{ hide: formVisible }" class="portlet-body">
+      <app-table
+        [tableId]="tableId"
+        [tableFileName]="'RACM'"
+        [tableDownload]="true"
+        [tableColumns]="tableColumns"
+        [tableApi]="'api/racm'"
+        [tableFilters]="tableFilters"
+      ></app-table>
+    </div>
+  </div>
+
+  <div [ngClass]="{ hide: !formVisible }">
+    <div class="portlet box blue">
+      <div class="portlet-title">
+        <div class="caption"><i class="fa fa-plus"></i> Risks</div>
+
+        <div class="tools">
+          <a href="javascript:;" class="collapse"> </a>
+        </div>
+      </div>
+
+      <div class="portlet-body form">
+        <form
+          (ngSubmit)="saveRisks($event) && risksForm.form.valid"
+          #risksForm="ngForm"
+        >
+          <div class="form-body">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label"> Business Cycle   <span class="required" aria-required="true"> * </span></label>
+                  <select
+                    class="form-control"
+                    id="BusinessCycleId"
+                    name="BusinessCycleId"
+                    [(ngModel)]="BusinessCycleId"
+                    (change)="onChangeBusinessCycle(e)"
+                    required
+                    #businessCycles="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                      businessCycles.errors && risksForm.submitted
+                    }"
+                  >
+                    <option value="">Select Business Cycle</option>
+                    <option
+                      *ngFor="let businessCycle of businessCycleData"
+                      value="{{ businessCycle.id }}"
+                    >
+                      {{ businessCycle.name }}
+                    </option>
+                  </select>
+                  <div
+                    *ngIf="risksForm.submitted && businessCycles.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="businessCycles.errors.required"
+                    >
+                    Business Cycle is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label">Process L1   <span class="required" aria-required="true"> * </span></label>
+                  <select
+                    class="form-control"
+                    id="ProcessL1Id"
+                    name="ProcessL1Id"
+                    [(ngModel)]="ProcessL1Id"
+                    (change)="onChangeProcessL1(e)"
+                    required
+                    #ProcessL1Ida="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                      ProcessL1Ida.errors && risksForm.submitted
+                    }"
+                  >
+                    <option value="">Select Process L1</option>
+                    <option
+                      *ngFor="let processl1 of processL1Data"
+                      value="{{ processl1.id }}"
+                    >
+                      {{ processl1.name }}
+                    </option>
+                  </select>
+                  <div
+                  *ngIf="risksForm.submitted && ProcessL1Ida.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="ProcessL1Ida.errors.required"
+                  >
+                  Process L1 is required
+                  </div>
+                </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label">Process L2   <span class="required" aria-required="true"> * </span></label>
+                  <select
+                    class="form-control"
+                    id="ProcessL2Id"
+                    name="ProcessL2Id"
+                    [(ngModel)]="ProcessL2Id"
+                    required
+                    #ProcessL2Ids="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                      ProcessL2Ids.errors && risksForm.submitted
+                    }"
+                  >
+                    <option value="">Select Process L2</option>
+                    <option
+                      *ngFor="let processl2 of processL2Data"
+                      value="{{ processl2.id }}"
+                    >
+                      {{ processl2.name }}
+                    </option>
+                  </select>
+                  <div
+                  *ngIf="risksForm.submitted && ProcessL2Ids.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="ProcessL2Ids.errors.required"
+                  >
+                  Process L2 is required
+                  </div>
+                </div>
+                </div>
+              </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="control-label"
+                      >RACM Number
+                      <span class="required" aria-required="true"> * </span>
+                    </label>
+                    <input
+                      type="text"
+                      id="RACMnumber"
+                      name="RACMnumber"
+                      [(ngModel)]="RACMnumber"
+                      placeholder="Enter RACM Number"
+                      class="form-control"
+                      #RACMnumbers="ngModel"
+                      required
+                      [ngClass]="{
+                        'red-border-class':
+                          RACMnumbers.errors && risksForm.submitted
+                      }"
+                    />
+                    <div
+                      *ngIf="risksForm.submitted && RACMnumbers.invalid"
+                      class="invalid-feedback"
+                    >
+                      <div
+                        class="text-danger myClass"
+                        *ngIf="RACMnumbers.errors.required"
+                      >
+                        RACM Number is required
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label"
+                    >Risk ID   <span class="required" aria-required="true"> * </span></label
+                  >
+                  <input
+                    type="text"
+                    id="RiskId"
+                    name="RiskId"
+                    [(ngModel)]="RiskId"
+                    placeholder="Enter Risk ID"
+                    class="form-control"
+                    [ngbTypeahead]="search"
+                    (selectItem)="selectedItem($event)"
+                    [inputFormatter]="formatter"
+                    [resultFormatter]="formatter"
+                    required
+                    #riskid="ngModel"
+                    [ngClass]="{
+                      'red-border-class': riskid.errors && risksForm.submitted
+                    }"
+                  />
+                  <div
+                    *ngIf="risksForm.submitted && riskid.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="riskid.errors.required"
+                    >
+                      Risk ID is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label"
+                    >Risk Rating  <span class="required" aria-required="true"> * </span></label
+                  >
+                  <select
+                    id="RiskRating"
+                    name="RiskRating"
+                    [(ngModel)]="RiskRating"
+                    placeholder="Select Rating"
+                    class="form-control"
+                    required
+                    #riskrating="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                        riskrating.errors && risksForm.submitted
+                    }"
+                  >
+                    <option value="">Select Risk Rating</option>
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                  </select>
+                  <div
+                    *ngIf="risksForm.submitted && riskrating.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="riskrating.errors.required"
+                    >
+                      Risk Rating is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="row"> -->
+            <!-- <div class="col-md-12"> -->
+            <!-- <div class="form-group"> -->
+            <!-- <label class="control-label">Risk Title</label> -->
+            <!-- <input -->
+            <!-- type="text" -->
+            <!-- id="RiskTitle" -->
+            <!-- name="RiskTitle" -->
+            <!-- [(ngModel)]="RiskTitle" -->
+            <!-- placeholder="Enter Risk Title" -->
+            <!-- class="form-control" -->
+            <!-- required -->
+            <!-- /> -->
+            <!-- </div> -->
+            <!-- </div> -->
+            <!-- </div> -->
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label class="control-label">Risk Description   <span class="required" aria-required="true"> * </span></label>
+                  <textarea
+                    id="RiskDesc"
+                    name="RiskDesc"
+                    [(ngModel)]="RiskDesc"
+                    placeholder="Enter Risk Description"
+                    class="form-control"
+                    required
+                    #RiskDescs="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                      RiskDescs.errors && risksForm.submitted
+                    }"
+                  ></textarea>
+                  <div
+                  *ngIf="risksForm.submitted && RiskDescs.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="RiskDescs.errors.required"
+                  >
+                  Risk Description is required
+                  </div>
+                </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="control-label"
+                    >Control ID   <span class="required" aria-required="true"> * </span></label
+                  >
+                  <input
+                    type="text"
+                    id="ControlId"
+                    name="ControlId"
+                    [(ngModel)]="ControlId"
+                    placeholder="Enter Control ID"
+                    class="form-control"
+                    required
+                    #controlids="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                        controlids.errors && risksForm.submitted
+                    }"
+                  />
+                  <div
+                    *ngIf="risksForm.submitted && controlids.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="controlids.errors.required"
+                    >
+                      Control ID is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="control-label"
+                    >Control Type   <span class="required" aria-required="true"> * </span></label
+                  >
+                  <select
+                    id="ControlType"
+                    name="ControlType"
+                    [(ngModel)]="ControlType"
+                    placeholder="Select Control Type"
+                    class="form-control"
+                    required
+                    #controltypes="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                        controltypes.errors && risksForm.submitted
+                    }"
+                  >
+                    <option value="">Select Control Type</option>
+                    <option value="Financial">Financial</option>
+                    <option value="Operational">Operational</option>
+                    <option value="Financial Reporting">
+                      Financial Reporting
+                    </option>
+                  </select>
+                  <div
+                    *ngIf="risksForm.submitted && controltypes.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="controltypes.errors.required"
+                    >
+                      Control Type is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="control-label">Control Nature  <span class="required" aria-required="true"> * </span></label>
+                  <select
+                    id="ControlNature"
+                    name="ControlNature"
+                    [(ngModel)]="ControlNature"
+                    placeholder="Select Control Nature"
+                    class="form-control"
+                    required
+                    #ControlNatures="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                      ControlNatures.errors && risksForm.submitted
+                    }"
+                  >
+                    <option value="">Select Control Nature</option>
+                    <option value="Automated">Automated</option>
+                    <option value="Manual">Manual</option>
+                    <option value="IT Dependent">IT Dependent</option>
+                  </select>
+                  <div
+                  *ngIf="risksForm.submitted && ControlNatures.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="ControlNatures.errors.required"
+                  >
+                  Control Nature is required
+                  </div>
+                </div>
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="control-label">Control Frequency  <span class="required" aria-required="true"> * </span></label>
+                  <select
+                    id="ControlFrequency"
+                    name="ControlFrequency"
+                    [(ngModel)]="ControlFrequency"
+                    placeholder="Select Control Frequency"
+                    class="form-control"
+                    required
+                    #ControlFrequencys="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                      ControlFrequencys.errors && risksForm.submitted
+                    }"
+                  >
+                    <option value="">Select Control Frequency</option>
+                    <option value="Event Driven">Event Driven</option>
+                    <option value="Annual">Annual</option>
+                    <option value="Semi Annual">Semi Annual</option>
+                    <option value="Quarterly">Quarterly</option>
+                    <option value="Monthly">Monthly</option>
+                    <option value="Weekly">Weekly</option>
+                    <option value="Daily">Daily</option>
+                  </select>
+                  <div
+                    *ngIf="risksForm.submitted && ControlFrequencys.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div
+                      class="text-danger myClass"
+                      *ngIf="ControlFrequencys.errors.required"
+                    >
+                    Control Frequency Type is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="row"> -->
+            <!-- <div class="col-md-12"> -->
+            <!-- <div class="form-group"> -->
+            <!-- <label class="control-label">Control Title</label> -->
+            <!-- <input -->
+            <!-- type="text" -->
+            <!-- id="ControlTitle" -->
+            <!-- name="ControlTitle" -->
+            <!-- [(ngModel)]="ControlTitle" -->
+            <!-- placeholder="Enter Control Title" -->
+            <!-- class="form-control" -->
+            <!-- required -->
+            <!-- /> -->
+            <!-- </div> -->
+            <!-- </div> -->
+            <!-- </div> -->
+
+            <!-- <div class="row">
+              <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label">Control Owner</label>
+                                    <select id="ControlOwner" name="ControlOwner" [(ngModel)]="ControlOwner" placeholder="Select Coordinator" class="form-control">
+                                        <option value="">Select Control Owner</option>
+                                        <option *ngFor="let user of userOpts" [value]="user.id" >{{user.firstName}} {{user.lastName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+            </div> -->
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label class="control-label">Control Description   <span class="required" aria-required="true"> * </span></label>
+                  <textarea
+                    id="ControlDescription"
+                    name="ControlDescription"
+                    [(ngModel)]="ControlDescription"
+                    placeholder="Enter Control Description"
+                    class="form-control"
+                    required
+                    #ControlDescriptions="ngModel"
+                    [ngClass]="{
+                      'red-border-class':
+                      ControlDescriptions.errors && risksForm.submitted
+                    }"
+                  ></textarea>
+                  <div
+                  *ngIf="risksForm.submitted && ControlDescriptions.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="ControlDescriptions.errors.required"
+                  >
+                  Control Description is required
+                  </div>
+                </div>
+                  <!-- <ckeditor [(ngModel)]="ControlDescription" name="ControlDescription" [editor]="Editor"></ckeditor> -->
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <hr />
+              </div>
+
+              <div class="col-md-12">
+                <div class="form-group text-right">
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    (click)="addNewRACMProcedure()"
+                  >
+                    <i class="fa fa-plus"></i> New Procedure
+                  </button>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <table id="racmProceduresTable" class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>Procedure ID</th>
+                      <th>Procedure Title</th>
+                      <th>Procedure Description</th>
+                      <th>Responsibility</th>
+                      <th>Reviewer</th>
+                      <th>Start Date</th>
+                      <th>End Date</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <div class="row">
+              <div class="col-md-12 text-right">
+                <button type="submit" class="btn btn-success">
+                  <i class="fa fa-save"></i> Save
+                </button>
+                <button
+                  type="button"
+                  (click)="cancelAddEdit($event)"
+                  class="btn btn-default"
+                >
+                  <i class="fa fa-close"></i> Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="racmFileUploadModal"
+  tabindex="-1"
+  data-width="760"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        ></button>
+        <h4 class="modal-title" style="font-weight: bold">
+          <i class="fa fa-cogs"></i> Upload RACM
+        </h4>
+      </div>
+      <form>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="control-label">Upload RACM</label>
+                <input
+                  id="racmImport"
+                  name="racmImport"
+                  type="file"
+                  placeholder="Uplod Risks"
+                  class="form-control"
+                  #racmImport
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" (click)="uploadfiles()" class="btn btn-primary">
+            Upload
+          </button>
+
+          <button type="button" (click)="clearfiles()" class="btn btn-default">
+            <i class="fa fa-eraser"></i> Clear
+          </button>
+
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <i class="fa fa-close"></i> Close
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="manageProcedure"
+  tabindex="-1"
+  data-width="760"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        ></button>
+        <h4 class="modal-title" style="font-weight: bold">
+          <i class="fa fa-plus"></i> &nbsp;New Procedure
+        </h4>
+      </div>
+
+      <form
+        name="form"
+        (ngSubmit)="addRACMProcedure($event) && apForm.form.valid"
+        #apForm="ngForm"
+      >
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-3">
+              <div class="form-group">
+                <label class="control-label">Procedure ID</label>
+                <input
+                  type="text"
+                  id="ProcedureId"
+                  name="ProcedureId"
+                  [(ngModel)]="ProcedureId"
+                  placeholder="Procedure ID"
+                  class="form-control"
+                />
+              </div>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <label class="control-label">Procedure Title</label>
+                <input
+                  type="text"
+                  id="ProcedureTitle"
+                  name="ProcedureTitle"
+                  [(ngModel)]="ProcedureTitle"
+                  placeholder="Enter Procedure Title"
+                  class="form-control"
+                />
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="control-label">Procedure Description</label>
+                <ckeditor
+                  [(ngModel)]="ProcedureDesc"
+                  name="ProcedureDesc"
+                  placeholder="Enter Procedure Description"
+                  [editor]="Editor"
+                ></ckeditor>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label"
+                  >Start Date
+                  <span class="required" aria-required="true"> * </span>
+                </label>
+
+                <div class="input-group"    [ngClass]="{
+                  'red-border-class':
+                  pstartDate.errors && apForm.submitted
+                }">
+                  <input
+                    type="text"
+                    id="ProcedureStartDate"
+                    class="form-control"
+                    placeholder="dd/mm/yyyy"
+                    name="ProcedureStartDate"
+                    [(ngModel)]="ProcedureStartDate"
+                    ngbDatepicker
+                    #procStartDate="ngbDatepicker"
+                    required
+                    readonly
+                    #pstartDate="ngModel"
+                  />
+                  <div class="input-group-btn">
+                    <button
+                      class="btn btn-default calendar"
+                      (click)="procStartDate.toggle()"
+                      type="button"
+                    >
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <div
+                  *ngIf="apForm.submitted && pstartDate.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="pstartDate.errors.required"
+                  >
+                    Procedure StartDate is required
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label"
+                  >End Date
+                  <span class="required" aria-required="true"> * </span>
+                </label>
+
+                <div class="input-group"   [ngClass]="{
+                  'red-border-class': pEnddate.errors && apForm.submitted
+                }">
+                  <input
+                    type="text"
+                    id="ProcedureEndDate"
+                    class="form-control"
+                    placeholder="dd/mm/yyyy"
+                    name="ProcedureEndDate"
+                    [(ngModel)]="ProcedureEndDate"
+                    ngbDatepicker
+                    #procEndDate="ngbDatepicker"
+                    required
+                    readonly
+                    #pEnddate="ngModel"
+                  />
+                  <div class="input-group-btn">
+                    <button
+                      class="btn btn-default calendar"
+                      (click)="procEndDate.toggle()"
+                      type="button"
+                    >
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <div
+                  *ngIf="apForm.submitted && pEnddate.invalid"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="text-danger myClass"
+                    *ngIf="pEnddate.errors.required"
+                  >
+                    Procedure End Date is required
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label">Select Responsibility</label>
+                <select
+                  id="Responsibility"
+                  placeholder="Select Responsibility"
+                  name="Responsibility"
+                  class="form-control"
+                  [(ngModel)]="Responsibility"
+                >
+                  <option value="">Select Responsibility</option>
+                  <option
+                    *ngFor="let user of userOpts; let i = index"
+                    [attr.data-index]="i"
+                    [value]="user.id"
+                  >
+                    {{ user.firstName }}
+                    {{ user.lastName }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label">Select Reviewer</label>
+                <select
+                  id="Reviewer"
+                  placeholder="Select Reviewer"
+                  name="Reviewer"
+                  class="form-control"
+                  [(ngModel)]="Reviewer"
+                >
+                  <option value="">Select Reviewer</option>
+                  <option
+                    *ngFor="let user of approverOpts; let i = index"
+                    [attr.data-index]="i"
+                    [value]="user.id"
+                  >
+                    {{ user.firstName }}
+                    {{ user.lastName }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">
+            <i class="fa fa-save"></i> Save
+          </button>
+
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <i class="fa fa-close"></i> Close
+          </button>
+        </div>
+      </form>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
